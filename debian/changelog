@@ -1,3 +1,10 @@
+automake1.9 (1.9.2-1) unstable; urgency=medium
+
+  * New upstream release. Urgency medium since there's no reason for this
+    not to move to testing.
+
+ -- Eric Dorland <eric@debian.org>  Sun, 19 Sep 2004 18:45:46 -0400
+
 automake1.9 (1.9.1-1) unstable; urgency=low
 
   * New upstream release. 
