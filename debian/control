@@ -1,0 +1,28 @@
+Source: automake1.9
+Section: devel
+Priority: optional
+Maintainer: Eric Dorland <eric@debian.org>
+Standards-Version: 3.6.1
+Build-Depends-Indep: autoconf (>= 2.59), cdbs, debhelper (>= 4.1.0), autotools-dev (>= 20020320.1), texinfo (>= 4.2)
+
+Package: automake1.9
+Architecture: all
+Provides: automaken
+Depends: autoconf (>= 2.58), autotools-dev (>= 20020320.1)
+Conflicts: automake1.6 (<< 1.6.1-4), automake (<< 1:1.4-p5-1), automake1.5 (<< 1.5-2)
+Description: A tool for generating GNU Standards-compliant Makefiles
+ Automake is a tool for automatically generating `Makefile.in's from
+ files called `Makefile.am'.
+ .
+ The goal of Automake is to remove the burden of Makefile maintenance
+ from the back of the individual GNU maintainer (and put it on the back
+ of the Automake maintainer).
+ . 
+ The `Makefile.am' is basically a series of `make' macro definitions
+ (with rules being thrown in occasionally).  The generated
+ `Makefile.in's are compliant with the GNU Makefile standards.
+ .
+ Automake 1.9 fails to work in a number of situations that Automake
+ 1.4, 1.6, 1.7 and 1.8 did, so has been renamed so that the previous
+ version can continue to be made available.
+

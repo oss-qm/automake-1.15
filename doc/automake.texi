@@ -1,7 +1,7 @@
 \input texinfo   @c -*-texinfo-*-
 @c %**start of header
-@setfilename automake.info
-@settitle automake
+@setfilename automake-1.9.info
+@settitle automake-1.9
 @setchapternewpage off
 @c %**end of header
 
@@ -34,12 +34,12 @@ published by the Free Software Foundation raise funds for
 
 @dircategory Software development
 @direntry
-* automake: (automake).		Making Makefile.in's.
+* automake-1.9: (automake-1.9).		Making Makefile.in's.
 @end direntry
 
 @dircategory Individual utilities
 @direntry
-* aclocal: (automake)Invoking aclocal.          Generating aclocal.m4.
+* aclocal-1.9: (automake-1.9)Invoking aclocal.          Generating aclocal.m4.
 @end direntry
 
 @titlepage
