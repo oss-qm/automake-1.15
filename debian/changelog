@@ -1,4 +1,4 @@
-automake1.9 (1.9.2-2) unstable; urgency=low
+automake1.9 (1.9.3-1) unstable; urgency=medium
 
   * New upstream release. Urgency medium since there's no reason for this
     not to move to testing.
