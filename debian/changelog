@@ -1,3 +1,11 @@
+automake1.9 (1.9.2-2) unstable; urgency=low
+
+  * New upstream release. Urgency medium since there's no reason for this
+    not to move to testing.
+  * doc/autmake.texi: Resolve CVS conflict about document name on upgrade. 
+
+ -- Eric Dorland <eric@debian.org>  Wed,  3 Nov 2004 00:04:38 -0500
+
 automake1.9 (1.9.2-1) unstable; urgency=medium
 
   * New upstream release. Urgency medium since there's no reason for this
