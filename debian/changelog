@@ -1,3 +1,9 @@
+automake1.9 (1.9.6-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Eric Dorland <eric@debian.org>  Wed, 13 Jul 2005 01:34:05 -0400
+
 automake1.9 (1.9.5-1) unstable; urgency=low
 
   * New upstream release.
