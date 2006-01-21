@@ -1,3 +1,13 @@
+automake1.9 (1.9.6-2) unstable; urgency=low
+
+  * tests/txinfo13.test, lib/am/texinfos.am: Apply patch from Alexandre
+    Duret-Lutz to reduce the number of files make dist slurps up. (Closes:
+    #321689)
+  * debian/automake1.9.postinst: Up the priority of automake1.9 to make it
+    take priority over automake1.4. (Closes: #228604)
+
+ -- Eric Dorland <eric@debian.org>  Fri, 20 Jan 2006 20:45:06 -0500
+
 automake1.9 (1.9.6-1) unstable; urgency=low
 
   * New upstream release.
