@@ -1,3 +1,10 @@
+automake1.9 (1.9.6-3) unstable; urgency=low
+
+  * debian/control: Build depend on texinfo >= 4.3 because we use
+    @tie. Thanks Wolfram Gloger (Closes: #349349)
+
+ -- Eric Dorland <eric@debian.org>  Fri, 27 Jan 2006 01:15:17 -0500
+
 automake1.9 (1.9.6-2) unstable; urgency=low
 
   * tests/txinfo13.test, lib/am/texinfos.am: Apply patch from Alexandre
