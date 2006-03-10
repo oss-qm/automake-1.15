@@ -1,3 +1,9 @@
+automake1.9 (1.9.6-4) unstable; urgency=low
+
+  * debian/watch: Add watch file.
+
+ --
+
 automake1.9 (1.9.6-3) unstable; urgency=low
 
   * debian/control: Build depend on texinfo >= 4.3 because we use
