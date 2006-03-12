@@ -1,8 +1,10 @@
 automake1.9 (1.9.6-4) unstable; urgency=low
 
   * debian/watch: Add watch file.
+  * debian/copyright: Excellent patch from Joost van Baal to iterate all
+    the licenses used in the package, not just the GPL. (Closes: #355869)
 
- --
+ -- Eric Dorland <eric@debian.org>  Sat, 11 Mar 2006 23:08:34 -0500
 
 automake1.9 (1.9.6-3) unstable; urgency=low
 
