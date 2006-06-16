@@ -2,8 +2,9 @@ Source: automake1.9
 Section: devel
 Priority: optional
 Maintainer: Eric Dorland <eric@debian.org>
-Standards-Version: 3.6.1
-Build-Depends-Indep: autoconf (>= 2.59), cdbs, debhelper (>= 4.1.0), autotools-dev (>= 20020320.1), texinfo (>= 4.3)
+Standards-Version: 3.7.2.0
+Build-Depends: cdbs, debhelper (>= 4.1.0)
+Build-Depends-Indep: autoconf (>= 2.59), autotools-dev (>= 20020320.1), texinfo (>= 4.3)
 
 Package: automake1.9
 Architecture: all

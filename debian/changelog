@@ -1,3 +1,12 @@
+automake1.9 (1.9.6-5) unstable; urgency=low
+
+  * debian/control:
+    - Standards-Version to 3.7.2.0.
+    - Use Build-Depends instead of Build-Depends-Indep for things 
+      that need to be there for the clean target.
+
+ --
+
 automake1.9 (1.9.6-4) unstable; urgency=low
 
   * debian/watch: Add watch file.
