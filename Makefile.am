@@ -22,7 +22,7 @@
 
 ## We need `.' in SUBDIRS because we want `check' to build `.' before
 ## tests.
-SUBDIRS = . doc m4 lib tests
+SUBDIRS = . m4 lib tests
 
 bin_SCRIPTS = automake aclocal
 
