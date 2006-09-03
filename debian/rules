@@ -5,12 +5,8 @@ include /usr/share/cdbs/1/class/autotools.mk
 
 package=automake1.9
 version=1.9
-infodir=doc
 
 DEB_DESTDIR=$(CURDIR)/debian/tmp
-
-#common-configure-indep::
-#	touch $(infodir)/automake.texi
 
 common-install-indep::
 # install lintian overrides
@@ -20,8 +16,3 @@ common-install-indep::
 	rm -f $(CURDIR)/debian/tmp/usr/share/automake-$(version)/config.sub
 	rm -f \
 		$(CURDIR)/debian/tmp/usr/share/automake-$(version)/config.guess
-
-	cd $(infodir) && makeinfo automake.texi
-
-clean::
-	rm -f $(infodir)/automake-$(version).info*

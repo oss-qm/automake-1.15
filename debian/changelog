@@ -5,9 +5,10 @@ automake1.9 (1.9.6+nogfdl-1) unstable; urgency=low
   * debian/automake1.9.info: Remove, no more docs.
   * configure.ac, Makefile.am: Remove references to the doc dir. Run
     reautoconf as well.
+  * debian/rules: Remove building of now non-existant docs.
   * debian/control: Suggest automake1.9-doc.
 
- -- Eric Dorland <eric@debian.org>  Sun,  3 Sep 2006 00:10:49 -0400
+ -- Eric Dorland <eric@debian.org>  Sun,  3 Sep 2006 00:46:58 -0400
 
 automake1.9 (1.9.6-5) unstable; urgency=low
 
