@@ -1,3 +1,9 @@
+automake1.9 (1.9.6+nogfdl-2) ; urgency=low
+
+  * debian/automake1.9.doc-base: Remove, no more docs. (Closes: #385915)
+
+ -- Eric Dorland <eric@debian.org>  Sun,  3 Sep 2006 19:30:48 -0400
+
 automake1.9 (1.9.6+nogfdl-1) unstable; urgency=low
 
   * New tarball with GFDL documentation stripped out because of Cover
