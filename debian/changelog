@@ -1,4 +1,4 @@
-automake1.9 (1.9.6+nogfdl-2) ; urgency=low
+automake1.9 (1.9.6+nogfdl-2) unstable; urgency=low
 
   * debian/automake1.9.doc-base: Remove, no more docs. (Closes: #385915)
 
