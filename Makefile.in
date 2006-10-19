@@ -146,12 +146,19 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-SUBDIRS = . m4 lib tests
+SUBDIRS = lib . m4 tests
 bin_SCRIPTS = automake aclocal
 CLEANFILES = $(bin_SCRIPTS)
 AUTOMAKESOURCES = automake.in aclocal.in
 TAGS_FILES = $(AUTOMAKESOURCES)
-EXTRA_DIST = ChangeLog.96 ChangeLog.98 ChangeLog.00 ChangeLog.01 ChangeLog.02 \
+EXTRA_DIST = \
+  ChangeLog.96 \
+  ChangeLog.98 \
+  ChangeLog.00 \
+  ChangeLog.01 \
+  ChangeLog.02 \
+  ChangeLog.03 \
+  ChangeLog.04 \
   $(AUTOMAKESOURCES)
 
 do_subst = sed \
@@ -632,16 +639,11 @@ uninstall-hook:
 	  rm -f $(DESTDIR)$(bindir)/$$fv; \
 	done
 
-automake: automake.in Makefile
+automake: automake.in
+aclocal: aclocal.in
+automake aclocal: Makefile
 	rm -f $@ $@.tmp
-	$(do_subst) $(srcdir)/automake.in >$@.tmp
-	chmod +x $@.tmp
-	chmod a-w $@.tmp
-	mv -f $@.tmp $@
-
-aclocal: aclocal.in Makefile
-	rm -f $@ $@.tmp
-	$(do_subst) $(srcdir)/aclocal.in >$@.tmp
+	$(do_subst) $(srcdir)/$@.in >$@.tmp
 	chmod +x $@.tmp
 	chmod a-w $@.tmp
 	mv -f $@.tmp $@
@@ -680,6 +682,12 @@ maintainer-check: automake aclocal
 	  echo "Found incorrect use of mkinstalldirs in the lines above" 1>&2; \
 	  exit 1; \
 	else :; fi
+	@if grep -E -n '\((PRE|NORMAL|POST)_(|UN)INSTALL\)' \
+                 $(srcdir)/lib/am/[a-z]*.am | \
+	      grep -v ':##' | grep -v ':	@\$$('; then \
+	  echo "Found incorrect use of PRE/NORMAL/POST_INSTALL/UNINSTALL in the lines above" 1>&2; \
+	  exit 1; \
+	else :; fi
 	@if grep -n -w 'undef ' $(srcdir)/automake.in | \
 	      grep -F -v 'undef $$/'; then \
 	  echo "Found undef in automake.in; use delete instead" 1>&2; \
@@ -694,7 +702,7 @@ maintainer-check: automake aclocal
 	  echo "Consider using $$$$(am__cd) in the line above." 1>&2; \
 	  exit 1; \
 	fi
-	@if grep -Hn '[^) ] *= *@_' $(srcdir)/automake.in; then \
+	@if grep -Hn '[^@_A-Za-z0-9][_A-Za-z0-9]*[^) ] *= *@_' $(srcdir)/automake.in; then \
 	  echo "Using @_ in a scalar context in the lines above." 1>&2; \
 	  exit 1; \
 	fi
@@ -709,6 +717,11 @@ maintainer-check: automake aclocal
 	fi
 	@if grep '@AMDEP''_TRUE@' $(srcdir)/automake.in; then \
 	  echo "Don't put AMDEP_TRUE substitution in automake.in" 1>&2; \
+	  exit 1; \
+	fi
+	@if grep '^[^#].*(MAKE) ' $(srcdir)/lib/am/*.am $(srcdir)/automake.in |\
+		grep -v 'AM_MAKEFLAGS'; then \
+	  echo 'Use $$(MAKE) $$(AM_MAKEFLAGS).' 1>&2; \
 	  exit 1; \
 	fi
 	@if grep -v '^#' $(srcdir)/tests/*.test | grep ':[	]*make'; then \
@@ -739,6 +752,12 @@ maintainer-check: automake aclocal
 	  echo 'Do not run "perl" in the above tests.  Use "$$PERL" instead.' 1>&2; \
 	  exit 1; \
 	fi
+	@for file in $(srcdir)/tests/*.test; do \
+	  if out=`sed -n '/defs/,$${/required=/p;}' $$file`; test -n "$$out"; then \
+	    echo 'Do not set "required" after sourcing "defs" in '"$$file: $$out" 1>&2; \
+	    exit 1; \
+	  fi; \
+	done
 	@if grep -E '\$$MAKE .*(SHELL=.*=|=.*SHELL=)' $(srcdir)/tests/*.test; then \
 	  echo 'Rewrite "$$MAKE foo=bar SHELL=$$SHELL" as "foo=bar $$MAKE -e SHELL=$$SHELL"' 1>&2; \
 	  echo ' in the above lines, it is more portable.' 1>&2; \
@@ -766,6 +785,11 @@ maintainer-check: automake aclocal
 	  echo 'Do not use egrep or fgrep in the above files, they are not portable.' 1>&2; \
 	  exit 1; \
 	fi
+	@if grep 'mkdir_p' $(srcdir)/automake.in \
+	      $(srcdir)/lib/am/*.am $(srcdir)/tests/*.test; then \
+	  echo 'Do not use mkdir_p in the above files, use MKDIR_P.' 1>&2; \
+	  exit 1; \
+	fi
 	@if test `grep -E '^[^#]*@[A-Za-z_0-9]+@' aclocal | wc -l` -ne 0; then \
 	  echo "Unresolved @...@ substitution in aclocal" 1>&2; \
 	  exit 1; \
@@ -780,6 +804,11 @@ maintainer-check: automake aclocal
 	fi
 	@if grep '	' $(srcdir)/doc/automake.texi; then \
 	  echo 'Do not use tabs in the manual.' 1>&2; \
+	  exit 1; \
+	fi
+	@if grep -E '([^@]|^)@([	 ][^@]|$$)' $(srcdir)/doc/automake.texi; \
+	then \
+	  echo 'Unescaped @.' 1>&2; \
 	  exit 1; \
 	fi
 

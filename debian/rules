@@ -3,8 +3,8 @@
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/autotools.mk
 
-package=automake1.9
-version=1.9
+package=automake
+version=1.10
 
 DEB_DESTDIR=$(CURDIR)/debian/tmp
 

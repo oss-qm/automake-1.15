@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
-ver=1.9
-prio=25
+ver=1.10
+prio=26
 
 update-alternatives --install /usr/bin/automake automake \
 	/usr/bin/automake-$ver $prio \

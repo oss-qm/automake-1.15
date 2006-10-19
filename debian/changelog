@@ -1,3 +1,9 @@
+automake1.10 (1.10+nogfdl-1) unstable; urgency=low
+
+  * New upstream major release.
+
+ -- Eric Dorland <eric@debian.org>  Thu, 19 Oct 2006 00:03:24 -0400
+
 automake1.9 (1.9.6+nogfdl-2) unstable; urgency=low
 
   * debian/automake1.9.doc-base: Remove, no more docs. (Closes: #385915)

@@ -1,11 +1,11 @@
-automake1.9 for Debian
+automake1.10 for Debian
 ----------------------
 
-Automake 1.9 introduces several changes. It is not strictly backwards
+Automake 1.10 introduces several changes. It is not strictly backwards
 compatible with older versions of automake. It must be used in
-conjunction with autoconf 2.58 or greater. Using it with a earlier
+conjunction with autoconf 2.60 or greater. Using it with a earlier
 version will generate broken Makefiles. Also, it no longer invokes
 libtoolize. This job has fallen upon the autoconf utility
 `autoreconf'.
 
- -- Eric Dorland <eric@debian.org>, Wed Jul 28 17:28:54 2004
+ -- Eric Dorland <eric@debian.org>, Wed, 18 Oct 2006 23:48:22 -0400
