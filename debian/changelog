@@ -1,3 +1,22 @@
+automake1.10 (1:1.10.1-1) unstable; urgency=low
+
+  * The "Revenge of the Documentation" release.
+  * New upstream release. The documentation now contains no invariant
+    sections or cover texts, so moving the documentation back into the
+    package. (Closes: #462148)
+  
+  * debian/rules: Add back the documentation building rules.
+  * debian/automake.info, debian/automake.doc-base: Add back these
+    document files.
+  * debian/control:
+    - Conflict and Replace automake1.10-doc.
+    - Remove Suggests on automake1.10-doc.
+    - Standards-Version to 3.7.3.
+    - Add Homepage and Vcs-* headers.
+  * doc/automake.texi: Rename the info file to automake-1.10.info.
+
+ -- Eric Dorland <eric@debian.org>  Sun, 27 Jan 2008 19:51:43 -0500
+
 automake1.10 (1:1.10+nogfdl-1) unstable; urgency=low
 
   * New upstream major release.
