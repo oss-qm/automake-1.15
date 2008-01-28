@@ -1,1 +1,1 @@
-automake1.9: extra-license-file usr/share/automake-1.9/COPYING
+automake: extra-license-file usr/share/automake-1.10/COPYING
