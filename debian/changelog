@@ -1,3 +1,11 @@
+automake1.10 (1:1.10.1-3) unstable; urgency=low
+
+  * debian/automake.postinst: Bump up the priority to 28 so that it wins
+    the priority war. This should have happened after etch was
+    released. (Closes: #464883)
+
+ -- Eric Dorland <eric@debian.org>  Sat, 09 Feb 2008 21:43:37 -0500
+
 automake1.10 (1:1.10.1-2) unstable; urgency=low
 
   * The "Must Obey lintian" release.
