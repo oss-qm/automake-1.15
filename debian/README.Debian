@@ -1,7 +1,7 @@
-automake1.10 for Debian
+automake1.11 for Debian
 ----------------------
 
-Automake 1.10 introduces several changes. It is not strictly backwards
+Automake 1.11 introduces several changes. It is not strictly backwards
 compatible with older versions of automake. It must be used in
 conjunction with autoconf 2.60 or greater. Using it with a earlier
 version will generate broken Makefiles. Also, it no longer invokes

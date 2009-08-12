@@ -1,4 +1,4 @@
-Source: automake1.10
+Source: automake1.11
 Section: devel
 Priority: optional
 Maintainer: Eric Dorland <eric@debian.org>
@@ -6,15 +6,14 @@ Standards-Version: 3.8.1
 Build-Depends: cdbs, debhelper (>= 4.1.0)
 Build-Depends-Indep: autoconf (>= 2.60), autotools-dev (>= 20020320.1), texinfo (>= 4.3)
 Homepage: http://www.gnu.org/software/automake/
-Vcs-Git: git://git.debian.org/~eric/automake1.10.git
-Vcs-Browser: http://git.debian.org/?p=users/eric/automake1.10.git
+Vcs-Git: git://git.debian.org/~eric/automake1.11.git
+Vcs-Browser: http://git.debian.org/?p=users/eric/automake1.11.git
 
 Package: automake
 Architecture: all
-Provides: automaken, automake1.10
+Provides: automaken, automake1.11
 Depends: autoconf (>= 2.60), autotools-dev (>= 20020320.1), ${misc:Depends}
 Conflicts: automake1.6 (<< 1.6.1-4), automake (<< 1:1.4-p5-1), automake1.5 (<< 1.5-2), automake1.10-doc
-Replaces: automake1.10-doc
 Description: A tool for generating GNU Standards-compliant Makefiles
  Automake is a tool for automatically generating `Makefile.in's from
  files called `Makefile.am'.
@@ -27,7 +26,7 @@ Description: A tool for generating GNU Standards-compliant Makefiles
  (with rules being thrown in occasionally).  The generated
  `Makefile.in's are compliant with the GNU Makefile standards.
  .
- Automake 1.10 fails to work in a number of situations that Automake
- 1.4, 1.6, 1.7, 1.8 and 1.9 did, so has been renamed so that the
+ Automake 1.11 fails to work in a number of situations that Automake
+ 1.4, 1.6, 1.7, 1.8, 1.9 and 1.10 did, so has been renamed so that the
  previous version can continue to be made available.
 
