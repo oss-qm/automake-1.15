@@ -2,6 +2,10 @@ automake1.11 (1:1.11-1) unstable; urgency=low
 
   * New upstream major release. (Closes: #512704)
     - Rename many instances of 1.10 to 1.11.
+  * debian/automake-1.11.1, debian/aclocal-1.11.1: Remove our copy of
+    manpages.
+  * debian/automake.manpages, debian/automake.install: Remove manpages
+    file and use the .install, since automake now finally ships manpages.
 
  -- Eric Dorland <eric@debian.org>  Wed, 12 Aug 2009 02:36:44 -0400
 
