@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Eric Dorland <eric@debian.org>
 Standards-Version: 3.8.1
 Build-Depends: cdbs, debhelper (>= 4.1.0)
-Build-Depends-Indep: autoconf (>= 2.60), autotools-dev (>= 20020320.1), texinfo (>= 4.3)
+Build-Depends-Indep: autoconf (>= 2.62), autotools-dev (>= 20020320.1), texinfo (>= 4.3)
 Homepage: http://www.gnu.org/software/automake/
 Vcs-Git: git://git.debian.org/~eric/automake1.11.git
 Vcs-Browser: http://git.debian.org/?p=users/eric/automake1.11.git
@@ -12,7 +12,7 @@ Vcs-Browser: http://git.debian.org/?p=users/eric/automake1.11.git
 Package: automake
 Architecture: all
 Provides: automaken, automake1.11
-Depends: autoconf (>= 2.60), autotools-dev (>= 20020320.1), ${misc:Depends}
+Depends: autoconf (>= 2.62), autotools-dev (>= 20020320.1), ${misc:Depends}
 Conflicts: automake1.6 (<< 1.6.1-4), automake (<< 1:1.4-p5-1), automake1.5 (<< 1.5-2), automake1.10-doc
 Description: A tool for generating GNU Standards-compliant Makefiles
  Automake is a tool for automatically generating `Makefile.in's from
