@@ -6,6 +6,8 @@ automake1.11 (1:1.11.1-1) unstable; urgency=low
     debian/source/patch-header: Convert to v3 quilt format, with
     single-debian-patch.
   * debian/control: Update autoconf dependency to >= 2.62. (Closes: #556175)
+  * debian/lintian.overrides, debian/automake.lintian-overrides: Rename
+    overrides file to use new dh_lintian helper.
 
  --
 
