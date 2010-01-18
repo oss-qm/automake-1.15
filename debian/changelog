@@ -8,8 +8,10 @@ automake1.11 (1:1.11.1-1) unstable; urgency=low
   * debian/control: Update autoconf dependency to >= 2.62. (Closes: #556175)
   * debian/lintian.overrides, debian/automake.lintian-overrides: Rename
     overrides file to use new dh_lintian helper.
+  * debian/rules, debian/control, debian/compat: Convert to a dh style
+    rules file, change debhelper dependency and compat file to match.
 
- --
+ -- Eric Dorland <eric@debian.org>  Mon, 18 Jan 2010 00:46:44 -0500
 
 automake1.11 (1:1.11-1) unstable; urgency=low
 
