@@ -14,7 +14,7 @@ Architecture: all
 Provides: automaken, automake1.11
 Depends: autoconf (>= 2.62), autotools-dev (>= 20020320.1), ${misc:Depends}
 Conflicts: automake1.6 (<< 1.6.1-4), automake (<< 1:1.4-p5-1), automake1.5 (<< 1.5-2), automake1.10-doc
-Description: A tool for generating GNU Standards-compliant Makefiles
+Description: Tool for generating GNU Standards-compliant Makefiles
  Automake is a tool for automatically generating `Makefile.in's from
  files called `Makefile.am'.
  .
