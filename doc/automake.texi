@@ -1,7 +1,7 @@
 \input texinfo   @c -*-texinfo-*-
 @c %**start of header
-@setfilename automake-1.11.info
-@settitle automake-1.11
+@setfilename automake.info
+@settitle automake
 @setchapternewpage off
 @c %**end of header
 
@@ -43,13 +43,13 @@ section entitled ``GNU Free Documentation License.''
 @c (Autoconf has a similar setup.)
 @dircategory Software development
 @direntry
-* Automake: (automake-1.11).         Making GNU standards-compliant Makefiles.
+* Automake: (automake).         Making GNU standards-compliant Makefiles.
 @end direntry
 
 @dircategory Individual utilities
 @direntry
-* aclocal: (automake-1.11)Invoking aclocal.          Generating aclocal.m4.
-* automake: (automake-1.11)Invoking Automake.        Generating Makefile.in.
+* aclocal: (automake)Invoking aclocal.          Generating aclocal.m4.
+* automake: (automake)Invoking Automake.        Generating Makefile.in.
 @end direntry
 
 @titlepage

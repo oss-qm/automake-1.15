@@ -1,0 +1,31 @@
+diff --git a/doc/automake.texi b/doc/automake.texi
+index c2d7edc..9a10d14 100644
+--- a/doc/automake.texi
++++ b/doc/automake.texi
+@@ -1,7 +1,7 @@
+ \input texinfo   @c -*-texinfo-*-
+ @c %**start of header
+-@setfilename automake.info
+-@settitle automake
++@setfilename automake-1.11.info
++@settitle automake-1.11
+ @setchapternewpage off
+ @c %**end of header
+ 
+@@ -43,13 +43,13 @@ section entitled ``GNU Free Documentation License.''
+ @c (Autoconf has a similar setup.)
+ @dircategory Software development
+ @direntry
+-* Automake: (automake).         Making GNU standards-compliant Makefiles.
++* Automake: (automake-1.11).         Making GNU standards-compliant Makefiles.
+ @end direntry
+ 
+ @dircategory Individual utilities
+ @direntry
+-* aclocal: (automake)Invoking aclocal.          Generating aclocal.m4.
+-* automake: (automake)Invoking Automake.        Generating Makefile.in.
++* aclocal: (automake-1.11)Invoking aclocal.          Generating aclocal.m4.
++* automake: (automake-1.11)Invoking Automake.        Generating Makefile.in.
+ @end direntry
+ 
+ @titlepage
