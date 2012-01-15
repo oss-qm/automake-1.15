@@ -1,6 +1,7 @@
 automake1.11 (1:1.11.2-1) unstable; urgency=low
 
   * New upstream release.
+  * debian/control: Standards-Version to 3.9.2.0.
   * doc/automake.texi, debian/patches/01-texi-rename.diff,
     debian/patches/series: Move texi file patch into a quilt patch.
   * debian/source/patch-header, debian/source/options: Remove
@@ -8,7 +9,7 @@ automake1.11 (1:1.11.2-1) unstable; urgency=low
   * lib/Automake/Makefile.am: Remove spurious diff.
   * debian/automake.dirs: Remove unneeded dirs file.
 
- --
+ -- Eric Dorland <eric@debian.org>  Sun, 15 Jan 2012 01:16:47 -0500
 
 automake1.11 (1:1.11.1-1) unstable; urgency=low
 
