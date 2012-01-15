@@ -8,6 +8,7 @@ automake1.11 (1:1.11.2-1) unstable; urgency=low
     single-debian-patch option and patch-header.
   * lib/Automake/Makefile.am: Remove spurious diff.
   * debian/automake.dirs: Remove unneeded dirs file.
+  * debian/automake.doc-base: Fix section.
 
  -- Eric Dorland <eric@debian.org>  Sun, 15 Jan 2012 01:16:47 -0500
 
