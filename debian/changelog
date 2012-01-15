@@ -5,6 +5,7 @@ automake1.11 (1:1.11.2-1) unstable; urgency=low
     debian/patches/series: Move texi file patch into a quilt patch.
   * debian/source/patch-header, debian/source/options: Remove
     single-debian-patch option and patch-header.
+  * lib/Automake/Makefile.am: Remove spurious diff.
 
  --
 
