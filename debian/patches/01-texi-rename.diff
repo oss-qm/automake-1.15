@@ -1,7 +1,7 @@
-diff --git a/doc/automake.texi b/doc/automake.texi
-index c2d7edc..9a10d14 100644
---- a/doc/automake.texi
-+++ b/doc/automake.texi
+Index: automake1.11/doc/automake.texi
+===================================================================
+--- automake1.11.orig/doc/automake.texi	2012-02-04 21:24:38.000000000 -0500
++++ automake1.11/doc/automake.texi	2012-02-05 01:36:25.383241991 -0500
 @@ -1,7 +1,7 @@
  \input texinfo   @c -*-texinfo-*-
  @c %**start of header
@@ -12,8 +12,8 @@ index c2d7edc..9a10d14 100644
  @setchapternewpage off
  @c %**end of header
  
-@@ -43,13 +43,13 @@ section entitled ``GNU Free Documentation License.''
- @c (Autoconf has a similar setup.)
+@@ -40,13 +40,13 @@
+ 
  @dircategory Software development
  @direntry
 -* Automake: (automake).         Making GNU standards-compliant Makefiles.
@@ -22,10 +22,10 @@ index c2d7edc..9a10d14 100644
  
  @dircategory Individual utilities
  @direntry
--* aclocal: (automake)Invoking aclocal.          Generating aclocal.m4.
--* automake: (automake)Invoking Automake.        Generating Makefile.in.
-+* aclocal: (automake-1.11)Invoking aclocal.          Generating aclocal.m4.
-+* automake: (automake-1.11)Invoking Automake.        Generating Makefile.in.
+-* aclocal-invocation: (automake)aclocal Invocation.   Generating aclocal.m4.
+-* automake-invocation: (automake)automake Invocation. Generating Makefile.in.
++* aclocal-invocation: (automake-1.11)aclocal Invocation.  Generating aclocal.m4.
++* automake-invocation: (automake-1.11)automake Invocation. Generating Makefile.in.
  @end direntry
  
  @titlepage

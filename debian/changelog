@@ -3,6 +3,7 @@ automake1.11 (1:1.11.3-1) unstable; urgency=low
   * New upstream release. (Closes: #657982)
   * debian/control: Add Multi-Arch: foreign. Thanks Sebastien
     Bacher. (Closes: #658477)
+  * debian/patches/01-texi-rename.diff: Refresh patch.
 
  -- Eric Dorland <eric@debian.org>  Sun, 05 Feb 2012 01:21:12 -0500
 
