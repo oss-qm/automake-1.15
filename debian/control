@@ -11,6 +11,7 @@ Vcs-Browser: http://git.debian.org/?p=users/eric/automake1.11.git
 
 Package: automake
 Architecture: all
+Multi-Arch: foreign
 Provides: automaken, automake1.11
 Depends: autoconf (>= 2.62), autotools-dev (>= 20020320.1), ${misc:Depends}
 Conflicts: automake1.6 (<< 1.6.1-4), automake (<< 1:1.4-p5-1), automake1.5 (<< 1.5-2), automake1.10-doc
