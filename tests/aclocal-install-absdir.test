@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2002, 2003, 2008  Free Software Foundation, Inc.
+# Copyright (C) 2011 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,28 +14,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Automake --help, and --version should have priority over any other option
-# so that their `Exit 0' is coherent.
+# Make sure "aclocal --install" install files also in directories
+# passed to `-I' as absolute paths.  Now that we support the
+# ACLOCAL_PATH variable, it is clear that this is the right thing
+# to do.  See also automake bug#8407.
 
 . ./defs || Exit 1
 
 set -e
 
-# This is expected to fail ...
-AUTOMAKE_fails -Wnonexistent
-grep ':.*nonexistent' stderr
+mkdir loc sys
 
-# ... but this should not.
-AUTOMAKE_run 0 -Wnonexistent --help
-grep ':.*nonexistent' stderr && Exit 1
+echo 'AM_DUMMY_MACRO' >> configure.in
+echo 'AC_DEFUN([AM_DUMMY_MACRO], [:])' >> sys/foo.m4
 
-
-# Similarly, this should fail ...
-AUTOMAKE_fails --nonexistent
-grep ':.*nonexistent' stderr
-
-# ... but this should not.
-AUTOMAKE_run 0 --nonexistent --help
-grep ':.*nonexistent' stderr && Exit 1
+cwd=`pwd` || fatal_ "cannot get current working directory"
+env ACLOCAL_PATH="$cwd/sys" $ACLOCAL --verbose --install -I "$cwd/loc"
+diff sys/foo.m4 loc/foo.m4
 
 :
