@@ -1,8 +1,10 @@
 automake1.11 (1:1.11.4-1) unstable; urgency=low
 
   * New upstream release.
+  * debian/automake.dirs: Add /usr/share/aclocal since aclocal expects it
+    to exist. (Closes: #659482)
 
- --
+ -- Eric Dorland <eric@debian.org>  Sun, 08 Apr 2012 01:48:37 -0400
 
 automake1.11 (1:1.11.3-1) unstable; urgency=low
 
