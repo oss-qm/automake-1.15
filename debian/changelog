@@ -1,8 +1,9 @@
 automake1.11 (1:1.11.5-1) unstable; urgency=low
 
   * New upstream release.
+  * debian/control: Upgrade Standards-Version 3.9.3.
 
- --
+ -- Eric Dorland <eric@debian.org>  Fri, 13 Apr 2012 23:27:35 -0400
 
 automake1.11 (1:1.11.4-1) unstable; urgency=low
 
