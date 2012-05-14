@@ -5,6 +5,8 @@ automake1.12 (1:1.12-1) unstable; urgency=low
   * debian/source/options: Remove unneeded options file.
   * debian/automake.preinst: Remove automake-1.11 alternative on upgrade
     from 1.11.
+  * debian/patches/01-texi-rename.diff: Update patch with automake1.12
+    paths.
 
  -- Eric Dorland <eric@debian.org>  Sun, 13 May 2012 23:10:26 -0400
 
