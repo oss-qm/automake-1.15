@@ -6,7 +6,7 @@ automake1.12 (1:1.12-1) unstable; urgency=low
   * debian/automake.preinst: Remove automake-1.11 alternative on upgrade
     from 1.11.
 
- --
+ -- Eric Dorland <eric@debian.org>  Sun, 13 May 2012 23:10:26 -0400
 
 automake1.11 (1:1.11.5-1) unstable; urgency=low
 
