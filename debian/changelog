@@ -3,6 +3,8 @@ automake1.12 (1:1.12-1) unstable; urgency=low
   * New upstream major release. (Closes: #671004)
   * Rename paths for 1.12.
   * debian/source/options: Remove unneeded options file.
+  * debian/automake.preinst: Remove automake-1.11 alternative on upgrade
+    from 1.11.
 
  --
 
