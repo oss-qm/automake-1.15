@@ -1,3 +1,9 @@
+automake1.12 (1:1.12.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ --
+
 automake1.12 (1:1.12-1) unstable; urgency=low
 
   * New upstream major release. (Closes: #671004)
