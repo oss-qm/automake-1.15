@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2001-2012 Free Software Foundation, Inc.
+# Copyright (C) 2012 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,23 +14,35 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Test that '.m' extension works.
-# From Ralf Corsepius (for C++).
+# Check that the AM_PROG_MKDIR_P macro is deprecated.  It will be
+# be removed in the next major Automake release.
 
 . ./defs || Exit 1
 
-cat >> configure.ac << 'END'
-AC_PROG_OBJC
-END
+echo AM_PROG_MKDIR_P >> configure.ac
+: > Makefile.am
 
-cat > Makefile.am << 'END'
-bin_PROGRAMS = hello
-hello_SOURCES = hello.m
-END
+grep_err ()
+{
+  loc='^configure.ac:4:'
+  grep "$loc.*AM_PROG_MKDIR_P.*deprecated" stderr
+  grep "$loc.* use .*AC_PROG_MKDIR_P" stderr
+  grep "$loc.* use '\$(MKDIR_P)' instead of '\$(mkdir_p)'.*Makefile" stderr
+}
 
 $ACLOCAL
-$AUTOMAKE
 
-grep '^\.SUFFIXES:.*\.m' Makefile.in
+$AUTOCONF -Werror -Wobsolete 2>stderr && { cat stderr >&2; Exit 1; }
+cat stderr >&2
+grep_err
+
+$AUTOCONF -Werror -Wno-obsolete
+
+#AUTOMAKE_fails
+#grep_err
+AUTOMAKE_fails --verbose -Wnone -Wobsolete
+grep_err
+
+$AUTOMAKE -Wno-obsolete
 
 :
