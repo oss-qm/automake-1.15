@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Test per-target flags.
+# Test per-target flags in vala support.
 
 required="pkg-config valac gcc GNUmake"
 . test-init.sh
@@ -67,8 +67,6 @@ END
 $ACLOCAL
 $AUTOCONF
 $AUTOMAKE -a
-
-grep PKG_CHECK_MODULES configure && skip_ "pkg-config m4 macros not found"
 
 ./configure
 $MAKE
