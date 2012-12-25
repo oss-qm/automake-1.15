@@ -14,9 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Test SUDBIRS with /.
+# Test SUDBIRS with '/' in them.
 
-. ./defs || Exit 1
+. ./defs || exit 1
 
 cat >> configure.ac << 'END'
 AC_CONFIG_FILES([src/subdir/Makefile src/subdir2/Makefile])
@@ -50,6 +50,6 @@ test -f $distdir/src/subdir/foo
 test -f $distdir/src/subdir2/foo
 $MAKE clean
 $MAKE distclean
-test ! -f src/subdir2/Makefile
+test ! -e src/subdir2/Makefile
 
 :

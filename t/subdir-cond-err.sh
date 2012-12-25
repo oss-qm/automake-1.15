@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2002-2012 Free Software Foundation, Inc.
+# Copyright (C) 1997-2012 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,27 +14,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Test to make sure config headers in subdirectories are cleaned.
+# Check SUBDIRS set based on conditionals.
 
-. ./defs || Exit 1
+. ./defs || exit 1
 
 cat >> configure.ac << 'END'
-AM_CONFIG_HEADER([sub/config.h:sub/config.hin])
-AC_OUTPUT
+AM_CONDITIONAL([TEST], [true])
 END
 
-touch Makefile.am
-mkdir sub
+cat > Makefile.am << 'END'
+if TEST
+DIR = dir1
+else
+DIR = dir2
+endif
+SUBDIRS = $(DIR)
+END
+
+mkdir dir1
 
 $ACLOCAL
-$AUTOCONF
-touch sub/config.hin
-$AUTOMAKE
-./configure
-test -f sub/stamp-h1
-$MAKE clean
-test -f sub/stamp-h1
-$MAKE distclean
-test -f sub/stamp-h1 && Exit 1
+AUTOMAKE_fails
+grep '^Makefile\.am:4:.*dir2.*does not exist' stderr
 
 :

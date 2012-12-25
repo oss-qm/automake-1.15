@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1999-2012 Free Software Foundation, Inc.
+# Copyright (C) 2002-2012 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,20 +14,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Test to make sure config sub in _SOURCES fails.
+# Test to make sure config headers in subdirectories are cleaned.
 
-. ./defs || Exit 1
+. ./defs || exit 1
 
 cat >> configure.ac << 'END'
-AC_PROG_CC
+AM_CONFIG_HEADER([sub/config.h:sub/config.hin])
+AC_OUTPUT
 END
 
-cat > Makefile.am << 'END'
-bin_PROGRAMS = x
-x_SOURCES = x.c @FOO@
-EXTRA_x_SOURCES = y.c
-END
+touch Makefile.am
+mkdir sub
 
 $ACLOCAL
-AUTOMAKE_fails
-grep 'Makefile.am:2:.*x_SOURCES.*substitution' stderr
+$AUTOCONF
+touch sub/config.hin
+$AUTOMAKE
+./configure
+test -f sub/stamp-h1
+$MAKE clean
+test -f sub/stamp-h1
+$MAKE distclean
+test -f sub/stamp-h1 && exit 1
+
+:

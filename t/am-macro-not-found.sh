@@ -14,27 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Check SUBDIRS set based on conditionals.
+# Test to see if aclocal correctly reports missing AM_ macro.
 
-. ./defs || Exit 1
+. ./defs || exit 1
 
-cat >> configure.ac << 'END'
-AM_CONDITIONAL([TEST], [true])
-END
+echo AM_ZARDOZ >> configure.ac
 
-cat > Makefile.am << 'END'
-if TEST
-DIR = dir1
-else
-DIR = dir2
-endif
-SUBDIRS = $(DIR)
-END
-
-mkdir dir1
-
-$ACLOCAL
-AUTOMAKE_fails
-grep '^Makefile\.am:4:.*dir2.*does not exist' stderr
-
-:
+$ACLOCAL 2>stderr && { cat stderr >&2; exit 1; }
+cat stderr
+grep 'configure.ac:.*AM_ZARDOZ.*not found' stderr

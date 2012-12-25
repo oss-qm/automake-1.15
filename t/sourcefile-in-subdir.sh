@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2002-2012 Free Software Foundation, Inc.
+# Copyright (C) 1999-2012 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,32 +14,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Naming a subdirectory 'obj/' is a bad idea.  Automake should say so.
+# Test to make sure subdir source file generates explicit dependency.
 
-. ./defs || Exit 1
+. ./defs || exit 1
 
-mkdir obj
-
-cat >>configure.ac << 'END'
-AC_CONFIG_FILES([obj/Makefile])
-AC_OUTPUT
+cat > Makefile.am << 'END'
+bin_PROGRAMS = zardoz widdershins
+zardoz_SOURCES = y.c x/z.c
+widdershins_SOURCES = x/z.c
 END
 
-: > obj/Makefile.am
-echo 'SUBDIRS = obj' >Makefile.am
+cat >> configure.ac << 'END'
+AC_PROG_CC
+END
 
 $ACLOCAL
+$AUTOMAKE
 
-AUTOMAKE_fails
-grep 'Makefile.am:1:.*obj.*BSD' stderr
-
-cat >Makefile.am <<'END'
-SUBDIRS = @STH@
-FOO = obj
-DIST_SUBDIRS = $(FOO)
-END
-
-AUTOMAKE_fails
-grep 'Makefile.am:2:.*obj.*BSD' stderr
+grep '^z\.o: x/z\.c$' Makefile.in
 
 :
