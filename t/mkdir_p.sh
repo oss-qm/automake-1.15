@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 2012 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,39 +14,42 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Test to make sure sub-sub-dirs work correctly.
+# AM_INIT_AUTOMAKE should still define $(mkdir_p), for backward
+# compatibility.
 
-. ./defs || Exit 1
-
-mkdir one
-mkdir one/two
+. ./defs || exit 1
 
 cat >> configure.ac << 'END'
-AC_CONFIG_FILES([one/Makefile one/two/Makefile])
+AC_CONFIG_FILES([sub/Makefile])
 AC_OUTPUT
 END
 
-# Files required because we are using '--gnu'.
-: > INSTALL
-: > NEWS
-: > README
-: > COPYING
-: > AUTHORS
-: > ChangeLog
-
 cat > Makefile.am << 'END'
-SUBDIRS = one
+SUBDIRS = sub
+all-local:
+	$(mkdir_p) . dir1/a
+	@mkdir_p@ . dir2/b
+check-local: all
+	test -d dir1/a
+	test -d dir2/b
+	test -d dir3/c
+	test -d dir3/d
 END
 
-cat > one/Makefile.am << 'END'
-SUBDIRS = two
-END
-
-cat > one/two/Makefile.am << 'END'
-pkgdata_DATA =
+mkdir sub
+cat > sub/Makefile.am << 'END'
+# '$(mkdir_p)' should continue to work even in subdir makefiles.
+all-local:
+	$(mkdir_p) .. ../dir3/c
+	@mkdir_p@ .. ../dir3/d
 END
 
 $ACLOCAL
-$AUTOMAKE --gnu
+$AUTOCONF -Werror -Wall
+$AUTOMAKE
+
+./configure
+$MAKE check-local
+$MAKE distcheck
 
 :

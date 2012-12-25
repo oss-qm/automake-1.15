@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2000-2012 Free Software Foundation, Inc.
+# Copyright (C) 1996-2012 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,18 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Make sure a top-level depcomp file is found when
-# AC_CONFIG_AUX_DIR is not specified.
+# Test to make sure sub-sub-dirs work correctly.
 
-. ./defs || Exit 1
+. ./defs || exit 1
 
-mkdir lib src
+mkdir one
+mkdir one/two
 
 cat >> configure.ac << 'END'
-AC_PROG_RANLIB
-AC_PROG_CC
-AM_PROG_AR
-AC_CONFIG_FILES([lib/Makefile src/Makefile])
+AC_CONFIG_FILES([one/Makefile one/two/Makefile])
 AC_OUTPUT
 END
 
@@ -38,33 +35,25 @@ END
 : > ChangeLog
 
 cat > Makefile.am << 'END'
-SUBDIRS = lib src
+SUBDIRS = one
 END
 
-cat > lib/Makefile.am << 'END'
-pkgdata_DATA =
-noinst_LIBRARIES = libfoo.a
-libfoo_a_SOURCES = foo.c
+cat > one/Makefile.am << 'END'
+SUBDIRS = two
 END
 
-cat > lib/foo.c << 'END'
-int foo () {}
+cat > one/two/Makefile.am << 'END'
+pkgdata_DATA = data.txt
+data.txt:
+	echo dummy >$@
 END
-
-cat > src/Makefile.am << 'END'
-pkgdata_DATA =
-END
-
-: > ar-lib
 
 $ACLOCAL
+$AUTOCONF
 $AUTOMAKE --gnu
 
-# Make sure that depcomp is *not* included in the definition
-# of DIST_COMMON in lib/Makefile.in.  If you change this test
-# so that more files are included in lib's DIST_COMMON definition,
-# then you must handle the case in which depcomp is listed on a
-# continued line.
-grep '^DIST_COMMON.*depcomp' lib/Makefile.in && Exit 1
+./configure
+$MAKE
+test -f one/two/data.txt
 
 :

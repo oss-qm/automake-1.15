@@ -17,13 +17,13 @@
 # It is ok to have a conditional SUBDIRS when using gettext.
 
 required=gettext
-. ./defs || Exit 1
+. ./defs || exit 1
 
 cat >> configure.ac << 'END'
 AM_GNU_GETTEXT
-AM_CONDITIONAL(MAUDE, true)
+AM_CONDITIONAL([MAUDE], [true])
 ALL_LINGUAS=
-AC_SUBST(ALL_LINGUAS)
+AC_SUBST([ALL_LINGUAS])
 END
 
 mkdir po intl
@@ -40,3 +40,5 @@ END
 $ACLOCAL
 # Gettext wants config.guess etc.
 $AUTOMAKE --add-missing
+
+:

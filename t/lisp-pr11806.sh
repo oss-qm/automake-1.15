@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1997-2012 Free Software Foundation, Inc.
+# Copyright (C) 2012 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,12 +14,38 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Test to see if aclocal correctly reports missing AM_ macro.
+# Compiling .el files that requires each other in a VPATH build.
+# See automake bug#11806.
 
-. ./defs || Exit 1
+required=emacs
+. ./defs || exit 1
 
-echo AM_ZARDOZ >> configure.ac
+cat >> configure.ac << 'END'
+AM_PATH_LISPDIR
+AC_OUTPUT
+END
 
-$ACLOCAL 2>stderr && { cat stderr >&2; Exit 1; }
-cat stderr
-grep 'configure.ac:.*AM_ZARDOZ.*not found' stderr
+cat > Makefile.am << 'END'
+lisp_LISP = foo.el
+lisp_DATA = bar.el
+END
+
+echo "(require 'bar)" > foo.el
+echo "(provide 'bar)" > bar.el
+
+$ACLOCAL
+$AUTOCONF
+$AUTOMAKE -a
+
+mkdir build
+cd build
+../configure
+$MAKE
+test -f foo.elc
+cd ..
+
+./configure
+$MAKE
+test -f foo.elc
+
+:
