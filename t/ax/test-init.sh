@@ -1,5 +1,6 @@
-#! /bin/sh
-# Copyright (C) 1999-2012 Free Software Foundation, Inc.
+# -*- shell-script -*-
+#
+# Copyright (C) 1996-2012 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,22 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Test to make sure empty _SOURCES suppresses assumption about default
-# name.  Report from Pavel Roskin.
+set -e
 
-. ./defs || exit 1
+# Source the actual code for test initialization and setup.
+. test-lib.sh
+. am-test-lib.sh
 
-cat >> configure.ac << 'END'
-AC_PROG_CC
-END
-
-cat > Makefile.am << 'END'
-bin_PROGRAMS = pavel
-pavel_SOURCES =
-END
-
-$ACLOCAL
-$AUTOMAKE
-
-grep 'pavel\.[co]' Makefile.in && exit 1
-exit 0
+# Run that setup, and return control to the test script sourcing us.
+am_test_setup

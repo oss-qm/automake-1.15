@@ -14,46 +14,36 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Test library-specific flags.
+# A test for missing _SOURCES variable.  Also test to make sure empty
+# _SOURCES suppresses assumption about default name.
 
 . ./defs || exit 1
 
+plan_ 5
+
 cat >> configure.ac << 'END'
 AC_PROG_CC
-AM_PROG_CC_C_O
-AC_PROG_CXX
-AM_PROG_AR
-AC_PROG_RANLIB
+AC_SUBST([zoo_obj])
 END
 
 cat > Makefile.am << 'END'
-AUTOMAKE_OPTIONS = no-dependencies
-lib_LIBRARIES = libfoo.a
-libfoo_a_SOURCES = foo.c bar.cc
-libfoo_a_CFLAGS = -DBAR
-libfoo_a_CXXFLAGS = -DZOT
+sbin_PROGRAMS = pavel
+
+bin_PROGRAMS = pavel2
+pavel2_SOURCES =
+
+noinst_PROGRAMS = zoo
+zoo_SOURCES =
+EXTRA_zoo_SOURCES = bar.c foo.c
+zoo_DEPENDENCIES = $(zoo_obj)
+zoo_LDADD = $(zoo_DEPENDENCIES)
 END
 
-: > ar-lib
+command_ok_ "aclocal" $ACLOCAL
+command_ok_ "automake" $AUTOMAKE
 
-# Make sure 'compile' is required.
-$ACLOCAL
-AUTOMAKE_fails
-grep 'required.*compile' stderr
+command_ok_ "default _SOURCES" $FGREP ' pavel.c' Makefile.in
+command_ok_ "empty _SOURCES (basic)" not $FGREP 'pavel2.' Makefile.in
+command_ok_ "empty _SOURCES (elaborate)" not $FGREP 'zoo.' Makefile.in
 
-: > compile
-
-$AUTOMAKE
-
-# Look for $(COMPILE) -c in .c.o rule.
-grep 'COMPILE. [^-]' Makefile.in && exit 1
-
-# Look for libfoo_a-foo.o.
-grep foo Makefile.in
-grep '[^-]foo\.o' Makefile.in && exit 1
-
-# Look for libfoo_a-bar.o.
-grep bar Makefile.in
-grep '[^-]bar\.o' Makefile.in && exit 1
-
-exit 0
+:

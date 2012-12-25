@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1999-2012 Free Software Foundation, Inc.
+# Copyright (C) 2009-2012 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,25 +14,29 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Test to make sure empty _SOURCES works.
-# From Paul Berrevoets.
+# Check parallel-tests features:
+# - empty TESTS
+# BSD make will expand '$(TESTS:=.log)' to '.log' unless overridden.
+# See 'parallel-tests-trailing-whitespace.sh' for a similar issue.
 
 . ./defs || exit 1
-
 cat >> configure.ac << 'END'
-AC_PROG_CC
-AC_SUBST(ZOO_OBJ)
+AC_OUTPUT
 END
 
 cat > Makefile.am << 'END'
-noinst_PROGRAMS = zoo
-zoo_SOURCES =
-EXTRA_zoo_SOURCES = bar.c foo.c
-zoo_DEPENDENCIES = $(ZOO_OBJ)
-zoo_LDADD = $(zoo_DEPENDENCIES)
+TESTS =
 END
 
 $ACLOCAL
-$AUTOMAKE
-$FGREP zoo. Makefile.in && exit 1
+$AUTOCONF
+$AUTOMAKE -a
+
+./configure
+$MAKE check >stdout || { cat stdout; exit 1; }
+cat stdout
+for x in TOTAL PASS FAIL XPASS FAIL SKIP ERROR; do
+  grep "^# $x: *0$" stdout
+done
+
 exit 0
