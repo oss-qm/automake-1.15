@@ -1,8 +1,8 @@
-automake1.12 (1:1.12.1-1) unstable; urgency=low
+automake1.12 (1:1.12.6-1) experimental; urgency=low
 
-  * New upstream release.
+  * New upstream release for experimental.
 
- --
+ -- Eric Dorland <eric@debian.org>  Tue, 25 Dec 2012 03:14:45 -0500
 
 automake1.12 (1:1.12-1) unstable; urgency=low
 
