@@ -4,8 +4,9 @@ Priority: optional
 Maintainer: Eric Dorland <eric@debian.org>
 Standards-Version: 3.9.3
 Build-Depends: debhelper (>= 7.0.50)
-Build-Depends-Indep: autoconf (>= 2.62), autotools-dev (>= 20020320.1),
- texinfo (>= 4.3), install-info
+Build-Depends-Indep: autoconf (>= 2.62), autopoint, 
+ autotools-dev (>= 20020320.1), bison, install-info, libtool, python,
+ pkg-config, texinfo (>= 4.3), valac
 Homepage: http://www.gnu.org/software/automake/
 Vcs-Git: git://git.debian.org/~eric/automake1.12.git
 Vcs-Browser: http://git.debian.org/?p=users/eric/automake1.12.git
