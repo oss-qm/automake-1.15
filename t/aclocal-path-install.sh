@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # ACLOCAL_PATH and '--install' interactions.
 
 am_create_testdir=empty
-. ./defs || exit 1
+. test-init.sh
 
 cat > configure.ac << 'END'
 AC_INIT
@@ -41,7 +41,7 @@ END
 # in a directory specified in ACLOCAL_PATH.
 $ACLOCAL --install 2>stderr && { cat stderr >&2; exit 1; }
 cat stderr >&2
-grep ' no -I was supplied' stderr
+grep 'impossible without -I .* nor AC_CONFIG_MACRO_DIR' stderr
 test ! -e pdir/foo.m4
 
 # The '--install' option should cause a required macro found in a

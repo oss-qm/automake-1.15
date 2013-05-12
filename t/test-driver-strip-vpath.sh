@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Custom test drivers: check that the test name passed to the test
 # driver has any VPATH prefix stripped.
 
-. ./defs || exit 1
+. test-init.sh
 
 ocwd=$(pwd) || fatal_ "cannot get current working directory"
 

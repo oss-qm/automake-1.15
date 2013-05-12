@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2003-2012 Free Software Foundation, Inc.
+# Copyright (C) 2003-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,9 +18,8 @@
 # This tries to distribute a file from a subdirectory, without
 # Makefile in that directory.  'distcom5.sh' performs the same
 # test with a Makefile in the directory.
-# Also make sure that README appears first in DIST_COMMON.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
    AC_CONFIG_FILES([tests/autoconf:tests/wrapper.in],
@@ -71,7 +70,5 @@ cat dc.txt # For debugging.
 
 test 1 -eq $(grep -c tests dc.txt)
 grep configure dc.txt
-# README must come first.
-grep 'DIST_COMMON = README' Makefile.in
 
 :

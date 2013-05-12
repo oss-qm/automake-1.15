@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 # well as in builddir, and that is prefers those in the builddir.
 
 # For gen-testsuite-part: ==> try-with-serial-tests <==
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 AC_OUTPUT
@@ -54,8 +54,8 @@ chmod a+x bar.test
 
 $MAKE check >out 2>&1 || { cat out; exit 1; }
 cat out
-# The simple-tests driver does not strip VPATH components from
-# the name of the test, but the parallel-tests driver should.
+# The serial test driver does not strip VPATH components from
+# the name of the test, but the parallel driver should.
 if test x"$am_serial_tests" = x"yes"; then
   grep '^PASS: .*foo\.test *$' out
 else
@@ -68,8 +68,8 @@ rm -f test-suite.log foo.log bar.log
 
 FOO_EXIT_STATUS=1 $MAKE check >out 2>&1 && { cat out; exit 1; }
 cat out
-# The simple-tests driver does not strip VPATH components from
-# the name of the test, but the parallel-tests driver should.
+# The serial test driver does not strip VPATH components from
+# the name of the test, but the parallel driver should.
 if test x"$am_serial_tests" = x"yes"; then
   grep '^FAIL: .*foo\.test *$' out
 else

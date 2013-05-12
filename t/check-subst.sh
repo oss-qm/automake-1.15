@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2008-2012 Free Software Foundation, Inc.
+# Copyright (C) 2008-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,11 +16,11 @@
 
 # Check @substituted@ TESTS.
 # Note that in this test, we rely on the .test extension for the
-# substituted names: this is necessary for parallel-tests.
+# substituted names: this is necessary for the parallel harness.
 # See also sister test 'check-subst-prog.sh'.
 
 # For gen-testsuite-part: ==> try-with-serial-tests <==
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 AC_SUBST([script_tests], ['subst-pass-script.sh subst-xfail-script.sh'])

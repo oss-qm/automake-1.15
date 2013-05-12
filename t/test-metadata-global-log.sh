@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,13 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Custom test drivers and parallel-tests harness: check the documented
+# Custom test drivers and parallel test harness: check the documented
 # semantics for deciding when the content of a test log file should be
 # copied in the global test-suite.log file.  Currently, this is done
 # with the use of the reStructuredText field ':copy-in-global-log:' in
 # the associated '.trs' files.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 AC_OUTPUT

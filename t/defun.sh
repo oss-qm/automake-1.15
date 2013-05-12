@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Make sure aclocal picks up on all macro definitions.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat > acinclude.m4 << 'END'
 AC_DEFUN([AM_FUNC_THREE])

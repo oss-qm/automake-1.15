@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2003-2012 Free Software Foundation, Inc.
+# Copyright (C) 2003-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 # These checks have been introduced in commit 'Release-1-9-254-g9d0eaef'
 # into the former test 'subst2.test'.
 
-. ./defs || exit 1
+. test-init.sh
 
 # These are deliberately quite long, so that the xxx_PROGRAMS definition
 # in Makefile.am below will be split on multiple lines, with the last

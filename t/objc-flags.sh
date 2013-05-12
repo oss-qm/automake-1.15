@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2012 Free Software Foundation, Inc.
+# Copyright (C) 2012-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Test Objective C compilation flags.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 AC_PROG_OBJC
@@ -57,6 +57,6 @@ grep '\$(OBJCFLAGS).*\$(foo.*_OBJCFLAGS)'    Makefile.in && exit 1
 grep '\$(foo.*_OBJCFLAGS).*\$(AM_OBJCFLAGS)' Makefile.in && exit 1
 
 ./configure OBJCFLAGS=-UERROR
-$MAKE 
+$MAKE
 
 :

@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Check that an example given in the documentation really works.
 # See section "Simple Tests" subsection "Script-based Testsuites".
 
-. ./defs || exit 1
+. test-init.sh
 
 fetch_tap_driver
 

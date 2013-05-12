@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 #  - A "Bail out!" directive causes the driver to ignore any TAP
 #    diagnostic message in the rest of the following TAP stream.
 
-. ./defs || exit 1
+. test-init.sh
 
 . tap-setup.sh
 

@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2000-2012 Free Software Foundation, Inc.
+# Copyright (C) 2000-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test to make sure mkinstalldirs invocation correct in install-man
 # target.  Bug reported by Gordon Irlam <gordoni@cygnus.com>.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat > Makefile.am << 'EOF'
 man8_MANS = frob.8

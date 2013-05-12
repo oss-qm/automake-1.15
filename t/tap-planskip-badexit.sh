@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 #  - an exit status != 0 of a test script causes an hard error, even if
 #    the last line of output is a "SKIP plan" (e.g., "1..0 # SKIP").
 
-. ./defs || exit 1
+. test-init.sh
 
 echo TESTS = one.test two.test > Makefile.am
 

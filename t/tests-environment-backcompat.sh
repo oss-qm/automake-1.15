@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,11 +16,11 @@
 
 # With old serial testsuite driver, TESTS_ENVIRONMENT can be used to
 # define the "test runner", i.e. the program that the test scripts must
-# be run by (with the parallel-tests driver one should use LOG_COMPILER
+# be run by (with the parallel test harness one should use LOG_COMPILER
 # for this).  The behaviour tested here is also documented in the manual.
 
 am_serial_tests=yes
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac <<END
 AC_SUBST([PERL], ['$PERL'])

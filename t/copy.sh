@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1999-2012 Free Software Foundation, Inc.
+# Copyright (C) 1999-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test to make sure '-c' works.  Report from Andris Pavenis.
 # See also the much more in-depth test 'add-missing'.
 
-. ./defs || exit 1
+. test-init.sh
 
 # We'll have to cater to systems like MSYS/MinGW where there are no
 # true symlinks ('ln -s' behaves like 'cp -p'); see automake bug#10441.

@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Colorized output from the testsuite report shouldn't end up in log files.
 
 required='grep-nonprint'
-. ./defs || exit 1
+. test-init.sh
 
 TERM=ansi; export TERM
 
@@ -27,7 +27,7 @@ END
 
 cat >Makefile.am <<'END'
 LOG_COMPILER = $(SHELL)
-AUTOMAKE_OPTIONS = color-tests parallel-tests
+AUTOMAKE_OPTIONS = color-tests
 TESTS = pass fail skip xpass xfail error
 XFAIL_TESTS = xpass xfail
 END

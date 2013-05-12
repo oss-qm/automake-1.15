@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 # erroring out when a still-required file is missing.
 # See also discussion about automake bug#9768.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac <<'END'
 m4_include([foobar.m4])

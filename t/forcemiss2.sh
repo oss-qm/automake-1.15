@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2000-2012 Free Software Foundation, Inc.
+# Copyright (C) 2000-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test to make sure that 'automake --force-missing' works, even with
 # symlinked files.
 
-. ./defs || exit 1
+. test-init.sh
 
 rm -f install-sh
 

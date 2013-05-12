@@ -1,6 +1,6 @@
 ## automake - create Makefile.in from Makefile.am
 
-## Copyright (C) 1994-2012 Free Software Foundation, Inc.
+## Copyright (C) 1994-2013 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -20,26 +20,7 @@
 ## ----------- ##
 
 if %?LOCAL-TEXIS%
-if ! %?CYGNUS%
 TEXI2DVI = texi2dvi
-
-else %?CYGNUS%
-
-## Find these programs wherever they may lie.  Yes, this has
-## intimate knowledge of the structure of the texinfo distribution.
-MAKEINFO = `if test -f $(top_builddir)/../texinfo/makeinfo/makeinfo; then \
-            echo $(top_builddir)/../texinfo/makeinfo/makeinfo; \
-          else \
-            echo makeinfo; \
-          fi`
-
-TEXI2DVI = `if test -f $(top_srcdir)/../texinfo/util/texi2dvi; then \
-             echo $(top_srcdir)/../texinfo/util/texi2dvi; \
-           else \
-             echo texi2dvi; \
-           fi`
-endif %?CYGNUS%
-
 TEXI2PDF = $(TEXI2DVI) --pdf --batch
 MAKEINFOHTML = $(MAKEINFO) --html
 AM_MAKEINFOHTMLFLAGS = $(AM_MAKEINFOFLAGS)
@@ -98,13 +79,11 @@ endif ! %?LOCAL-TEXIS%
 ## if the user doesn't request it not to be run (through the
 ## 'AM_UPDATE_INFO_DIR' environment variable).  See automake bug#9773
 ## and Debian Bug#543992.
-if %?FIRST%
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-endif
 
 ## Look in both . and srcdir because the info pages might have been
 ## rebuilt in the build directory.  Can't cd to srcdir; that might
@@ -405,13 +384,14 @@ if %?LOCAL-TEXIS%
 .PHONY: mostlyclean-aminfo
 mostlyclean-aminfo:
 ## Use '-rf', not just '-f', because the %*CLEAN% substitutions can also
-## contain any directory created by "makeinfo --html".
+## contain any directory created by "makeinfo --html", as well as the
+## '*.t2d' and '*.t2p' directories used by texi2dvi and texi2pdf.
 	-rm -rf %MOSTLYCLEAN%
 
 .PHONY clean-am: clean-aminfo
 clean-aminfo:
-## Use '-rf', not just '-f', because the %*CLEAN% substitutions can also
-## contain any directory created by "makeinfo --html".
+## Use '-rf', not just '-f'; see comments in 'mostlyclean-aminfo'
+## above for details.
 ?TEXICLEAN?	-test -z "%TEXICLEAN%" \
 ?TEXICLEAN?	|| rm -rf %TEXICLEAN%
 
@@ -423,11 +403,9 @@ maintainer-clean-aminfo:
 	  echo " rm -f $$i $$i-[0-9] $$i-[0-9][0-9] $$i_i[0-9] $$i_i[0-9][0-9]"; \
 	  rm -f $$i $$i-[0-9] $$i-[0-9][0-9] $$i_i[0-9] $$i_i[0-9][0-9]; \
 	done
-## Use '-rf', not just '-f', because the %*CLEAN% substitutions can also
-## contain any directory created by "makeinfo --html".
+## Use '-rf', not just '-f'; see comments in 'mostlyclean-aminfo'
+## above for details.
 ?MAINTCLEAN?	-test -z "%MAINTCLEAN%" \
 ?MAINTCLEAN?	|| rm -rf %MAINTCLEAN%
 
-?CYGNUS?.PHONY: clean-info
-?CYGNUS?clean-info: mostlyclean-aminfo clean-aminfo
 endif %?LOCAL-TEXIS%

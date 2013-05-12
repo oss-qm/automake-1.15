@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1998-2012 Free Software Foundation, Inc.
+# Copyright (C) 1998-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test on some aclocal options.  Report from Alexandre Oliva.
 
 am_create_testdir=empty
-. ./defs || exit 1
+. test-init.sh
 
 echo "AC_INIT([$me], [0]) AM_INIT_AUTOMAKE" > configure.ac
 

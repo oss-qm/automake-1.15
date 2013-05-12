@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 # automake: Makefile.am: required file "../../install-sh" not found; installing
 # This also makes sure that install-sh is created in the correct directory.
 
-. ./defs || exit 1
+. test-init.sh
 
 : > Makefile.am
 rm -f install-sh

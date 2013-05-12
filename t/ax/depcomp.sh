@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2012 Free Software Foundation, Inc.
+# Copyright (C) 2012-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@
 
 # -------------------------------------------------------------------------
 
-# This expects ./defs has already been included has already been included..
+# This code expects test-init.sh has already been included in advance.
 
 ocwd=$(pwd) || fatal_ "getting current working directory"
 longpath=this-is/a-path/which-has/quite-a/definitely/truly/long_long_name

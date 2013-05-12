@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2002-2012 Free Software Foundation, Inc.
+# Copyright (C) 2002-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 # SUBDIRS + AC_SUBST setup from the manual.
 # Lots of lines here are duplicated in 'subcond-am-cond.sh'.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >>configure.ac <<'END'
 if test "$want_opt" = yes; then

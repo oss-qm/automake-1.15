@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,12 +18,11 @@
 # involved (i.e., the '-d' option is in *YFLAGS).
 
 required='cc yacc'
-. ./defs || exit 1
+. test-init.sh
 
 mkdir sub
 
 cat >>configure.ac <<'EOF'
-AM_SILENT_RULES
 AC_PROG_YACC
 AC_PROG_CC
 AC_OUTPUT

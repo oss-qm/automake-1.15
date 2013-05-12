@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 #  - a test result numbered as 0 is to be considered out-of-order
 # This is consistent with the behaviour of the 'prove' utility.
 
-. ./defs || exit 1
+. test-init.sh
 
 if test $am_tap_implementation = perl; then
   $PERL -MTAP::Parser -e 1 \

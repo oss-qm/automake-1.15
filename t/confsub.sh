@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,11 +17,11 @@
 # Test to make sure config.h can be in subdir.
 # Also, make sure config.h is properly rebuilt.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 AC_CONFIG_FILES([subdir/Makefile])
-AM_CONFIG_HEADER([subdir/config.h:subdir/config.hin])
+AC_CONFIG_HEADERS([subdir/config.h:subdir/config.hin])
 AC_OUTPUT
 END
 

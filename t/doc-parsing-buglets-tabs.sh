@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # If you cause some parts of this test to fail, chances are that you've
 # improved the Automake parser ;-)
 
-. ./defs || exit 1
+. test-init.sh
 
 cat > Makefile.am <<END
 .PHONY: test

@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 # In some cases the auto-dependency can get confused and try
 # to '-include' a directory (if a backslash-newline appears in _SOURCES).
 
-. ./defs || exit 1
+. test-init.sh
 
 echo AC_PROG_CC >> configure.ac
 

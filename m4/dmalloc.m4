@@ -3,7 +3,7 @@
 ## From Franc,ois Pinard               ##
 ## ----------------------------------- ##
 
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -24,5 +24,3 @@ else
   AC_MSG_RESULT([no])
 fi], [AC_MSG_RESULT([no])])
 ])
-
-AU_DEFUN([fp_WITH_DMALLOC], [AM_WITH_DMALLOC])

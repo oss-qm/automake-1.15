@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2012 Free Software Foundation, Inc.
+# Copyright (C) 2012-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Check that automake warns against old-style usages of AM_INIT_AUTOMAKE
 # (i.e., calls with two or three arguments).
 
-. ./defs || exit 1
+. test-init.sh
 
 warn_rx='AM_INIT_AUTOMAKE.* two-.* three-arguments form.*deprecated'
 

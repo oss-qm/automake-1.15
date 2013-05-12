@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2004-2012 Free Software Foundation, Inc.
+# Copyright (C) 2004-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test to make sure that if an auxfile (here depcomp) is required
 # by a subdir Makefile.am, it is distributed by that Makefile.am.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 AC_CONFIG_FILES([subdir/Makefile])
@@ -50,7 +50,7 @@ test -f depcomp
 
 # FIXME: the logic of this check and other similar ones in other
 # FIXME: 'distcom*.sh' files should be factored out in a common
-# FIXME: subroutine in 'defs'...
+# FIXME: subroutine in 'am-test-lib.sh'...
 sed -n -e "
   /^DIST_COMMON =.*\\\\$/ {
     :loop

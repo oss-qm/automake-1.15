@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 
-# Copyright (C) 1995-2012 Free Software Foundation, Inc.
+# Copyright (C) 1995-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 AC_PREREQ([2.69])
-AC_INIT([GNU Automake], [1.12.6], [bug-automake@gnu.org])
+AC_INIT([GNU Automake], [1.13.1], [bug-automake@gnu.org])
 
 AC_CONFIG_SRCDIR([automake.in])
 AC_CONFIG_AUX_DIR([lib])
@@ -40,7 +40,7 @@ dnl We call AC_PROG_CC in an unusual way, and only for use in our
 dnl testsuite, so also use 'no-dependencies' and 'no-define' among
 dnl the automake options to avoid bloating and potential problems.
 AM_INIT_AUTOMAKE([dist-xz filename-length-max=99 color-tests
-                  parallel-tests silent-rules no-define no-dependencies])
+                  no-define no-dependencies])
 
 ## Keep this on a line of its own, since it must be found and processed
 ## by the 'update-copyright' rule in our Makefile.
@@ -139,7 +139,7 @@ AC_CHECK_PROGS([LEX], [lex flex], [false])
 # following tests, but some users were unable to figure out that their
 # installation was broken since --version appeared to work.
 
-required_autoconf_version=2.62
+required_autoconf_version=2.65
 AC_CACHE_CHECK([whether autoconf is installed], [am_cv_autoconf_installed],
 [if AM_RUN_LOG([$am_AUTOCONF --version]);
 then
@@ -470,12 +470,14 @@ AS_IF([test x"$GCC" = x"yes"], [am_CC_is_GNU=yes], [am_CC_is_GNU=no])
 # On case-insensitive file systems (seen e.g. on Cygwin and Mac OS X)
 # we must avoid looking for 'CC', because that would be the same as
 # 'cc', and could cause $CXX to point to the C compiler, instead of
-# to a C++ compiler as expected.  See automake bugs #11893 and #10766.
+# to a C++ compiler as expected (see automake bugs #11893 and #10766).
+# Similarly, we must avoid looking for 'RCC', as that can point to the
+# Qt4 "Resource Compiler": <http://doc.qt.digia.com/4.2/rcc.html>
 if test -f /bIn/rMdIr || test -f /uSr/bIn/rMdIr; then
   # Case-insensitive file system, don't look for CC.
-  am_CC=
+  am_CC= am_RCC=
 else
-  am_CC=CC
+  am_CC=CC am_RCC=RCC
 fi
 
 # The list of C++ compilers here has been copied, pasted and edited
@@ -483,7 +485,7 @@ fi
 # Keep it in sync, or better again, find out a way to avoid this code
 # duplication.
 _AM_COMPILER_CAN_FAIL([AC_PROG_CXX(dnl
-  [aCC $am_CC FCC KCC RCC xlC_r xlC c++ cxx cc++ gpp g++])],
+  [aCC $am_CC FCC KCC $am_RCC xlC_r xlC c++ cxx cc++ gpp g++])],
   [CXX=false; _AM_SKIP_COMP_TESTS([C++])])
 
 AS_IF([test x"$GXX" = x"yes"], [am_CXX_is_GNU=yes], [am_CXX_is_GNU=no])
@@ -605,9 +607,7 @@ AC_SUBST([EXEEXT])
 ## ---------------------- ##
 
 AC_CONFIG_FILES([Makefile])
-
 AC_CONFIG_LINKS([GNUmakefile:GNUmakefile])
-AC_CONFIG_LINKS([defs:defs])
 
 AC_CONFIG_FILES([t/wrap/aclocal-${APIVERSION}:t/wrap/aclocal.in],
                 [chmod +x t/wrap/aclocal-${APIVERSION}],

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2010-2012 Free Software Foundation, Inc.
+# Copyright (C) 2010-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,12 +17,11 @@
 # Check silent-rules mode for Lex.
 
 required='cc lex'
-. ./defs || exit 1
+. test-init.sh
 
 mkdir sub
 
 cat >>configure.ac <<'EOF'
-AM_SILENT_RULES
 AM_PROG_CC_C_O
 AC_PROG_LEX
 AC_CONFIG_FILES([sub/Makefile])

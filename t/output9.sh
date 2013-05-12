@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2003-2012 Free Software Foundation, Inc.
+# Copyright (C) 2003-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Make sure an AC_CONFIG_FILES can have an AC_CONFIG_FILES output as input.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << END
 AC_CONFIG_FILES([a/mid.in:a/input.in.in])

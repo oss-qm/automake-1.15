@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2009-2012 Free Software Foundation, Inc.
+# Copyright (C) 2009-2013 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # In both cases, we don't try to create a rule; but we shouldn't
 # fail either, because magic might be happening behind our back.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 END

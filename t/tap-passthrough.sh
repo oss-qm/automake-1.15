@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #  - TAP errors are reported in the log file too
 # See also related test 'tap-passthrough-exit.sh'.
 
-. ./defs || exit 1
+. test-init.sh
 
 weirdchars=\''"\$@!&()[]<>#;,:.^?*/'
 

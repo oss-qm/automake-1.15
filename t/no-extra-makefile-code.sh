@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 # by a regression caused by removal of automatic de-ANSI-fication support:
 # <http://lists.gnu.org/archive/html/automake-patches/2011-08/msg00200.html>
 
-. ./defs || exit 1
+. test-init.sh
 
 echo AC_OUTPUT >> configure.ac
 

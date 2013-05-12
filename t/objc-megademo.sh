@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2012 Free Software Foundation, Inc.
+# Copyright (C) 2012-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,15 +18,13 @@
 
 required=libtoolize
 am_create_testdir=empty
-. ./defs || exit 1
+. test-init.sh
 
 ## Autotools Input Files.
 
 cat > configure.ac << 'END'
 AC_INIT([play], [1.3], [bug-automake@gnu.org])
 
-dnl Support for Object C++ was introduced only in Autoconf 2.65.
-AC_PREREQ([2.65])
 AC_CONFIG_SRCDIR([play.c])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
@@ -87,13 +85,7 @@ END
 ## Run Autotools.
 
 libtoolize
-if $ACLOCAL; then
-  : We have a modern enough autoconf, go ahead.
-elif test $? -eq 63; then
-  skip_ "Object C++ support requires Autoconf 2.65 or later"
-else
-  exit 1 # Some other aclocal failure.
-fi
+$ACLOCAL
 $AUTOHEADER
 $AUTOCONF
 $AUTOMAKE --add-missing
