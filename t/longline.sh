@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2004-2012 Free Software Foundation, Inc.
+# Copyright (C) 2004-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Long lines of += should be wrapped.
 # Report from Simon Josefsson.
 
-. ./defs || exit 1
+. test-init.sh
 
 (echo DUMMY = some_long_filename_1;
 for i in 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20;

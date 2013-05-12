@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 # to the test cases requiring them.
 # See also automake bug#9807.
 
-. ./defs || exit 1
+. test-init.sh
 
 extract_program_version ()
 {
@@ -78,14 +78,14 @@ else
   fi
 fi
 
-. ./get.sh
-
 cat >> get.sh <<'END'
 # Even recent versions of gettext used the now-obsolete 'AM_PROG_MKDIR_P'
 # m4 macro.  So we need the following to avoid spurious errors.
 ACLOCAL="$ACLOCAL -Wno-obsolete"
 AUTOMAKE="$AUTOMAKE -Wno-obsolete"
 END
+
+. ./get.sh
 
 $ACLOCAL --force -I m4 || cat >> get.sh <<'END'
 # We need to use '-Wno-syntax', since we do not want our test suite

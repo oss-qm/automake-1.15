@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2002-2012 Free Software Foundation, Inc.
+# Copyright (C) 2002-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Check that autoheaders works, despite our AC_CONFIG_HEADERS hack.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >>configure.ac <<EOF
 AC_CONFIG_HEADERS([thisfile.h])

@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2010-2012 Free Software Foundation, Inc.
+# Copyright (C) 2010-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 # rules don't break in obvious ways in a slightly "heavier than usual"
 # setup.
 
-. ./defs || exit 1
+. test-init.sh
 
 ocwd=$(pwd) || fatal_ "getting current working directory"
 

@@ -1,5 +1,5 @@
 ## automake - create Makefile.in from Makefile.am
-## Copyright (C) 1994-2012 Free Software Foundation, Inc.
+## Copyright (C) 1994-2013 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -24,7 +24,8 @@ endif %?INSTALL%
 
 if %?INSTALL%
 am__installdirs += "$(DESTDIR)$(%NDIR%dir)"
-.PHONY install-%EXEC?exec:data%-am: install-%DIR%%PRIMARY%
+?EXEC?.PHONY install-exec-am: install-%DIR%%PRIMARY%
+?!EXEC?.PHONY install-data-am: install-%DIR%%PRIMARY%
 install-%DIR%%PRIMARY%: $(%DIR%_%PRIMARY%)
 	@$(NORMAL_INSTALL)
 if %?BASE%

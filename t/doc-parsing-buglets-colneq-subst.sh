@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 # See: <http://lists.gnu.org/archive/html/automake/2010-08/msg00074.html>
 # or: <http://thread.gmane.org/gmane.comp.sysutils.automake.general/11943/focus=11962>
 
-. ./defs || exit 1
+. test-init.sh
 
 cat > Makefile.am <<'END'
 $(FOO:=x): bar

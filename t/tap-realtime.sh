@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 # children, and is pretty hacky and complex; is there a better way to
 # accomplish the checks done here?
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >expect-check <<'END'
 eval spawn $env(SHELL) -c ":"
@@ -53,7 +53,9 @@ fi
 
 cat > Makefile.am << 'END'
 TESTS = all.test
+AM_COLOR_TESTS= no
 END
+
 . tap-setup.sh
 
 cat > all.test <<'END'

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2008-2012 Free Software Foundation, Inc.
+# Copyright (C) 2008-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # AM_COND_IF with an undefined condition should fail.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >>configure.ac <<'END'
 AM_COND_IF([BAD_COND], [AC_CONFIG_FILES([file1])])

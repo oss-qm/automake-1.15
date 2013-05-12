@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 #  - the reasons for TODO and SKIP, if present, are nicely printed in
 #    the testsuite progress output
 
-. ./defs || exit 1
+. test-init.sh
 
 . tap-setup.sh
 

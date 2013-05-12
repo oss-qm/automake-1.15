@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2005-2012 Free Software Foundation, Inc.
+# Copyright (C) 2005-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Calling AM_AUTOMAKE_VERSION by hand is a bug.
 
-. ./defs || exit 1
+. test-init.sh
 
 echo 'AM_AUTOMAKE_VERSION([1.9])' >>configure.ac
 $ACLOCAL 2>stderr && { cat stderr >&2; exit 0; }

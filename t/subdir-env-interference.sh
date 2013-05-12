@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2009-2012 Free Software Foundation, Inc.
+# Copyright (C) 2009-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # SUDBIRS with $fail set in the environment.
 
-. ./defs || exit 1
+. test-init.sh
 
 mkdir sub
 

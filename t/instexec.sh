@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test for this bug: when a Makefile.am builds nothing, no
 # install-exec target is generated.
 
-. ./defs || exit 1
+. test-init.sh
 
 : > Makefile.am
 

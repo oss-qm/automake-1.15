@@ -1,5 +1,5 @@
 ## automake - create Makefile.in from Makefile.am
-## Copyright (C) 1994-2012 Free Software Foundation, Inc.
+## Copyright (C) 1994-2013 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -23,8 +23,12 @@ endif %?INSTALL%
 ## ------------ ##
 
 if %?INSTALL%
+
 am__installdirs += "$(DESTDIR)$(%NDIR%dir)"
-.PHONY install-%EXEC?exec:data%-am: install-%DIR%LTLIBRARIES
+
+?EXEC?.PHONY install-exec-am: install-%DIR%LTLIBRARIES
+?!EXEC?.PHONY install-data-am: install-%DIR%LTLIBRARIES
+
 install-%DIR%LTLIBRARIES: $(%DIR%_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
 if %?BASE%
@@ -89,7 +93,8 @@ uninstall-%DIR%LTLIBRARIES:
 	@$(NORMAL_UNINSTALL)
 	@list='$(%DIR%_LTLIBRARIES)'; test -n "$(%NDIR%dir)" || list=; \
 	for p in $$list; do \
-	  %BASE?$(am__strip_dir):f=$$p;% \
+?BASE?	  $(am__strip_dir) \
+?!BASE?	  f=$$p; \
 ?LIBTOOL?	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(%NDIR%dir)/$$f'"; \
 ?LIBTOOL?	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(%NDIR%dir)/$$f"; \
 ?!LIBTOOL?	  echo " rm -f '$(DESTDIR)$(%NDIR%dir)/$$f'"; \

@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2010-2012 Free Software Foundation, Inc.
+# Copyright (C) 2010-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Check that distributed broken symlinks cause 'make dist' to fail, and
 # to do so with (mostly) meaningful diagnostic.
 
-. ./defs || exit 1
+. test-init.sh
 
 # We need, for our broken symlinks, names that make it hard to get false
 # positives when grepping make output to look for them.

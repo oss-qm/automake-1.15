@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 # related test 'aclocal5.sh'
 
 required=GNUmake
-. ./defs || exit 1
+. test-init.sh
 
 magic1='::MagicString::One::'
 magic2='__MagicString__Two__'

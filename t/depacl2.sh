@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test to make sure dependencies work when required macro is part of
 # autoconf.
 
-. ./defs || exit 1
+. test-init.sh
 
 echo 'AM_FOO' >> configure.ac
 echo 'AC_DEFUN([AM_FOO], [AC_REQUIRE([AC_HEADER_STDC])])' > AM_FOO.m4

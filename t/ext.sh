@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1999-2012 Free Software Foundation, Inc.
+# Copyright (C) 1999-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,18 +16,13 @@
 
 # Test to make sure extensions are set correctly for various languages.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 AC_PROG_F77
 AC_PROG_FC
 AC_PROG_OBJC
-# FIXME: this is to cater to older autoconf; remove this once we
-# FIXME: automake requires Autoconf 2.65 or later.
-m4_ifdef([AC_PROG_OBJCXX], [AC_PROG_OBJCXX], [
-  AC_SUBST([OBJCXX], [whocares])
-  AM_CONDITIONAL([am__fastdepOBJCXX], [whocares])
-])
+AC_PROG_OBJCXX
 AM_PROG_UPC
 END
 

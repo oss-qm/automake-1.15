@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1999-2012 Free Software Foundation, Inc.
+# Copyright (C) 1999-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # We must skip the backslash, not complain about './\' not existing.
 # Reported by Rick Scott <rwscott@omnisig.com>
 
-. ./defs || exit 1
+. test-init.sh
 
 cat > Makefile.am << 'END'
 SUBDIRS = \

@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 # big deal in practice (in fact, this test *currently fails*).  Still,
 # keeping the limitation exposed is a good idea anyway.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac <<'END'
 m4_include([foobar.m4])

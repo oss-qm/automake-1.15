@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2006-2012 Free Software Foundation, Inc.
+# Copyright (C) 2006-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Another test to make sure no-dependencies option does the right thing.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat > Makefile.am << 'END'
 bin_PROGRAMS = foo
@@ -30,12 +30,7 @@ AC_CONFIG_FILES([Makefile])
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_OBJC
-# FIXME: this is to cater to older autoconf; remove this once we
-# FIXME: automake requires Autoconf 2.65 or later.
-m4_ifdef([AC_PROG_OBJCXX], [AC_PROG_OBJCXX], [
-  AC_SUBST([OBJCXX], [whocares])
-  AM_CONDITIONAL([am__fastdepOBJCXX], [whocares])
-])
+AC_PROG_OBJCXX
 AM_PROG_AS
 AM_PROG_GCJ
 AM_PROG_UPC

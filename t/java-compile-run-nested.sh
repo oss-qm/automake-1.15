@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,14 +18,14 @@
 # Also meddle with wrapper scripts, as would be probably seen in a real
 # "UNIX-style" use case.
 # This test uses a typical "nested" source tree setup (i.e., different
-# components/aspects are separated into different subdirectories),
-# and uses the 'parallel-tests' testsuite driver.  The sister test
-# 'java-compile-run-flat.sh' do similar checks with a "flat" setup
-# (i.e., everything in the top-level directory), and forcing the use
-# of the older non-parallel 'simple-tests' driver.
+# components/aspects are separated into different subdirectories), and
+# uses the parallel testsuite driver.
+# The sister test 'java-compile-run-flat.sh' do similar checks with
+# a "flat" setup (i.e., everything in the top-level directory), and
+# forcing the use of the older 'serial-tests' driver.
 
 required='java javac'
-. ./defs || exit 1
+. test-init.sh
 
 echo "AC_SUBST([PATH_SEPARATOR], ['$PATH_SEPARATOR'])" >> configure.ac
 

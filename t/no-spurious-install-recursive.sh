@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2003-2012 Free Software Foundation, Inc.
+# Copyright (C) 2003-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Regression test for install-recursive appearing in a non recursive Makefile.
 # Report from Bruno Haible.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat > Makefile.am << 'END'
 noinst_SCRIPTS = hostname

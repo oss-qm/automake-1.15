@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2003-2012 Free Software Foundation, Inc.
+# Copyright (C) 2003-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Check support for no-dist-gzip with lzma.
 
-. ./defs || exit 1
+. test-init.sh
 
 errmsg='support for lzma.*removed'
 

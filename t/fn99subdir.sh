@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2006-2012 Free Software Foundation, Inc.
+# Copyright (C) 2006-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # PR 507: Check the filename-length-max=99 option
 # in conjunction with AC_CONFIG_SUBDIRS.
 
-. ./defs || exit 1
+. test-init.sh
 
 # The name is so that 99 is exactly hit (including final \0).
 subdirname='cnfsubdir'

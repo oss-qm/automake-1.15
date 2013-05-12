@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2010-2012 Free Software Foundation, Inc.
+# Copyright (C) 2010-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Make sure --help and --version work, even when the current directory
 # contains a broken configure.ac and a broken acinclude.m4.
-. ./defs || exit 1
+. test-init.sh
 
 # Ensure we run in a new, clean directory.
 mkdir cleandir

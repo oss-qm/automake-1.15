@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2001-2012 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Make sure dependency tracking works for java.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 _AM_DEPENDENCIES([GCJ])

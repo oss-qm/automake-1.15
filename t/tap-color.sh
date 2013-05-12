@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 #  - colorization of TAP results and diagnostic messages
 
 required='grep-nonprint'
-. ./defs || exit 1
+. test-init.sh
 
 # Escape '[' for grep, below.
 red="$esc\[0;31m"

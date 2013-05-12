@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1998-2012 Free Software Foundation, Inc.
+# Copyright (C) 1998-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 # idea is that if config.h is in a subdir, and there is no Makefile in
 # that subdir, then we want to build config.h as the top level.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
-AM_CONFIG_HEADER([subdir/config.h])
+AC_CONFIG_HEADERS([subdir/config.h])
 AC_OUTPUT
 END
 

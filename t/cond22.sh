@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2002-2012 Free Software Foundation, Inc.
+# Copyright (C) 2002-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Regression test for bug when sources listed in conditional.
 # Report from Richard Boulton.  PR/326.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 CC=false; AC_SUBST([CC])

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2008-2012 Free Software Foundation, Inc.
+# Copyright (C) 2008-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Build either as CONFIG_FILE or as PROGRAM.
 
 required=cc
-. ./defs || exit 1
+. test-init.sh
 
 mkdir sub
 

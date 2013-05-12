@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 #  - we shouldn't spuriously recognize as TAP result numbers what it
 #    not, even if it seems pretty close
 
-. ./defs || exit 1
+. test-init.sh
 
 . tap-setup.sh
 

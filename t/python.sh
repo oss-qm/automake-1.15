@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2001-2012 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Test to make sure py_compile and am__py_compile are correctly defined.
 
-. ./defs || exit 1
+. test-init.sh
 
 echo 'AM_PATH_PYTHON' >> configure.ac
 

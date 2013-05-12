@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Interaction of 'nobase_' and 'nodist_' prefixes.
 
-. ./defs || exit 1
+. test-init.sh
 
 # Simulate no emacs and no python (it shouldn't be needed in this test).
 EMACS="no" PYTHON=":"; export EMCAS PYTHON

@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2001-2012 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # It is ok to have a conditional SUBDIRS when using gettext.
 
 required=gettext
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 AM_GNU_GETTEXT

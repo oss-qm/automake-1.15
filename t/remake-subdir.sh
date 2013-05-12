@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 # See also the other similar tests 'remake-subdir*.sh', and the
 # related test 'aclocal5.sh'.
 
-. ./defs || exit 1
+. test-init.sh
 
 if using_gmake; then
   remake=$MAKE

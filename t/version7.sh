@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2002-2012 Free Software Foundation, Inc.
+# Copyright (C) 2002-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # changes -- we don't support this feature on non-GNU Makes).
 
 required='makeinfo tex texi2dvi'
-. ./defs || exit 1
+. test-init.sh
 
 cat >configure.ac <<END
 m4_include([version.m4])

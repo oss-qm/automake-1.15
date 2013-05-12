@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test that AC_SUBST($1) does something sensible.  From Ulrich
 # Drepper.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 dnl This test used to have the following lines, which cannot have

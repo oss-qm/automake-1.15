@@ -1,5 +1,5 @@
-    #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+#! /bin/sh
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test the '--destdir' option of the 'py-compile' script,
 
 required=python
-. ./defs || exit 1
+. test-init.sh
 
 cp "$am_scriptdir/py-compile" . \
   || fatal_ "failed to fetch auxiliary script py-compile"

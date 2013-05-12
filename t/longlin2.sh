@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2005-2012 Free Software Foundation, Inc.
+# Copyright (C) 2005-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Long lines should be wrapped.
 # Report from Albert Chin.
 
-. ./defs || exit 1
+. test-init.sh
 
 n=1 files= match=
 while test $n -le 100

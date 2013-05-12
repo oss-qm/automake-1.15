@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2010-2012 Free Software Foundation, Inc.
+# Copyright (C) 2010-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Check that the first among --help and --version to be specified on
 # the command line takes precedence over the following one.
 
-. ./defs || exit 1
+. test-init.sh
 
 # Ensure we run in an empty directory.
 mkdir emptydir

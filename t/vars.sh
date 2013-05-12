@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2001-2012 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test various variable definitions that include an '=' sign.
 # From Raja R Harinath.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat > Makefile.am << 'END'
 MY_FLAGS_1=-DABC=345

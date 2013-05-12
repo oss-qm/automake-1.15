@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2008-2012 Free Software Foundation, Inc.
+# Copyright (C) 2008-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 # This is the python sister test of 'instmany.sh', see there for details.
 
 required='python'
-. ./defs || exit 1
+. test-init.sh
 
 limit=2500
 subdir=long_subdir_name_with_many_characters

@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2001-2012 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test to make sure 'compile' doesn't call 'mv SRC SRC'.
 
 required=gcc
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 AC_PROG_CC
@@ -52,7 +52,8 @@ case " \$* " in
     ;;
 esac
 
-# Use '$CC', not 'gcc', to honour the compiler chosen by 't/defs'.
+# Use '$CC', not 'gcc', to honour the compiler chosen
+# by the testsuite setup.
 exec $CC "\$@"
 END
 

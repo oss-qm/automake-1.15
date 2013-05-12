@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 
 # Check that we are running from a proper directory: last thing we want
 # is to overwrite some random user files.
-test -f ../../automake && test -f ../../defs && test -d ../../t \
+test -f ../../automake && test -f ../../runtest && test -d ../../t \
   || fatal_ "running from a wrong directory"
 
 test ! -f Makefile.am || mv Makefile.am Makefile.am~ \

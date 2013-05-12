@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,13 +15,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Check that auxiliary script 'test-driver' doesn't get needlessly
-# installed or referenced when the 'parallel-tests' option is not
-# used.
+# installed or referenced when the 'serial-tests' option is used.
 
 am_serial_tests=yes
-. ./defs || exit 1
+. test-init.sh
 
-echo 'TESTS = foo.test' > Makefile.am
+cat > Makefile.am <<'END'
+AUTOMAKE_OPTIONS = serial-tests
+TESTS = foo.test
+END
 
 $ACLOCAL
 

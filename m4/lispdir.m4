@@ -3,7 +3,7 @@
 ## From Ulrich Drepper
 ## Almost entirely rewritten by Alexandre Oliva
 ## ------------------------
-# Copyright (C) 1996-2012 Free Software Foundation, Inc.
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -49,5 +49,3 @@ AC_DEFUN([AM_PATH_LISPDIR],
 ])
 AC_SUBST([lispdir])
 ])# AM_PATH_LISPDIR
-
-AU_DEFUN([ud_PATH_LISPDIR], [AM_PATH_LISPDIR])

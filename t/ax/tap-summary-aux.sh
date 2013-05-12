@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Auxiliary script for tests on TAP support: checking testsuite summary.
 
-. ./defs || exit 1
+. test-init.sh
 
 br='============================================================================'
 
@@ -29,7 +29,7 @@ fetch_tap_driver
 
 cat > configure.ac <<END
 AC_INIT([GNU AutoTAP], [5.12], [bug-automake@gnu.org])
-AM_INIT_AUTOMAKE([parallel-tests])
+AM_INIT_AUTOMAKE
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 END
@@ -89,7 +89,6 @@ if test $use_colors = yes; then
   mgn="$esc[0;35m"
   brg="$esc[1m"
   std="$esc[m"
-  echo AUTOMAKE_OPTIONS = color-tests >> Makefile.am
 else
   red= grn= lgn= blu= mgn= brg= std=
 fi

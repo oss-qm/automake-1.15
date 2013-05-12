@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test remake rules when m4 files get moved among different "include
 # dirs" (i.e. those passed to aclocal with '-I' option).
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac <<'END'
 MY_MACRO

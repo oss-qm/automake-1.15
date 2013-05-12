@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2004-2012 Free Software Foundation, Inc.
+# Copyright (C) 2004-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Check for _DEPENDENCIES definition with conditional _LDADD.
 # Report from Elena A. Vengerova.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >>configure.ac <<'EOF'
 AM_CONDITIONAL([TWO], [test -n "$two"])

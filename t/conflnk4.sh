@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2003-2012 Free Software Foundation, Inc.
+# Copyright (C) 2003-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test to make sure links to _identical files_ created by AC_CONFIG_LINKS get
 # removed with 'make distclean' only if doing a VPATH build.
 
-. ./defs || exit 1
+. test-init.sh
 
 mkdir nonmk-subdir sdir sdir/mk-subdir
 : > src

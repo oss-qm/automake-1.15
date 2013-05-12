@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Check that automake complains about unknown warnings.
 
-. ./defs || exit 1
+. test-init.sh
 
 # We want (almost) complete control over automake options.
 AUTOMAKE="$am_original_AUTOMAKE --foreign -Werror"
@@ -34,10 +34,6 @@ END
 $ACLOCAL
 
 AUTOMAKE_fails -Wbazquux
-# FIXME: we could get rid of this once we improve our wrapper scripts.
-sed "s/^automake:/automake-$APIVERSION:/" stderr > t
-mv -f t stderr
-cat stderr >&2
 grep '^configure\.ac:2:.* unknown warning category.*zardoz' stderr
 grep '^Makefile\.am:1:.* unknown warning category.*foobar' stderr
 grep "^automake-$APIVERSION:.* unknown warning category.*bazquux" stderr

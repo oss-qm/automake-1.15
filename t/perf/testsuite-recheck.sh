@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2012 Free Software Foundation, Inc.
+# Copyright (C) 2012-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 # FIXME: performance is too low, and FAIL accordingly; it just offers an
 # FIXME: easy way to verify how effective a performance optimization is.
 
-. ./defs || exit 1
+. test-init.sh
 
 count=5000
 

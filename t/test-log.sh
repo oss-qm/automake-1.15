@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2012 Free Software Foundation, Inc.
+# Copyright (C) 2011-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #  - VERBOSE environment variable support
 # Keep in sync with 'tap-log.sh'.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac <<END
 AC_OUTPUT

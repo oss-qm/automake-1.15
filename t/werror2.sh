@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2004-2012 Free Software Foundation, Inc.
+# Copyright (C) 2004-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 # succeed if make is run a second time immediately afterwards.
 # Report from Harlan Stenn.
 
-. ./defs || exit 1
+. test-init.sh
 
 echo AC_OUTPUT>>configure.ac
 

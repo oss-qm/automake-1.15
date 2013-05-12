@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2001-2012 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # Test to make sure that automake includes the needed variables,
 # but not too many.
 
-. ./defs || exit 1
+. test-init.sh
 
 # Find the macros wanted by Automake.
 $ACLOCAL

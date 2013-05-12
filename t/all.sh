@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1999-2012 Free Software Foundation, Inc.
+# Copyright (C) 1999-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Test to make sure several *-local's in a single rule work.
 
-. ./defs || exit 1
+. test-init.sh
 
 targets='all install-exec install-data uninstall'
 echo "$targets:" | sed -e 's/[ :]/-local&/g' > Makefile.am

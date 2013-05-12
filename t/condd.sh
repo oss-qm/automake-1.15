@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2001-2012 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Test for bug in conditionals.
 
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 dnl Define a macro with the same name as the conditional to exhibit

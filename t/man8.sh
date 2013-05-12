@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2010-2012 Free Software Foundation, Inc.
+# Copyright (C) 2010-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 # Check for a bug in distcheck w.r.t. generated manpages.
 
-. ./defs || exit 1
+. test-init.sh
 
 # Avoid a spurious failure due to a known FreeBSD make incompatibility.
 useless_vpath_rebuild \

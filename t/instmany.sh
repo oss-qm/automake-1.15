@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2008-2012 Free Software Foundation, Inc.
+# Copyright (C) 2008-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 # For texinfos, we expand names using $(srcdir) in the first place.
 # Let's hope nobody uses many texinfos.
 
-. ./defs || exit 1
+. test-init.sh
 
 # In order to have a useful test on modern systems (which have a high
 # limit, if any), use a fake install program that errors out for more

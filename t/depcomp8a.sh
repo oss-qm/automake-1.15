@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2010-2012 Free Software Foundation, Inc.
+# Copyright (C) 2010-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # same thing for libtool objects.
 
 required=cc
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac << 'END'
 AC_PROG_CC
@@ -37,12 +37,15 @@ mkdir sub
 cat > foo.c << 'END'
 int main (void)
 {
-  extern int bar;
-  return bar;
+  extern int bar (void);
+  return bar ();
 }
 END
 cat > sub/bar.c << 'END'
-extern int bar = 0;
+int bar (void)
+{
+  return 0;
+}
 END
 
 $ACLOCAL
@@ -61,8 +64,8 @@ DISTCHECK_CONFIGURE_FLAGS='--enable-dependency-tracking' $MAKE distcheck
 
 # Try again with subdir-objects option.
 
-sed 's/#x //' configure.ac >configure.int
-mv -f configure.int configure.ac
+sed 's/#x //' configure.ac >configure.tmp
+mv -f configure.tmp configure.ac
 echo AUTOMAKE_OPTIONS = subdir-objects >> Makefile.am
 
 $ACLOCAL

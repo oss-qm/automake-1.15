@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2010-2012 Free Software Foundation, Inc.
+# Copyright (C) 2010-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 # This handle the case in which the makefiles are not called 'Makefile'.
 # See also sister test 'remake-all-1.sh'.
 
-. ./defs || exit 1
+. test-init.sh
 
 mkfile=foobar
 

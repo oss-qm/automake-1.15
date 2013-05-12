@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2009-2012 Free Software Foundation, Inc.
+# Copyright (C) 2009-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 # BSD make will expand '$(TESTS:=.log)' to '.log' unless overridden.
 # See 'parallel-tests-trailing-whitespace.sh' for a similar issue.
 
-. ./defs || exit 1
+. test-init.sh
 cat >> configure.ac << 'END'
 AC_OUTPUT
 END

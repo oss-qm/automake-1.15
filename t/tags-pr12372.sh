@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2012 Free Software Foundation, Inc.
+# Copyright (C) 2012-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,11 +18,14 @@
 # extensions.  See automake bug#12372.
 
 required='cc etags'
-. ./defs || exit 1
+. test-init.sh
 
 cat >> configure.ac <<'END'
 AC_PROG_CC
 AC_CONFIG_FILES([sub/Makefile])
+# Fake linking.  Help avoid possible spurious errors from make
+# or from the linker; errors that are irrelevant to this test.
+AC_SUBST([LINK], ['echo $(CCLD) $(CFLAGS) $(LDFLAGS) -o $@'])
 AC_OUTPUT
 END
 
@@ -33,7 +36,6 @@ all-local: tags
 	$(CC) $(DEFS) $(CPPFLAGS) $(CFLAGS) -c $*.c
 	rm -f $*.c
 
-LINK = $(CCLD) $(CFLAGS) $(LDFLAGS) -o $@
 noinst_PROGRAMS = foo
 foo_SOURCES = foo-main.pc barbar.c
 SUBDIRS = sub
@@ -47,7 +49,6 @@ all-local: tags
 	$(CC) $(DEFS) $(CPPFLAGS) $(CFLAGS) -c $*.c
 	rm -f $*.c
 
-LINK = $(CCLD) $(CFLAGS) $(LDFLAGS) -o $@
 noinst_PROGRAMS = zap
 zap_SOURCES = zardoz.pc
 END
