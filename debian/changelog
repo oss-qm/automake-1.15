@@ -1,6 +1,6 @@
 automake1.13 (1:1.13.1-1) unstable; urgency=low
 
-  * New upstream release. Rename everything for 1.13.
+  * New upstream release. Rename everything for 1.13. (Closes: #671004)
   * debian/control: Standards-Version to 3.9.4.
   * debian/compact, debian/control: Upgrade to debhelper v9.
 
