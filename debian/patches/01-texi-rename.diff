@@ -1,7 +1,7 @@
 Index: automake1.13/doc/automake.texi
 ===================================================================
---- automake1.13.orig/doc/automake.texi	2012-02-04 21:24:38.000000000 -0500
-+++ automake1.13/doc/automake.texi	2012-02-05 01:36:25.383241991 -0500
+--- automake1.13.orig/doc/automake.texi	2013-05-12 02:51:11.322104070 -0400
++++ automake1.13/doc/automake.texi	2013-05-12 02:51:11.318104108 -0400
 @@ -1,7 +1,7 @@
  \input texinfo   @c -*-texinfo-*-
  @c %**start of header
@@ -12,7 +12,7 @@ Index: automake1.13/doc/automake.texi
  @setchapternewpage off
  @c %**end of header
  
-@@ -40,13 +40,13 @@
+@@ -38,13 +38,13 @@
  
  @dircategory Software development
  @direntry

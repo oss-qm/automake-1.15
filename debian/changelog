@@ -4,8 +4,9 @@ automake1.13 (1:1.13.1-1) unstable; urgency=low
   * debian/control: Standards-Version to 3.9.4.
   * debian/compact, debian/control: Upgrade to debhelper v9.
   * debian/control: Fix Vcs-Git field URL.
+  * debian/patches/01-texi-rename.diff: Refresh patch.
 
- --
+ -- Eric Dorland <eric@debian.org>  Sun, 12 May 2013 02:52:22 -0400
 
 automake1.12 (1:1.12.6-2) experimental; urgency=low
 
