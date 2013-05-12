@@ -5,6 +5,11 @@ if [ "$1" = "upgrade" ]; then
         dpkg --compare-versions "$2" lt "1:1.12"; then
         update-alternatives --remove automake /usr/bin/automake-1.11
     fi
+    if dpkg --compare-versions "$2" ge "1:1.12" && \
+        dpkg --compare-versions "$2" lt "1:1.13"; then
+        update-alternatives --remove automake /usr/bin/automake-1.12
+    fi
+
 fi
 
 #DEBHELPER#

@@ -1,4 +1,4 @@
-Source: automake1.12
+Source: automake1.13
 Section: devel
 Priority: optional
 Maintainer: Eric Dorland <eric@debian.org>
@@ -8,13 +8,13 @@ Build-Depends-Indep: autoconf (>= 2.62), autopoint,
  autotools-dev (>= 20020320.1), bison, install-info, libtool, python,
  pkg-config, texinfo (>= 4.3), valac
 Homepage: http://www.gnu.org/software/automake/
-Vcs-Git: git://git.debian.org/~eric/automake1.12.git
-Vcs-Browser: http://git.debian.org/?p=users/eric/automake1.12.git
+Vcs-Git: git://git.debian.org/~eric/automake1.13.git
+Vcs-Browser: http://git.debian.org/?p=users/eric/automake1.13.git
 
 Package: automake
 Architecture: all
 Multi-Arch: foreign
-Provides: automaken, automake1.12
+Provides: automaken, automake1.13
 Depends: autoconf (>= 2.62), autotools-dev (>= 20020320.1), ${misc:Depends}
 Conflicts: automake1.6 (<< 1.6.1-4), automake (<< 1:1.4-p5-1), automake1.5 (<< 1.5-2), automake1.10-doc
 Description: Tool for generating GNU Standards-compliant Makefiles
@@ -29,7 +29,7 @@ Description: Tool for generating GNU Standards-compliant Makefiles
  (with rules being thrown in occasionally).  The generated
  `Makefile.in's are compliant with the GNU Makefile standards.
  .
- Automake 1.12 fails to work in a number of situations that Automake
+ Automake 1.13 fails to work in a number of situations that Automake
  1.4, 1.6, 1.7, 1.8, 1.9, 1.10 and 1.11 did, so has been renamed so
  that the previous version can continue to be made available.
 

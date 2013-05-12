@@ -1,7 +1,7 @@
-automake1.12 for Debian
+automake1.13 for Debian
 ----------------------
 
-Automake 1.12 introduces several changes. It is not strictly backwards
+Automake 1.13 introduces several changes. It is not strictly backwards
 compatible with older versions of automake. It must be used in
 conjunction with autoconf 2.62 or greater. Using it with a earlier
 version will generate broken Makefiles. Also, it no longer invokes
