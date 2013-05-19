@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2012-2013 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,30 +14,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Check that any attempt to use the obsolete macro AM_CONFIG_HEADER
-# elicits clear and explicit fatal errors.
+# Check to make sure EXTRA_DIST can contain a directory from $buildir.
+# From Dean Povey.
 
 . test-init.sh
 
-geterr ()
-{
-    "$@" -Wnone 2>stderr && { cat stderr >&2; exit 1; }
-    cat stderr >&2
-    grep "^configure\.ac:4:.*'AM_CONFIG_HEADER'.*obsolete" stderr
-    grep "'AC_CONFIG_HEADERS'.* instead" stderr
-}
+echo AC_OUTPUT >> configure.ac
+
+cat > Makefile.am << 'END'
+EXTRA_DIST=foo
+
+foo:
+	mkdir foo
+	touch foo/bar
+END
 
 $ACLOCAL
-mv aclocal.m4 aclocal.sav
-
-echo AM_CONFIG_HEADER >> configure.ac
-
-geterr $ACLOCAL
-test ! -f aclocal.m4
-
-cat aclocal.sav "$am_automake_acdir"/obsolete-err.m4 > aclocal.m4
-
-geterr $AUTOCONF
-geterr $AUTOMAKE
+$AUTOMAKE
+$AUTOCONF
+mkdir build
+cd build
+../configure
+$MAKE distdir
 
 :

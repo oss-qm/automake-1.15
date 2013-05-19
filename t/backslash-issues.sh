@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2002-2013 Free Software Foundation, Inc.
+# Copyright (C) 1996-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,42 +14,34 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Check to make sure EXTRA_DIST can contain a directory or
-# a subdirectory, in $(builddir) or $(srcdir).
+# Test for "\" problems.
+# TODO: might be nice to convert this to TAP...
 
 . test-init.sh
 
-echo AC_OUTPUT >> configure.ac
-
-cat > Makefile.am << 'END'
-EXTRA_DIST=foo/bar baz foo2/bar2 baz2
-
-check: distdir
-	test -f $(distdir)/foo/bar/baz
-	test -f $(distdir)/baz/foo
-	test -f $(distdir)/foo2/bar2/baz2
-	test -f $(distdir)/baz2/foo2
-END
-
-# Create some files in $(srcdir)
-mkdir foo
-mkdir foo/bar
-touch foo/bar/baz
-mkdir baz
-touch baz/foo
-
+echo AC_PROG_CC >> configure.ac
 $ACLOCAL
+
+# Bug report from Joerg-Martin Schwarz.
+cat > Makefile.am << 'END'
+bin_PROGRAMS = \
+   frob
+END
 $AUTOMAKE
-$AUTOCONF
-mkdir build
-cd build
-../configure
+grep '^_SOURCE' Makefile.in && exit 1
 
-# Create some files in $(builddir)
-mkdir foo2
-mkdir foo2/bar2
-touch foo2/bar2/baz2
-mkdir baz2
-touch baz2/foo2
+# We must skip the backslash, not complain about './\' not existing.
+# Reported by Rick Scott <rwscott@omnisig.com>
+cat > Makefile.am << 'END'
+SUBDIRS = \
+   .
+END
+$AUTOMAKE
 
-$MAKE check
+# Make sure we diagnose trailing backslash at the end of a file.
+# Report from Akim Demaile <akim@epita.fr>.
+echo 'foo = \' > Makefile.am
+AUTOMAKE_fails
+grep 'trailing backslash' stderr
+
+:
