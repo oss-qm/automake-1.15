@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2012-2013 Free Software Foundation, Inc.
+# Copyright (C) 1998-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,30 +14,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Check that any attempt to use the obsolete macro AM_CONFIG_HEADER
-# elicits clear and explicit fatal errors.
+# Checks on the obsolete EXTRA_DATA variable.
 
 . test-init.sh
 
-geterr ()
-{
-    "$@" -Wnone 2>stderr && { cat stderr >&2; exit 1; }
-    cat stderr >&2
-    grep "^configure\.ac:4:.*'AM_PROG_CC_STDC'.*obsolete" stderr
-    grep "'AC_PROG_CC'.* instead" stderr
-}
+echo 'AC_SUBST([CODICIL])' >> configure.ac
 
 $ACLOCAL
-mv aclocal.m4 aclocal.sav
 
-echo AM_PROG_CC_STDC >> configure.ac
+# EXTRA_DATA is not required ....
+echo sysconf_DATA = @CODICIL@ > Makefile.am
+$AUTOMAKE
 
-geterr $ACLOCAL
-test ! -f aclocal.m4
-
-cat aclocal.sav "$am_automake_acdir"/obsolete-err.m4 > aclocal.m4
-
-geterr $AUTOCONF
-geterr $AUTOMAKE
+# ... but it can nonetheless be specified.
+echo EXTRA_DATA = codicil.txt >> Makefile.am
+$AUTOMAKE
 
 :

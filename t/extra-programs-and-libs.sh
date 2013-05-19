@@ -1,5 +1,5 @@
-#! /bin/sh
-# Copyright (C) 1998-2013 Free Software Foundation, Inc.
+#!/bin/sh
+# Copyright (C) 2009-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,15 +14,30 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Check to make sure EXTRA_DATA not required.
+# Ensure we warn about substitutions in bin_PROGRAMS if EXTRA_PROGRAMS
+# are missing; but only if the former is not AC_SUBSTed itself
+# (lib_LIBRARIES is in the same boat here).
 
 . test-init.sh
 
-echo 'AC_SUBST(CODICIL)' >> configure.ac
-
-cat > Makefile.am << 'END'
-sysconf_DATA = @CODICIL@
+cat >>configure.ac <<'END'
+AC_PROG_CC
+AM_PROG_AR
+AC_PROG_RANLIB
+AC_SUBST([lib_LIBRARIES])
+AC_SUBST([bins])
+AC_OUTPUT
 END
 
+cat >Makefile.am <<'END'
+bin_PROGRAMS = @bins@
+END
+
+: > ar-lib
+
 $ACLOCAL
-$AUTOMAKE
+AUTOMAKE_fails
+grep 'bin_PROGRAMS.*contains configure substitution' stderr
+grep 'lib_LIBRARIES.*contains configure substitution' stderr && exit 1
+
+:

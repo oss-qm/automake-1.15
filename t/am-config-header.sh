@@ -1,5 +1,5 @@
-#!/bin/sh
-# Copyright (C) 2009-2013 Free Software Foundation, Inc.
+#! /bin/sh
+# Copyright (C) 2012-2013 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,30 +14,37 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Ensure we warn about substitutions in bin_PROGRAMS if EXTRA_PROGRAMS
-# are missing; but only if the former is not AC_SUBSTed itself
-# (lib_LIBRARIES is in the same boat here).
+# Check that the obsolete macro AM_CONFIG_HEADER still works.
 
 . test-init.sh
 
-cat >>configure.ac <<'END'
-AC_PROG_CC
-AM_PROG_AR
-AC_PROG_RANLIB
-AC_SUBST([lib_LIBRARIES])
-AC_SUBST([bins])
+cat > Makefile.am <<'END'
+check-local:
+	test -f oldconf.h
+	test -f $(srcdir)/oldconf.in
+END
+
+cat >> configure.ac <<'END'
+AM_CONFIG_HEADER([oldconf.h:oldconf.in])
 AC_OUTPUT
 END
 
-cat >Makefile.am <<'END'
-bin_PROGRAMS = @bins@
-END
+$ACLOCAL -Wno-obsolete
 
-: > ar-lib
+$AUTOCONF -Werror -Wall 2>stderr && { cat stderr >&2; exit 1; }
+cat stderr >&2
+grep "^configure\.ac:4:.*'AM_CONFIG_HEADER'.*obsolete" stderr
+grep "'AC_CONFIG_HEADERS'.* instead" stderr
 
-$ACLOCAL
-AUTOMAKE_fails
-grep 'bin_PROGRAMS.*contains configure substitution' stderr
-grep 'lib_LIBRARIES.*contains configure substitution' stderr && exit 1
+$AUTOCONF -Werror -Wall -Wno-obsolete
 
-exit 0
+$AUTOHEADER
+test -f oldconf.in
+
+$AUTOMAKE
+
+./configure
+$MAKE check-local
+$MAKE distcheck
+
+:
