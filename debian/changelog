@@ -7,6 +7,7 @@ automake1.13 (1:1.13.3-1) unstable; urgency=low
   * debian/control: Fix description to specify that older versions are
     available as separate packages. Thanks Vincent Lefevre. (Closes:
     #438877)
+  * debian/control: Up dependency on autoconf to 2.65 and texinfo to 4.9.
 
  --
 
