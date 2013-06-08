@@ -1,0 +1,12 @@
+diff --git a/t/list-of-tests.mk b/t/list-of-tests.mk
+index fb2e444..f827115 100644
+--- a/t/list-of-tests.mk
++++ b/t/list-of-tests.mk
+@@ -41,6 +41,7 @@ t/remake-timing-bug-pr8365.sh \
+ t/lex-subobj-nodep.sh \
+ t/remake-am-pr10111.sh \
+ t/remake-m4-pr10111.sh \
++t/tap-realtime.sh \
+ $(perl_fake_XFAIL_TESTS)
+ 
+ perl_TESTS = \
