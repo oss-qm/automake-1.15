@@ -4,6 +4,9 @@ automake1.13 (1:1.13.3-1) unstable; urgency=low
   * debian/watch: Watch the xz file instead of gz.
   * debian/control: Add a lot of build-depends for the test suite. Thanks
     Daniel Schepler. (Closes: #711241)
+  * debian/control: Fix description to specify that older versions are
+    available as separate packages. Thanks Vincent Lefevre. (Closes:
+    #438877)
 
  --
 
