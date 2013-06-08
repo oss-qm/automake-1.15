@@ -10,6 +10,8 @@ automake1.13 (1:1.13.3-1) unstable; urgency=low
   * debian/control: Up dependency on autoconf to 2.65 and texinfo to 4.9.
   * debian/control: Build-Depend on libglib2.0-dev for vala. See
     http://bugs.debian.org/696298. Thanks Colin Watson. (Closes: #710714)
+  * Add Build-Conflicts-Indep against expect for now, since it causes
+    t/tap-realtime.sh to fail.
 
  -- Eric Dorland <eric@debian.org>  Sat, 08 Jun 2013 03:22:55 -0400
 
