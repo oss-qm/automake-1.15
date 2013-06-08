@@ -2,6 +2,8 @@ automake1.13 (1:1.13.3-1) unstable; urgency=low
 
   * New upstream release.
   * debian/watch: Watch the xz file instead of gz.
+  * debian/control: Add a lot of build-depends for the test suite. Thanks
+    Daniel Schepler. (Closes: #711241)
 
  --
 

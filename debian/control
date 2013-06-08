@@ -4,9 +4,14 @@ Priority: optional
 Maintainer: Eric Dorland <eric@debian.org>
 Standards-Version: 3.9.4
 Build-Depends: debhelper (>= 9)
-Build-Depends-Indep: autoconf (>= 2.62), autopoint, 
- autotools-dev (>= 20020320.1), bison, install-info, libtool, python,
- pkg-config, texinfo (>= 4.3), valac
+Build-Depends-Indep: autoconf (>= 2.62), autotools-dev (>= 20020320.1),
+ install-info,
+# Used in tests
+ autopoint, bison, cscope, dejagnu, emacs, expect, flex, gcj-jdk,
+ gobjc, gobjc++, gfortran, help2man, libtool, lzip, ncompress,
+ openjdk-7-jdk, python, python-docutils, python-docutils,
+ python-virtualenv, pkg-config, sharutils, texlive, texinfo (>= 4.3),
+ valac, xutils-dev, zip
 Homepage: http://www.gnu.org/software/automake/
 Vcs-Git: git://anonscm.debian.org/users/eric/automake1.13.git
 Vcs-Browser: http://git.debian.org/?p=users/eric/automake1.13.git
