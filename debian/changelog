@@ -1,6 +1,7 @@
 automake1.13 (1:1.13.3-1) unstable; urgency=low
 
   * New upstream release.
+  * debian/watch: Watch the xz file instead of gz.
 
  --
 
