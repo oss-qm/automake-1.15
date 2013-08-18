@@ -17,5 +17,5 @@ override_dh_auto_install:
 	cd $(infodir) && makeinfo automake.texi
 
 override_dh_auto_clean:
-	dh_auto_clean
+	[ -f Makefile ] && dh_auto_clean || true
 	rm -f $(infodir)/automake-$(version).info*
