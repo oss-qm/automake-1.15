@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 package=automake
-version=1.13
+version=1.14
 infodir=doc
 
 %:

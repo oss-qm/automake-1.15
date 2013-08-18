@@ -1,14 +1,14 @@
-Index: automake1.13/doc/automake.texi
+Index: automake-1.14/doc/automake.texi
 ===================================================================
---- automake1.13.orig/doc/automake.texi	2013-05-12 02:51:11.322104070 -0400
-+++ automake1.13/doc/automake.texi	2013-05-12 02:51:11.318104108 -0400
+--- automake-1.14.orig/doc/automake.texi	2013-05-12 02:51:11.322104070 -0400
++++ automake-1.14/doc/automake.texi	2013-05-12 02:51:11.318104108 -0400
 @@ -1,7 +1,7 @@
  \input texinfo   @c -*-texinfo-*-
  @c %**start of header
 -@setfilename automake.info
 -@settitle automake
-+@setfilename automake-1.13.info
-+@settitle automake-1.13
++@setfilename automake-1.14.info
++@settitle automake-1.14
  @setchapternewpage off
  @c %**end of header
  
@@ -17,15 +17,15 @@ Index: automake1.13/doc/automake.texi
  @dircategory Software development
  @direntry
 -* Automake: (automake).         Making GNU standards-compliant Makefiles.
-+* Automake: (automake-1.13).         Making GNU standards-compliant Makefiles.
++* Automake: (automake-1.14).         Making GNU standards-compliant Makefiles.
  @end direntry
  
  @dircategory Individual utilities
  @direntry
 -* aclocal-invocation: (automake)aclocal Invocation.   Generating aclocal.m4.
 -* automake-invocation: (automake)automake Invocation. Generating Makefile.in.
-+* aclocal-invocation: (automake-1.13)aclocal Invocation.  Generating aclocal.m4.
-+* automake-invocation: (automake-1.13)automake Invocation. Generating Makefile.in.
++* aclocal-invocation: (automake-1.14)aclocal Invocation.  Generating aclocal.m4.
++* automake-invocation: (automake-1.14)automake Invocation. Generating Makefile.in.
  @end direntry
  
  @titlepage
