@@ -11,7 +11,7 @@ Build-Depends-Indep: autoconf (>= 2.65), autotools-dev (>= 20020320.1),
  gobjc, gobjc++, gfortran, help2man, libglib2.0-dev, libtool, lzip,
  ncompress, openjdk-7-jdk, python, python-docutils, python-docutils,
  python-virtualenv, pkg-config, sharutils, texlive, texinfo (>= 4.9),
- valac, xutils-dev, zip
+ unzip, valac, xutils-dev, zip
 Homepage: http://www.gnu.org/software/automake/
 Vcs-Git: git://anonscm.debian.org/users/eric/automake-1.14.git
 Vcs-Browser: http://git.debian.org/?p=users/eric/automake-1.14.git

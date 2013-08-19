@@ -2,6 +2,8 @@ automake-1.14 (1:1.14-1) unstable; urgency=low
 
   * New upstream release.
   * Rename files for automake-1.14.
+  * Add unzip as a build dependency as it seems to be needed by
+    t/dist-formats.tap.
 
  -- Eric Dorland <eric@debian.org>  Sun, 18 Aug 2013 02:18:11 -0400
 
