@@ -4,8 +4,10 @@ automake-1.14 (1:1.14-2) unstable; urgency=low
     failure due to hash ordering changes in perl 5.18+. (Closes: #725431)
   * debian/control: Remove duplicate build depends on python-docutils.
   * debian/control: Canonicalize Vcs-Browser field.
+  * debian/automake.postinst, debian/automake.preinst,
+    debian/automake.prerm: Use set -e instead of -e on the hash bang line.
 
- --
+ -- Eric Dorland <eric@debian.org>  Sat, 02 Nov 2013 16:47:43 -0400
 
 automake-1.14 (1:1.14-1) unstable; urgency=low
 

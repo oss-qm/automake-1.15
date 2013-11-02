@@ -1,4 +1,6 @@
-#!/bin/sh -e
+#!/bin/sh
+
+set -e
 
 if [ "$1" = "upgrade" ]; then
     if dpkg --compare-versions "$2" ge "1:1.11" && \
