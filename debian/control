@@ -14,7 +14,7 @@ Build-Depends-Indep: autoconf (>= 2.65), autotools-dev (>= 20020320.1),
  xutils-dev, zip
 Homepage: http://www.gnu.org/software/automake/
 Vcs-Git: git://anonscm.debian.org/users/eric/automake-1.14.git
-Vcs-Browser: http://git.debian.org/?p=users/eric/automake-1.14.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=users/eric/automake-1.14.git
 
 Package: automake
 Architecture: all
