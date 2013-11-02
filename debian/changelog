@@ -2,6 +2,7 @@ automake-1.14 (1:1.14-2) unstable; urgency=low
 
   * debian/patches/03-hash-order-workaround.diff: Add workaround for
     failure due to hash ordering changes in perl 5.18+. (Closes: #725431)
+  * debian/control: Remove duplicate build depends on python-docutils.
 
  --
 
