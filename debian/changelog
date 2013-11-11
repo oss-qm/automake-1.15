@@ -1,3 +1,10 @@
+automake-1.14 (1:1.14-3) unstable; urgency=low
+
+  * debian/patches/04-full-hash-order-fix.diff: Better patch to fix
+    problems with new perl hash ordering.
+
+ -- Eric Dorland <eric@debian.org>  Mon, 11 Nov 2013 16:30:35 -0500
+
 automake-1.14 (1:1.14-2) unstable; urgency=low
 
   * debian/patches/03-hash-order-workaround.diff: Add workaround for
