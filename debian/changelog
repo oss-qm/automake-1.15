@@ -4,6 +4,8 @@ automake-1.14 (1:1.14.1-1) unstable; urgency=low
   * debian/patches/03-hash-order-workaround.diff,
     debian/patches/04-full-hash-order-fix.diff: Remove now unecessary
     patches.
+  * debian/patches/02-disable-tap-realtime-test.diff: Drop, test no longer
+    exits.
 
  -- Eric Dorland <eric@debian.org>  Thu, 26 Dec 2013 01:03:29 -0500
 
