@@ -1,6 +1,8 @@
 automake-1.14 (1:1.14.1-2) unstable; urgency=low
 
   * Bump Standards-Version to 3.9.5.
+  * debian/watch, debian/upstream-signing-key.gpg: Add upstream signing
+    key verification.
 
  --
 
