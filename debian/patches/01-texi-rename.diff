@@ -1,3 +1,7 @@
+From: Eric Dorland <eric@debian.org>
+Subject: texi file rename for multiple automake versions
+Last-Update: 2013-08-18
+
 Index: automake-1.14/doc/automake.texi
 ===================================================================
 --- automake-1.14.orig/doc/automake.texi	2013-05-12 02:51:11.322104070 -0400
