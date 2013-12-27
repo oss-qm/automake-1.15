@@ -4,6 +4,8 @@ automake-1.14 (1:1.14.1-2) unstable; urgency=low
   * debian/watch, debian/upstream-signing-key.gpg: Add upstream signing
     key verification.
   * debian/01-texi-rename.diff: Add DEP3 headers.
+  * debian/automake.lintian-overrides: Add override for intentional empty
+    directory.
 
  --
 
