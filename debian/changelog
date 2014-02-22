@@ -4,8 +4,10 @@ automake-1.14 (1:1.14.1-3) unstable; urgency=low
     give it the correct extension and better location.
   * debian/rules: Allow bootstraping package without texinfo. Thanks
     Daniel Schepler. (Closes: #737937)
+  * debian/patches/02-init-m4-newline.diff: Patch from Hilko Bengen to
+    force a newline at the end of AM_INIT_AUTOMAKE. (Closes: #738716)
 
- --
+ -- Eric Dorland <eric@debian.org>  Sat, 22 Feb 2014 02:49:15 -0500
 
 automake-1.14 (1:1.14.1-2) unstable; urgency=low
 
