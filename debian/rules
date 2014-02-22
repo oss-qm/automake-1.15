@@ -7,14 +7,25 @@ infodir=doc
 %:
 	dh $@
 
+ifeq ($(DEB_BUILD_PROFILE),stage1)
+MAKEINFO=true
+export MAKEINFO
+
+override_dh_auto_build:
+	touch doc/automake.info
+	dh_auto_build
+endif
+
 override_dh_auto_install:
 	dh_auto_install --destdir=$(CURDIR)/debian/tmp
 #  remove automake's versions
 	rm -f $(CURDIR)/debian/tmp/usr/share/automake-$(version)/config.sub
 	rm -f \
 		$(CURDIR)/debian/tmp/usr/share/automake-$(version)/config.guess
+ifneq ($(DEB_BUILD_PROFILE),stage1)
 # Rebuild the info files                                                       
 	cd $(infodir) && makeinfo automake.texi
+endif
 
 override_dh_auto_clean:
 	[ -f Makefile ] && dh_auto_clean || true
