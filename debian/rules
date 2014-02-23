@@ -10,11 +10,14 @@ infodir=doc
 ifeq ($(DEB_BUILD_PROFILE),stage1)
 MAKEINFO=true
 export MAKEINFO
+endif
 
 override_dh_auto_build:
+ifeq ($(DEB_BUILD_PROFILE),stage1)
 	touch doc/automake.info
-	dh_auto_build
 endif
+	touch aclocal.m4 Makefile.in  # Needed by 02-init-m4-newline.diff
+	dh_auto_build
 
 override_dh_auto_install:
 	dh_auto_install --destdir=$(CURDIR)/debian/tmp
