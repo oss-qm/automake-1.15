@@ -26,34 +26,11 @@ I happened to notice while writing this patch.
 
 Signed-off-by: Stefano Lattarini <stefano.lattarini@gmail.com>
 ---
-diff --git a/NEWS b/NEWS
-index eb88c17..b008a01 100644
---- a/NEWS
-+++ b/NEWS
-@@ -97,7 +97,7 @@ New in 1.15:
-     extra useless "make all" recursive invocation in some corner cases
-     (automake bug#16302).
- 
--* Bug fixes:
-+* Bugs fixed:
- 
-   - The user can now extend the special .PRECIOUS target, the same way
-     he could already do with the .MAKE .and .PHONY targets.
-@@ -105,6 +105,9 @@ New in 1.15:
-   - Fixed confusing typos in the manual and in some warning messages
-     (automake bug#16827 and bug#16997).
- 
-+  - We no longer risk to use '$ac_aux_dir' before it's defined.  See
-+    automake bug#15981.
-+
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- New in 1.14.1:
-diff --git a/THANKS b/THANKS
-index 550b565..eef67c3 100644
---- a/THANKS
-+++ b/THANKS
-@@ -317,6 +317,7 @@ Per Oyvind Hvidsten             poeh@enter.vg
+Index: automake-1.14/THANKS
+===================================================================
+--- automake-1.14.orig/THANKS	2014-10-26 21:58:35.543387044 -0400
++++ automake-1.14/THANKS	2014-10-26 21:58:35.491387561 -0400
+@@ -315,6 +315,7 @@
  Peter Breitenlohner             peb@mppmu.mpg.de
  Peter Eisentraut                peter_e@gmx.net
  Peter Gavin                     pgavin@debaser.kicks-ass.org
@@ -61,11 +38,11 @@ index 550b565..eef67c3 100644
  Peter Johansson                 trojkan@gmail.com
  Peter Mattis                    petm@scam.XCF.Berkeley.EDU
  Peter Muir                      iyhi@yahoo.com
-diff --git a/bin/automake.in b/bin/automake.in
-index 996a9de..f9cc611 100644
---- a/bin/automake.in
-+++ b/bin/automake.in
-@@ -313,7 +313,7 @@ my $seen_ar = 0;
+Index: automake-1.14/bin/automake.in
+===================================================================
+--- automake-1.14.orig/bin/automake.in	2014-10-26 21:58:35.543387044 -0400
++++ automake-1.14/bin/automake.in	2014-10-26 21:58:35.491387561 -0400
+@@ -313,7 +313,7 @@
  # Location of AC_REQUIRE_AUX_FILE calls, indexed by their argument.
  my %required_aux_file = ();
  
@@ -74,10 +51,10 @@ index 996a9de..f9cc611 100644
  my $seen_init_automake = 0;
  
  # TRUE if we've seen AM_AUTOMAKE_VERSION.
-diff --git a/m4/auxdir.m4 b/m4/auxdir.m4
-index 1f8614d..93fc225 100644
---- a/m4/auxdir.m4
-+++ b/m4/auxdir.m4
+Index: automake-1.14/m4/auxdir.m4
+===================================================================
+--- automake-1.14.orig/m4/auxdir.m4	2014-10-26 21:58:35.543387044 -0400
++++ automake-1.14/m4/auxdir.m4	2014-10-26 21:58:35.491387561 -0400
 @@ -45,8 +45,7 @@
  # configured tree to be moved without reconfiguration.
  
@@ -90,11 +67,10 @@ index 1f8614d..93fc225 100644
 +# Expand $ac_aux_dir to an absolute path.
 +am_aux_dir=`cd "$ac_aux_dir" && pwd`
  ])
-diff --git a/t/auxdir-cc-pr15981.sh b/t/auxdir-cc-pr15981.sh
-new file mode 100644
-index 0000000..74157cb
---- a/dev/null
-+++ b/t/auxdir-cc-pr15981.sh
+Index: automake-1.14/t/auxdir-cc-pr15981.sh
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ automake-1.14/t/auxdir-cc-pr15981.sh	2014-10-26 21:58:35.491387561 -0400
 @@ -0,0 +1,57 @@
 +#! /bin/sh
 +# Copyright (C) 2014 Free Software Foundation, Inc.
@@ -153,11 +129,10 @@ index 0000000..74157cb
 +$MAKE test
 +
 +:
-diff --git a/t/auxdir-pr15981.sh b/t/auxdir-pr15981.sh
-new file mode 100644
-index 0000000..f09d551
---- a/dev/null
-+++ b/t/auxdir-pr15981.sh
+Index: automake-1.14/t/auxdir-pr15981.sh
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ automake-1.14/t/auxdir-pr15981.sh	2014-10-26 21:58:35.491387561 -0400
 @@ -0,0 +1,39 @@
 +#! /bin/sh
 +# Copyright (C) 2014 Free Software Foundation, Inc.
@@ -198,11 +173,11 @@ index 0000000..f09d551
 +./configure
 +
 +:
-diff --git a/t/list-of-tests.mk b/t/list-of-tests.mk
-index 6b2eebe..e6ee856 100644
---- a/t/list-of-tests.mk
-+++ b/t/list-of-tests.mk
-@@ -116,6 +116,8 @@ t/aclocal-scan-configure-ac-pr319.sh \
+Index: automake-1.14/t/list-of-tests.mk
+===================================================================
+--- automake-1.14.orig/t/list-of-tests.mk	2014-10-26 21:58:35.543387044 -0400
++++ automake-1.14/t/list-of-tests.mk	2014-10-26 21:58:35.491387561 -0400
+@@ -116,6 +116,8 @@
  t/aclocal-serial.sh \
  t/aclocal-underquoted-defun.sh \
  t/aclocal-verbose-install.sh \
@@ -211,5 +186,3 @@ index 6b2eebe..e6ee856 100644
  t/ac-output-old.tap \
  t/acsilent.sh \
  t/acsubst.sh \
---
-cgit v0.9.0.2
