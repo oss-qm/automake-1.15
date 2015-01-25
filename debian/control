@@ -44,6 +44,7 @@ Architecture: all
 Multi-Arch: foreign
 Provides: automake-1.14, automaken
 Depends: autoconf (>= 2.65), autotools-dev (>= 20020320.1), ${misc:Depends}
+Suggests: autoconf-doc, gnu-standards
 Conflicts: automake (<< 1:1.4-p5-1),
            automake1.10-doc,
            automake1.5 (<< 1.5-2),

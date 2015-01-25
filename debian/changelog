@@ -1,3 +1,10 @@
+automake-1.14 (1:1.14.1-5) unstable; urgency=medium
+
+  * debian/control: Add Suggests on autoconf-doc and gnu-standards that
+    automake info doc references. (Closes: #401936)
+
+ --
+
 automake-1.14 (1:1.14.1-4) unstable; urgency=medium
 
   * debian/patches/03-ensure-ac_aux_dir-set.diff: Add patch to ensure
