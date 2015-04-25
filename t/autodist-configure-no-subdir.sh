@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2015 Free Software Foundation, Inc.
+# Copyright (C) 2011-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,8 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Check that 'configure' and 'configure.ac' are *not* automatically
-# distributed when placed in a subdirectory.
+# Check that 'configure', 'configure.ac' and 'configure.in' are *not*
+# automatically distributed when placed in a subdirectory.
 # Related to automake bug#7819.
 
 . test-init.sh
@@ -32,9 +32,12 @@ sub/configure:
 	$(dontbuild)
 sub/configure.ac:
 	$(dontbuild)
+sub/configure.in:
+	$(dontbuild)
 check-local: distdir
 	ls -l $(distdir)/sub
 	test ! -f $(distdir)/sub/configure
+	test ! -f $(distdir)/sub/configure.in
 	test ! -f $(distdir)/sub/configure.ac
 END
 
@@ -46,12 +49,15 @@ configure:
 	$(dontbuild)
 configure.ac:
 	$(dontbuild)
+configure.in:
+	$(dontbuild)
 check-local:
 	echo $(DISTFILES) | grep 'configure' && exit 1; :
 	echo $(DIST_COMMON) | grep 'configure' && exit 1; :
 END
 
 : > sub/configure.ac
+: > sub/configure.in
 : > sub/configure
 
 $ACLOCAL

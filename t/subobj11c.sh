@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2010-2015 Free Software Foundation, Inc.
+# Copyright (C) 2010-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,6 +43,6 @@ $AUTOMAKE -a
 #
 # FIXME: Are we sure this is the most sensible output in our situation?
 #
-grep 'am__depfiles_remade =.* //\$(DEPDIR)/zardoz\.Po' Makefile.in
+grep '^[^/]*am__include[^/]*//\$(DEPDIR)/zardoz\.[^/]*$' Makefile.in
 
 :

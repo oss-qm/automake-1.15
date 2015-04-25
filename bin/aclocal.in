@@ -7,7 +7,7 @@ eval 'case $# in 0) exec @PERL@ -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
 
 # aclocal - create aclocal.m4 by scanning configure.ac
 
-# Copyright (C) 1996-2015 Free Software Foundation, Inc.
+# Copyright (C) 1996-2014 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ use strict;
 
 use Automake::Config;
 use Automake::General;
+use Automake::Configure_ac;
 use Automake::Channels;
 use Automake::ChannelDefs;
 use Automake::XFile;
@@ -80,9 +81,8 @@ my @diff_command;
 # --dry-run
 my $dry_run = 0;
 
-# Name of the Autoconf input file.  We used to support 'configure.in'
-# as well once, that that is long obsolete now.
-my $configure_ac = 'configure.ac';
+# configure.ac or configure.in.
+my $configure_ac;
 
 # Output file name.
 my $output_file = 'aclocal.m4';
@@ -431,8 +431,8 @@ sub scan_m4_files ()
                     SCAN_M4_DIRS_ERROR,
 		    @user_includes[1..$#user_includes]);
     }
-  scan_m4_dirs (FT_SYSTEM, SCAN_M4_DIRS_ERROR, @system_includes);
   scan_m4_dirs (FT_AUTOMAKE, SCAN_M4_DIRS_ERROR, @automake_includes);
+  scan_m4_dirs (FT_SYSTEM, SCAN_M4_DIRS_ERROR, @system_includes);
 
   # Construct a new function that does the searching.  We use a
   # function (instead of just evaluating $search in the loop) so that
@@ -1015,7 +1015,7 @@ sub usage ($)
   print <<'EOF';
 Usage: aclocal [OPTION]...
 
-Generate 'aclocal.m4' by scanning 'configure.ac'
+Generate 'aclocal.m4' by scanning 'configure.ac' or 'configure.in'
 
 Options:
       --automake-acdir=DIR  directory holding automake-provided m4 files
@@ -1150,8 +1150,7 @@ sub parse_ACLOCAL_PATH ()
 parse_WARNINGS;		    # Parse the WARNINGS environment variable.
 parse_arguments;
 parse_ACLOCAL_PATH;
-
-fatal "$configure_ac is required" unless -f $configure_ac;
+$configure_ac = require_configure_ac;
 
 # We may have to rerun aclocal if some file have been installed, but
 # it should not happen more than once.  The reason we must run again

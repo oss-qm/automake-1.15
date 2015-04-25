@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2015 Free Software Foundation, Inc.
+# Copyright (C) 2011-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,11 +22,16 @@
 # We want (almost) complete control over automake options.
 AUTOMAKE="$am_original_AUTOMAKE --foreign -Werror"
 
-echo ACLOCAL_AMFLAGS = > Makefile.am
+echo AC_PROG_CC >> configure.ac
+
+cat > Makefile.am <<'END'
+bin_PROGRAMS = foo
+INCLUDES = -Ibar
+END
 
 $ACLOCAL
 AUTOMAKE_fails
-grep '^Makefile\.am:1:.*ACLOCAL_AMFLAGS.*deprecated' stderr
+grep '^Makefile\.am:2:.*INCLUDES.*AM_CPPFLAGS' stderr
 
 # Check that we can override warnings about obsolete stuff.
 $AUTOMAKE -Wno-obsolete

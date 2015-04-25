@@ -1,6 +1,6 @@
 # Maintainer makefile rules for Automake.
 #
-# Copyright (C) 1995-2015 Free Software Foundation, Inc.
+# Copyright (C) 1995-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -417,7 +417,7 @@ web-manual-update:
 	     exit 1;; \
 	esac
 	$(AM_V_at)test -f $(web_manual_dir)/$(PACKAGE).html || { \
-	  echo 'You have to run "$(MAKE) web-manual" before' \
+	  echo 'You have to run "$(MAKE) web-manuals" before' \
 	       'invoking "$(MAKE) $@"' >&2; \
 	  exit 1; \
 	}

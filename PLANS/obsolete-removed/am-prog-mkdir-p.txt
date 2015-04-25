@@ -1,15 +1,5 @@
-We have dropped any plan to remove the obsolescent macro AM_PROG_MKDIR_P,
-(today just an alias for the Autoconf-provided macro AC_PROG_MKDIR_P), as
-well as the related $(mkdir_p) make variable and the @mkdir_p@ configure
-substitution.
-
-That planned removal has already proven source of countless headaches and
-backward-compatibility issues, which vastly outweigh any "clean-up benefit"
-we would get from the removal of that obsolescent but unobtrusive cruft.
-
--*-*-*-
-
-Let's see a bit of history.
+The macro AM_PROG_MKDIR_P is no longer going to be removed from Automake.
+Let's see a bit of history to understand why.
 
 I had already scheduled the removal of the long-deprecated AM_PROG_MKDR_P
 macro (superseded by the Autoconf-provided one AC_PROG_MKDIR_P) for

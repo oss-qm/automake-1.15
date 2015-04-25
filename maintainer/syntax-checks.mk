@@ -1,6 +1,6 @@
 # Maintainer checks for Automake.  Requires GNU make.
 
-# Copyright (C) 2012-2015 Free Software Foundation, Inc.
+# Copyright (C) 2012-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -103,10 +103,10 @@ sc_sanity_gnu_grep:
 $(syntax_check_rules): sc_sanity_gnu_grep
 
 # These check avoids accidental configure substitutions in the source.
-# There are exactly 7 lines that should be modified from automake.in to
+# There are exactly 8 lines that should be modified from automake.in to
 # automake, and 9 lines that should be modified from aclocal.in to
 # aclocal.
-automake_diff_no = 7
+automake_diff_no = 8
 aclocal_diff_no = 9
 sc_diff_automake sc_diff_aclocal: in=$($*_in)
 sc_diff_automake sc_diff_aclocal: out=$($*_script)
@@ -443,12 +443,16 @@ sc_m4_am_plain_egrep_fgrep:
 	  exit 1; \
 	fi
 
-# Use 'configure.ac', not the obsolete 'configure.in', as the name
+# Prefer 'configure.ac' over the obsolescent 'configure.in' as the name
 # for configure input files in our testsuite.  The latter  has been
-# deprecated for several years (at least since autoconf 2.50) and
-# support for it will be removed in Automake 2.0.
+# deprecated for several years (at least since autoconf 2.50).
 sc_tests_no_configure_in:
-	@if grep -E '\bconfigure\\*\.in\b' $(xtests) $(xdefs); then \
+	@if grep -E '\bconfigure\\*\.in\b' $(xtests) $(xdefs) \
+	      | grep -Ev '/backcompat.*\.(sh|tap):' \
+	      | grep -Ev '/autodist-configure-no-subdir\.sh:' \
+	      | grep -Ev '/(configure|help)\.sh:' \
+	      | grep .; \
+	then \
 	  echo "Use 'configure.ac', not 'configure.in', as the name" >&2; \
 	  echo "for configure input files in the test cases above." >&2; \
 	  exit 1; \

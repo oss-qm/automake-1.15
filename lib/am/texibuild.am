@@ -1,5 +1,5 @@
 ## automake - create Makefile.in from Makefile.am
-## Copyright (C) 1994-2015 Free Software Foundation, Inc.
+## Copyright (C) 1994-2014 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -22,14 +22,40 @@
 ## should never be dependent upon a non-distributed built file.
 ## Therefore we ensure that %DIRSTAMP% exists in the rule.
 ?!INSRC??DIRSTAMP?	@test -f %DIRSTAMP% || $(MAKE) $(AM_MAKEFLAGS) %DIRSTAMP%
-## If the texinfo file has some minor mistakes which cause makeinfo
-## to fail, the info files are not removed.
-	$(AM_V_MAKEINFO)$(MAKEINFO) $(AM_MAKEINFOFLAGS) $(MAKEINFOFLAGS) \
-	                %MAKEINFOFLAGS% --no-split -o $@-t \
-?!INSRC?	        `test -f '%SOURCE_INFO%' || echo '$(srcdir)/'`%SOURCE_INFO%
-?INSRC??!GENERIC_INFO?	$(srcdir)/%SOURCE_INFO%
-?INSRC??GENERIC_INFO?	$<
-	$(AM_V_at)mv -f $@-t $@
+## Back up the info files before running makeinfo. This is the cheapest
+## way to ensure that
+## 1) If the texinfo file shrinks (or if you start using --no-split),
+##    you'll not be left with some dead info files lying around -- dead
+##    files which would end up in the distribution.
+## 2) If the texinfo file has some minor mistakes which cause makeinfo
+##    to fail, the info files are not removed.  (They are needed by the
+##    developer while he writes documentation.)
+## *.iNN files are used on DJGPP.  See the comments in install-info-am
+	%AM_V_MAKEINFO%restore=: && backupdir="$(am__leading_dot)am$$$$" && \
+?INSRC?	am__cwd=`pwd` && $(am__cd) $(srcdir) && \
+	rm -rf $$backupdir && mkdir $$backupdir && \
+## If makeinfo is not installed we must not backup the files so
+## 'missing' can do its job and touch $@ if it exists.
+	if ($(MAKEINFO) --version) >/dev/null 2>&1; then \
+	  for f in $@ $@-[0-9] $@-[0-9][0-9] $(@:.info=).i[0-9] $(@:.info=).i[0-9][0-9]; do \
+	    if test -f $$f; then mv $$f $$backupdir; restore=mv; else :; fi; \
+	  done; \
+	else :; fi && \
+?INSRC?	cd "$$am__cwd"; \
+	if $(MAKEINFO) $(AM_MAKEINFOFLAGS) $(MAKEINFOFLAGS) %MAKEINFOFLAGS% \
+?!INSRC?	 -o $@ `test -f '%SOURCE_INFO%' || echo '$(srcdir)/'`%SOURCE_INFO%; \
+?INSRC??!GENERIC_INFO?	 -o $@ $(srcdir)/%SOURCE_INFO%; \
+?INSRC??GENERIC_INFO?	 -o $@ $<; \
+	then \
+	  rc=0; \
+?INSRC?	  $(am__cd) $(srcdir); \
+	else \
+	  rc=$$?; \
+## Beware that backup info files might come from a subdirectory.
+?INSRC?	  $(am__cd) $(srcdir) && \
+	  $$restore $$backupdir/* `echo "./$@" | sed 's|[^/]*$$||'`; \
+	fi; \
+	rm -rf $$backupdir; exit $$rc
 
 INFO_DEPS += %DEST_INFO_PREFIX%%DEST_SUFFIX%
 

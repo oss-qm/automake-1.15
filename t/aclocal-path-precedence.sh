@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2015 Free Software Foundation, Inc.
+# Copyright (C) 2011-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -46,16 +46,10 @@ cat > mdir3/bar.m4 << 'END'
 AC_DEFUN([BAR_MACRO], [::pass-bar::])
 END
 
-cat > mdir2/quux-a.m4 << 'END'
-AC_DEFUN([AM_INIT_AUTOMAKE], [::pass-am-init::])
-END
-
-cat > mdir2/quux-b.m4 << 'END'
-AC_DEFUN([AC_PROG_LIBTOOL], [::pass-libtool::])
-END
-
-cat > mdir2/quux-c.m4 << 'END'
-AC_DEFUN([AM_GNU_GETTEXT], [::pass-gettext::])
+cat > mdir2/quux.m4 << 'END'
+AC_DEFUN([AM_INIT_AUTOMAKE], [::fail-init::])
+AC_DEFUN([AC_PROG_LIBTOOL],  [::pass-libtool::])
+AC_DEFUN([AM_GNU_GETTEXT],   [::pass-gettext::])
 END
 
 cat > sysdir/libtool.m4 << 'END'
@@ -87,9 +81,9 @@ $FGREP '::pass-bar::' configure
 $FGREP '::pass-gettext::' configure
 $FGREP '::pass-libtool::' configure
 
-# Directories in ACLOCAL_PATH shoul take precedence over the internal
+# Directories in ACLOCAL_PATH shouldn't take precedence over the internal
 # automake acdir (typically '${prefix}/share/aclocal-${APIVERSION}').
-$FGREP '::pass-am-init::' configure
+$FGREP 'am__api_version' configure
 
 # A final sanity check.
 $FGREP '::fail' configure && exit 1

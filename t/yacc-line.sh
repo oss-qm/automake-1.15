@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2001-2015 Free Software Foundation, Inc.
+# Copyright (C) 2001-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,26 +15,43 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Check that automake yacc support ensures that yacc-generated C
-# files use correct "#line" directives.
-# See also sister test 'lex-line.test'.
+# files use correct "#line" directives.  Try also with the
+# 'subdir-object' option enabled.
+# See also sister test 'lex-line.sh'.
 
 required='cc yacc'
 . test-init.sh
 
 cat >> configure.ac << 'END'
+AC_CONFIG_FILES([sub/Makefile])
 AC_PROG_CC
 AC_PROG_YACC
 AC_OUTPUT
 END
 
-mkdir dir
+mkdir dir sub sub/dir
 
 cat > Makefile.am << 'END'
-noinst_PROGRAMS = foo bar baz
-baz_YFLAGS = -d
+SUBDIRS = sub
+bin_PROGRAMS = foo bar
+AM_YFLAGS = -d
+bar_YFLAGS =
 foo_SOURCES = zardoz.y
 bar_SOURCES = dir/quux.y
-baz_SOURCES = zardoz.y
+## Avoid spurious failures with Solaris make.
+zardoz.@OBJEXT@: zardoz.c
+bar-quux.@OBJEXT@: bar-quux.c
+END
+
+cat > sub/Makefile.am << 'END'
+AUTOMAKE_OPTIONS = subdir-objects
+noinst_PROGRAMS = foo bar
+foo_YFLAGS = -d
+foo_SOURCES = zardoz.y
+bar_SOURCES = dir/quux.y
+## Avoid spurious failures with Solaris make.
+foo-zardoz.@OBJEXT@: foo-zardoz.c
+dir/quux.@OBJEXT@: dir/quux.c
 END
 
 cat > zardoz.y << 'END'
@@ -52,8 +69,10 @@ int main(void)
 END
 
 cp zardoz.y dir/quux.y
+cp zardoz.y sub/zardoz.y
+cp zardoz.y sub/dir/quux.y
 
-c_outputs='zardoz.c dir/quux.c baz-zardoz.c'
+c_outputs='zardoz.c bar-quux.c sub/foo-zardoz.c sub/dir/quux.c'
 
 $ACLOCAL
 $AUTOCONF
@@ -75,7 +94,7 @@ for vpath in : false; do
   $MAKE
 
   # For debugging,
-  ls -l . dir
+  ls -l . sub sub/dir
   $EGREP 'line|\.y' $c_outputs
 
   # Adjusted "#line" should not contain reference to the builddir.
@@ -90,12 +109,14 @@ for vpath in : false; do
   grep "#.*\.y.*\.y" $c_outputs && exit 1
   if $vpath; then
     grep '#.*line.*"\.\./zardoz\.y"' zardoz.c
-    grep '#.*line.*"\.\./zardoz\.y"' baz-zardoz.c
-    grep '#.*line.*"\.\./dir/quux\.y"' dir/quux.c
+    grep '#.*line.*"\.\./dir/quux\.y"' bar-quux.c
+    grep '#.*line.*"\.\./\.\./sub/zardoz\.y"' sub/foo-zardoz.c
+    grep '#.*line.*"\.\./\.\./sub/dir/quux\.y"' sub/dir/quux.c
   else
     grep '#.*line.*"zardoz\.y"' zardoz.c
-    grep '#.*line.*"zardoz\.y"' baz-zardoz.c
-    grep '#.*line.*"dir/quux\.y"' dir/quux.c
+    grep '#.*line.*"dir/quux\.y"' bar-quux.c
+    grep '#.*line.*"zardoz\.y"' sub/foo-zardoz.c
+    grep '#.*line.*"dir/quux\.y"' sub/dir/quux.c
   fi
 
   cd $srcdir

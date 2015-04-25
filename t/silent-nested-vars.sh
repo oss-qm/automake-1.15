@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2011-2015 Free Software Foundation, Inc.
+# Copyright (C) 2011-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ case $1 in
     done ;;
 esac
 
-nested_var_pat='^[^#].*[^$]\$([^)]*\$'
+nested_var_pat='^[^#].*\$([^)]*\$'
 if
   case $makefile in
     -) printf '%s\n' "$makerules" | grep "$nested_var_pat";;

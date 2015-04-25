@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1999-2015 Free Software Foundation, Inc.
+# Copyright (C) 1999-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,50 +16,21 @@
 
 # Test of compiled java.
 
-required='gcc gcj'
 . test-init.sh
 
 cat >> configure.ac << 'END'
-# FIXME: AM_PROG_GCJ should cause OBJEXT and EXEEXT to be set, but
-# FIXME: it currently does not.  See also xfailing test 'gcj6.sh'.
-AC_PROG_CC
-AM_PROG_GCJ
-AC_OUTPUT
+_AM_DEPENDENCIES([GCJ])
+AC_SUBST([GCJ])
 END
 
 cat > Makefile.am << 'END'
 bin_PROGRAMS = convert
-convert_SOURCES = $(my_java_source)
-convert_LDFLAGS = --main=convert
-my_java_source = x/y/convert.java
-$(my_java_source):
-	rm -f $@-t $@
-	test -d $(@D) || $(MKDIR_P) $(@D)
-	echo 'public class convert {'                      >> $@-t
-	echo '  public static void main (String[] args) {' >> $@-t
-	echo '    System.out.println("Hello, World!");'    >> $@-t
-	echo '  }'                                         >> $@-t
-	echo '}'                                           >> $@-t
-	chmod a-w $@-t && mv -f $@-t $@
-.PHONY: test-obj
-check-local: test-obj
-test-obj:
-	test -f x/y/convert.$(OBJEXT)
+convert_SOURCES = x/y/convert.java
 END
 
 $ACLOCAL
 $AUTOMAKE
-$FGREP 'x/y/convert.$(OBJEXT)' Makefile.in
 
-$AUTOCONF
-./configure
-
-$MAKE
-$MAKE test-obj
-if ! cross_compiling; then
-  ./convert
-  test "$(./convert)" = 'Hello, World!'
-fi
-$MAKE distcheck
+grep '^x/y/convert' Makefile.in
 
 :

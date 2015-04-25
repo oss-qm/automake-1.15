@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2003-2015 Free Software Foundation, Inc.
+# Copyright (C) 2003-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # DVIS, PDFS, PSS, HTMLS should not be cleaned upon 'mostlyclean'.
+# Similar to txinfo25.sh.
 
 required='makeinfo tex texi2dvi dvips'
 . test-init.sh

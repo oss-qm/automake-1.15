@@ -1,4 +1,4 @@
-# Copyright (C) 2003-2015 Free Software Foundation, Inc.
+# Copyright (C) 2003-2014 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -339,20 +339,20 @@ sub _process_option_list (\%@)
                          "archives has been removed");
           $ret = 0;
         }
-      # TODO: Remove this special check in Automake 3.0.
+      # TODO: Make this a fatal error in Automake 2.0.
       elsif ($_ eq 'dist-shar')
         {
-          error ($where, "support for shar distribution archives has " .
-                         "been removed.");
-          $ret = 0;
+          msg ('obsolete', $where,
+               "support for shar distribution archives is deprecated.\n" .
+               "  It will be removed in Automake 2.0");
         }
-      # TODO: Remove this special check in Automake 3.0.
+      # TODO: Make this a fatal error in Automake 2.0.
       elsif ($_ eq 'dist-tarZ')
         {
-          error ($where, "support for distribution archives compressed " .
-                         "with legacy program 'compress' has " .
-                         "been removed.");
-          $ret = 0;
+          msg ('obsolete', $where,
+               "support for distribution archives compressed with " .
+               "legacy program 'compress' is deprecated.\n" .
+               "  It will be removed in Automake 2.0");
         }
       elsif (/^filename-length-max=(\d+)$/)
         {

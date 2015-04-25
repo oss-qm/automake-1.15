@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2007-2015 Free Software Foundation, Inc.
+# Copyright (C) 2007-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,10 +22,7 @@
 
 . test-init.sh
 
-cat > configure.ac <<EOF
-AC_INIT([$me], [1.3])
-AM_INIT_AUTOMAKE([-Wno-obsolete])
-AC_CONFIG_FILES([Makefile])
+cat >>configure.ac <<EOF
 FOO
 AC_OUTPUT
 EOF

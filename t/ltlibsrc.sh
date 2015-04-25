@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2003-2015 Free Software Foundation, Inc.
+# Copyright (C) 2003-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,18 +33,11 @@ AM_LDFLAGS = -module
 pkglib_LTLIBRARIES = zoo.d/bar.la old.la
 noinst_LTLIBRARIES = foo.la zoo.d/old2.la
 
-zoo_d_old2_la.c: $(srcdir)/old_la.c
+$(srcdir)/zoo_d_old2_la.c: $(srcdir)/old_la.c
 	cp $(srcdir)/old_la.c $@
 
 AUTOMAKE_OPTIONS = -Wno-unsupported
 END
-
-if useless_vpath_rebuild; then
-  unindent >> Makefile.am <<'END'
-    # Work around a known FreeBSD make issues in VPATH builds.
-    DISTCLEANFILES = zoo_d_old2_la.c
-END
-fi
 
 cat > foo.c << 'END'
 int foo (void)

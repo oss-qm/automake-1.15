@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2006-2015 Free Software Foundation, Inc.
+# Copyright (C) 2006-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -90,17 +90,20 @@ grep " --tag=FC" Makefile.in
 # ./configure may exit with status 77 if no compiler is found,
 # or if the compiler cannot compile Fortran 90 files).
 ./configure
-
 $MAKE
-test -f sub/bar.lo
-test ! -e bar.lo
-## The setting of FCFLAGS should only cause objects deriving from
-## Fortran 90, not Fortran 77, to be renamed.
-test -f sub/baz.lo
-test ! -e baz.lo
-test ! -e sub/libgoodbye_la-baz.lo
-test ! -e libgoodbye_la-baz.lo
+subobjs=$(echo sub/*.lo)
+test "$subobjs" = 'sub/*.lo'
+$MAKE distcheck
 
+# The following will be fixed in a later patch:
+$MAKE distclean
+echo 'AUTOMAKE_OPTIONS = subdir-objects' >> Makefile.am
+$AUTOMAKE -a
+./configure
+$MAKE
+test ! -e bar.lo
+test ! -e baz.lo
+test ! -e libgoodbye_la-baz.lo
 $MAKE distcheck
 
 :

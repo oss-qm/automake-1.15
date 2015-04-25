@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2006-2015 Free Software Foundation, Inc.
+# Copyright (C) 2006-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -67,18 +67,9 @@ touch hello.f90 foo.f95 sub/bar.f95 hi.f03 sub/howdy.f03 greets.f08 \
       sub/bonjour.f08 bye.f95 sub/baz.f90
 
 run_make -O -- -n \
-  FCFLAGS_f90=--@90 FCFLAGS_f95=--@95 FCFLAGS_f03=--@03 FCFLAGS_f08=--@08 \
-# To make it easier to have stricter grepping below.
-$PERL -e '
-  undef $/;
-  $_ = <>;
-  s/[^\\]\\\n/ /g;
-  s/^/ /;
-  s/\n/ \n /g;
-  s/[ \t]+/  /g;
-  s/\n\s*\z/\n/;
-  print;
-' <stdout >out
+  FCFLAGS_f90=--@90 FCFLAGS_f95=--@95 FCFLAGS_f03=--@03 FCFLAGS_f08=--@08
+# To make it easier to have  stricter grepping below.
+sed -e 's/[ 	][ 	]*/  /g' -e 's/^/ /' -e 's/$/ /' stdout > out
 cat out
 
 grep ' fake-fc .* --@90 .* hello\.f90 ' out

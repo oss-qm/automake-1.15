@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1997-2015 Free Software Foundation, Inc.
+# Copyright (C) 1997-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,22 +21,18 @@
 
 cat > Makefile.am << 'END'
 bin_PROGRAMS = zardoz
-lib_LTLIBRARIES = libfoo.la
-zardoz_SOURCES = z.c
-libfoo_la_SOURCES = z.c
+zardoz_SOURCES = z.c x/z.c
 END
-
-: > ltmain.sh
-: > config.guess
-: > config.sub
 
 cat >> configure.ac << 'END'
 AC_PROG_CC
-AC_SUBST([LIBTOOL], [unused])
 END
+
+mkdir x
+
+: > z.c
+: > x/z.c
 
 $ACLOCAL
 AUTOMAKE_fails
-$FGREP "object 'z.\$(OBJEXT)' created both with libtool and without" stderr
-
-:
+$FGREP 'z.$(OBJEXT)' stderr

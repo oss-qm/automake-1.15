@@ -1,6 +1,6 @@
 ## Included by top-level Makefile for Automake.
 
-## Copyright (C) 1995-2015 Free Software Foundation, Inc.
+## Copyright (C) 1995-2014 Free Software Foundation, Inc.
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -36,11 +36,13 @@ dist_automake_ac_DATA = \
   %D%/gcj.m4 \
   %D%/init.m4 \
   %D%/install-sh.m4 \
+  %D%/lead-dot.m4 \
   %D%/lex.m4 \
   %D%/lispdir.m4 \
   %D%/maintainer.m4 \
   %D%/make.m4 \
   %D%/missing.m4 \
+  %D%/mkdirp.m4 \
   %D%/obsolete.m4 \
   %D%/options.m4 \
   %D%/python.m4 \

@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1998-2015 Free Software Foundation, Inc.
+# Copyright (C) 1998-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,18 +38,9 @@ END
 $ACLOCAL
 $AUTOMAKE
 
-$FGREP COMPILE Makefile.in # For debugging.
-
 # Look for the macros at the beginning of rules.
-
-sed -e "s|$tab *&& *|$tab|" \
-    -e 's|$(AM_V_CC)||g' \
-    -e 's|$(AM_V_CXX)||g' \
-    -e 's|$(AM_V_F77)||g' \
-  Makefile.in >mk
-diff -u Makefile.in mk || : # For debugging.
-$FGREP "$tab\$(COMPILE)"    mk
-$FGREP "$tab\$(CXXCOMPILE)" mk
-$FGREP "$tab\$(F77COMPILE)" mk
+$FGREP "$tab\$(AM_V_CC)\$(COMPILE)"     Makefile.in
+$FGREP "$tab\$(AM_V_CXX)\$(CXXCOMPILE)" Makefile.in
+$FGREP "$tab\$(AM_V_F77)\$(F77COMPILE)" Makefile.in
 
 :

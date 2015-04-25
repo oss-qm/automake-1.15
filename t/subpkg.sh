@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2002-2015 Free Software Foundation, Inc.
+# Copyright (C) 2002-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ mkdir m4
 
 cat >m4/foo.m4 <<'EOF'
 AC_DEFUN([FOO],[
-  AC_REQUIRE([AC_PROG_CC])
+  AC_PROG_CC
   AC_OUTPUT
 ])
 EOF
@@ -102,10 +102,7 @@ $AUTOHEADER
 $AUTOMAKE -Wno-override --add-missing
 cd ..
 
-./configure >stdout || { cat stdout; exit 1; }
-cat stdout
-$FGREP "checking whether $CC understands -c and -o together" stdout
-
+./configure
 $MAKE
 $MAKE distcheck
 test ! -e subpack-1 # Make sure distcheck cleans up after itself.

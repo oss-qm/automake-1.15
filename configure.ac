@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 
-# Copyright (C) 1995-2015 Free Software Foundation, Inc.
+# Copyright (C) 1995-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 AC_PREREQ([2.69])
-AC_INIT([GNU Automake], [1.99a], [bug-automake@gnu.org])
+AC_INIT([GNU Automake], [1.15], [bug-automake@gnu.org])
 
 AC_CONFIG_SRCDIR([bin/automake.in])
 AC_CONFIG_AUX_DIR([lib])
@@ -44,7 +44,7 @@ AM_INIT_AUTOMAKE([-Wall -Werror dist-xz filename-length-max=99
 
 # Keep this on a line of its own, since it must be found and processed
 # by the 'update-copyright' rule in our Makefile.
-RELEASE_YEAR=2015
+RELEASE_YEAR=2014
 AC_SUBST([RELEASE_YEAR])
 
 # The API version is the base version.  We must guarantee
@@ -172,11 +172,16 @@ result=no
 test "x$am_cv_prog_ln" = xln && result=yes
 AC_MSG_RESULT([$result])
 
-# The amount we should wait after modifying files.
-# FIXME: for file systems with sub-second timestamp resolutions, this
-# FIXME: might be just one second (or even less if 'sleep' supports
-# FIXME: non-integer arguments); is it worth pursuing that road?
-AC_SUBST([MODIFICATION_DELAY], [2])
+# The amount we should wait after modifying files depends on the platform.
+# On Windows '95, '98 and ME, files modifications have 2-seconds
+# granularity and can be up to 3 seconds in the future w.r.t. the
+# system clock.  When it is important to ensure one file is older
+# than another we wait at least 5 seconds between creations.
+case $build in
+  *-pc-msdosdjgpp) MODIFICATION_DELAY=5;;
+  *)               MODIFICATION_DELAY=2;;
+esac
+AC_SUBST([MODIFICATION_DELAY])
 
 ## ------------------------------------------- ##
 ##  Test for things needed by the test suite.  ##

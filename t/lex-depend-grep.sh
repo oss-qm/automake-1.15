@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 1999-2015 Free Software Foundation, Inc.
+# Copyright (C) 1999-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ $AUTOMAKE -a
 $EGREP '([mj]oe|_[01234]|include|\.P)' Makefile.in # For debugging.
 
 for x in joe moe _0 _1 _2 _3 _4; do
-  $EGREP '\$\(DEPDIR\)/'"$x"'\.Po( |$)' Makefile.in
+  grep "include.*$x\.Po" Makefile.in
 done
 
 :

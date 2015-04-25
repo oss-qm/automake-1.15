@@ -2,7 +2,7 @@
 ## testsuite.  This fragment is meant to be included by the Makefile.am,
 ## but also to be executed directly by make when bootstrapping automake.
 
-## Copyright (C) 2011-2015 Free Software Foundation, Inc.
+## Copyright (C) 2011-2014 Free Software Foundation, Inc.
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -41,6 +41,8 @@ t/java-nobase.sh \
 t/objext-pr10128.sh \
 t/remake-timing-bug-pr8365.sh \
 t/lex-subobj-nodep.sh \
+t/subobj-indir-pr13928.sh \
+t/subobj-vpath-pr13928.sh \
 t/remake-am-pr10111.sh \
 t/remake-m4-pr10111.sh \
 $(perl_fake_XFAIL_TESTS)
@@ -138,7 +140,6 @@ t/amassign.sh \
 t/am-config-header.sh \
 t/am-prog-cc-stdc.sh \
 t/am-prog-cc-c-o.sh \
-t/am-prog-mkdir-p.sh \
 t/am-macro-not-found.sh \
 t/amopt.sh \
 t/amopts-location.sh \
@@ -326,6 +327,7 @@ t/condinc2.sh \
 t/condlib.sh \
 t/condman2.sh \
 t/condman3.sh \
+t/configure.sh \
 t/confdeps.sh \
 t/conff.sh \
 t/conff2.sh \
@@ -389,7 +391,6 @@ t/depend3.sh \
 t/depend4.sh \
 t/depend5.sh \
 t/depend6.sh \
-t/depend-postproc.sh \
 t/deprecated-acinit.sh \
 t/destdir.sh \
 t/dir-named-obj-is-bad.sh \
@@ -518,7 +519,6 @@ t/help-silent.sh \
 t/help-upc.sh \
 t/hfs.sh \
 t/implicit.sh \
-t/includes-deprecation.sh \
 t/init.sh \
 t/init2.sh \
 t/dist-install-sh.sh \
@@ -619,6 +619,7 @@ t/libobj16b.sh \
 t/libobj17.sh \
 t/libobj18.sh \
 t/libobj19.sh \
+t/libobj20a.sh \
 t/libobj20b.sh \
 t/libobj20c.sh \
 t/library.sh \
@@ -704,6 +705,8 @@ t/missing-version-mismatch.sh \
 t/missing3.sh \
 t/am-missing-prog.sh \
 t/missing-auxfile-stops-makefiles-creation.sh \
+t/mkdir_p.sh \
+t/mkdirp-deprecation.sh \
 t/mkinstall.sh \
 t/mkinst2.sh \
 t/mkinst3.sh \
@@ -863,6 +866,7 @@ t/posixsubst-programs.sh \
 t/posixsubst-scripts.sh \
 t/posixsubst-sources.sh \
 t/posixsubst-tests.sh \
+t/postproc.sh \
 t/ppf77.sh \
 t/pr2.sh \
 t/pr9.sh \
@@ -1008,6 +1012,7 @@ t/silent-configsite.sh \
 t/silent-nested-vars.sh \
 t/silent-custom.sh \
 t/src-acsubst.sh \
+t/sourcefile-in-subdir.sh \
 t/space.sh \
 t/specflg6.sh \
 t/specflg7.sh \
@@ -1044,6 +1049,7 @@ t/subdir-distclean.sh \
 t/subdir-keep-going-pr12554.sh \
 t/subobj.sh \
 t/subobj2.sh \
+t/subobj4.sh \
 t/subobj5.sh \
 t/subobj6.sh \
 t/subobj7.sh \
@@ -1058,7 +1064,6 @@ t/subobj-clean-pr10697.sh \
 t/subobj-clean-lt-pr10697.sh \
 t/subobj-indir-pr13928.sh \
 t/subobj-vpath-pr13928.sh \
-t/subobj-pr13928-more-langs.sh \
 t/subpkg.sh \
 t/subpkg2.sh \
 t/subpkg3.sh \
@@ -1204,7 +1209,6 @@ t/txinfo-no-clutter.sh \
 t/txinfo-no-extra-dist.sh \
 t/txinfo-no-installinfo.sh \
 t/txinfo-no-repeated-targets.sh \
-t/txinfo-no-split.sh \
 t/txinfo-other-suffixes.sh \
 t/txinfo-override-infodeps.sh \
 t/txinfo-override-texinfo-tex.sh \
@@ -1219,6 +1223,11 @@ t/txinfo-vtexi2.sh \
 t/txinfo-vtexi3.sh \
 t/txinfo-vtexi4.sh \
 t/txinfo-without-info-suffix.sh \
+t/txinfo19.sh \
+t/txinfo23.sh \
+t/txinfo24.sh \
+t/txinfo25.sh \
+t/txinfo28.sh \
 t/transform.sh \
 t/transform2.sh \
 t/transform3.sh \

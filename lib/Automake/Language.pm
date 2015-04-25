@@ -1,4 +1,4 @@
-# Copyright (C) 2013-2015 Free Software Foundation, Inc.
+# Copyright (C) 2013-2014 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,6 +39,8 @@ Class::Struct::struct (
 	'compiler'  => "\$",
 	# Content of the compiling variable.
 	'compile'  => "\$",
+	# Flag to require compilation without linking (-c).
+	'compile_flag' => "\$",
 	'extensions' => '@',
 	# A subroutine to compute a list of possible extensions of
 	# the product given the input extensions.
@@ -68,6 +70,8 @@ Class::Struct::struct (
 	# Content of the linker variable ($(CC)).
 	'ld' => "\$",
 
+	# Flag to specify the output file (-o).
+	'output_flag' => "\$",
 	'_finish' => "\$",
 
 	# This is a subroutine which is called whenever we finally

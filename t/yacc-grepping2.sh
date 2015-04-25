@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2001-2015 Free Software Foundation, Inc.
+# Copyright (C) 2001-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,33 +24,57 @@ AC_PROG_CC
 AC_PROG_YACC
 END
 
-$ACLOCAL
-
 cat > Makefile.am << 'END'
 bin_PROGRAMS = maude
 maude_SOURCES = sub/maude.y
 END
 
+mkdir sub
+
+: > sub/maude.y
+
+$ACLOCAL
+# FIXME: stop disabling the warnings in the 'unsupported' category
+# FIXME: once the 'subdir-objects' option has been mandatory.
+$AUTOMAKE -a -Wno-unsupported
+
+grep '^maude\.c:.*maude\.y' Makefile.in
+
+
+## Try again with subdir-objects.
+
+cat > Makefile.am << 'END'
+AUTOMAKE_OPTIONS = subdir-objects
+bin_PROGRAMS = maude
+maude_SOURCES = sub/maude.y
+END
+
 $AUTOMAKE -a
+
 # No rule needed, the default .y.c: inference rule is enough
 # (but there may be an additional dependency on a dirstamp file).
 grep '^sub/maude\.c:.*maude\.y' Makefile.in && exit 1
+
 
 ## Try again with per-exe flags.
 
 cat > Makefile.am << 'END'
 bin_PROGRAMS = maude
 maude_SOURCES = sub/maude.y
-## A particularly tricky case.
+## A particularly trickey case.
 maude_YFLAGS = -d
 END
 
-$AUTOMAKE -a
-grep '^sub/maude-maude\.c:.*sub/maude\.y' Makefile.in
+# FIXME: stop disabling the warnings in the 'unsupported' category
+# FIXME: once the 'subdir-objects' option has been mandatory.
+$AUTOMAKE -a -Wno-unsupported
+
 # Rule should use maude_YFLAGS.
 grep 'AM_YFLAGS.*maude' Makefile.in && exit 1
+
 # Silly regression.
 grep 'maudec' Makefile.in && exit 1
+
 # Make sure the .o file is required.
 grep '^am_maude_OBJECTS.*maude' Makefile.in
 

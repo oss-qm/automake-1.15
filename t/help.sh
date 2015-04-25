@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2003-2015 Free Software Foundation, Inc.
+# Copyright (C) 2003-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,8 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Make sure --help and --version work, even when no configure.ac is in
-# the current directory.
+# Make sure --help and --version work, even when no configure.ac nor
+# configure.in is in the current directory.
 
 . test-init.sh
 
@@ -33,7 +33,8 @@ $ACLOCAL --help
 $AUTOMAKE --version
 $AUTOMAKE --help
 
-# Sanity checks: aclocal and automake cannot work without configure.ac.
+# Sanity checks: aclocal and automake cannot work without configure.ac
+# nor configure.in.
 $ACLOCAL 2>stderr && { cat stderr >&2; exit 1; }
 cat stderr >&2
 $FGREP configure.ac stderr

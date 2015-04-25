@@ -6,7 +6,7 @@ eval 'case $# in 0) exec @PERL@ -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
     if 0;
 
 # automake - create Makefile.in from Makefile.am
-# Copyright (C) 1994-2015 Free Software Foundation, Inc.
+# Copyright (C) 1994-2014 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,6 +34,15 @@ BEGIN
   @Automake::perl_libdirs = ('@datadir@/@PACKAGE@-@APIVERSION@')
     unless @Automake::perl_libdirs;
   unshift @INC, @Automake::perl_libdirs;
+
+  # Override SHELL.  This is required on DJGPP so that system() uses
+  # bash, not COMMAND.COM which doesn't quote arguments properly.
+  # Other systems aren't expected to use $SHELL when Automake
+  # runs, but it should be safe to drop the "if DJGPP" guard if
+  # it turns up other systems need the same thing.  After all,
+  # if SHELL is used, ./configure's SHELL is always better than
+  # the user's SHELL (which may be something like tcsh).
+  $ENV{'SHELL'} = '@SHELL@' if exists $ENV{'DJDIR'};
 }
 
 use Automake::Config;
@@ -51,6 +60,7 @@ use Automake::General;
 use Automake::XFile;
 use Automake::Channels;
 use Automake::ChannelDefs;
+use Automake::Configure_ac;
 use Automake::FileUtils;
 use Automake::Location;
 use Automake::Condition qw/TRUE FALSE/;
@@ -153,7 +163,7 @@ my @common_files =
 # is used for the --help output only.
 my @common_sometimes =
   qw(aclocal.m4 acconfig.h config.h.top config.h.bot configure
-     configure.ac stamp-vti);
+     configure.ac configure.in stamp-vti);
 
 # Standard directories from the GNU Coding Standards, and additional
 # pkg* directories from Automake.  Stored in a hash for fast member check.
@@ -177,6 +187,14 @@ my $gen_copyright = "\
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 ";
+
+# These constants are returned by the lang_*_rewrite functions.
+# LANG_SUBDIR means that the resulting object file should be in a
+# subdir if the source file is.  In this case the file name cannot
+# have '..' components.
+use constant LANG_IGNORE  => 0;
+use constant LANG_PROCESS => 1;
+use constant LANG_SUBDIR  => 2;
 
 # These are used when keeping track of whether an object can be built
 # by two different paths.
@@ -217,9 +235,8 @@ my $force_missing = 0;
 ## Variables filled during files scanning.  ##
 ## ---------------------------------------- ##
 
-# Name of the Autoconf input file.  We used to support 'configure.in'
-# as well once, that that is long obsolete now.
-my $configure_ac = 'configure.ac';
+# Name of the configure.ac file.
+my $configure_ac;
 
 # Files found by scanning configure.ac for LIBOBJS.
 my %libsources = ();
@@ -618,6 +635,8 @@ register_language ('name' => 'c',
 		   'ld' => '$(CC)',
 		   'linker' => 'LINK',
 		   'link' => '$(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@',
+		   'compile_flag' => '-c',
+		   'output_flag' => '-o',
 		   'libtool_tag' => 'CC',
 		   'extensions' => ['.c']);
 
@@ -632,6 +651,8 @@ register_language ('name' => 'cxx',
 		   'compile' => "\$(CXX) @cpplike_flags \$(AM_CXXFLAGS) \$(CXXFLAGS)",
 		   'ccer' => 'CXX',
 		   'compiler' => 'CXXCOMPILE',
+		   'compile_flag' => '-c',
+		   'output_flag' => '-o',
 		   'libtool_tag' => 'CXX',
 		   'lder' => 'CXXLD',
 		   'ld' => '$(CXX)',
@@ -649,6 +670,8 @@ register_language ('name' => 'objc',
 		   'compile' => "\$(OBJC) @cpplike_flags \$(AM_OBJCFLAGS) \$(OBJCFLAGS)",
 		   'ccer' => 'OBJC',
 		   'compiler' => 'OBJCCOMPILE',
+		   'compile_flag' => '-c',
+		   'output_flag' => '-o',
 		   'lder' => 'OBJCLD',
 		   'ld' => '$(OBJC)',
 		   'pure' => 1,
@@ -665,6 +688,8 @@ register_language ('name' => 'objcxx',
 		   'compile' => "\$(OBJCXX) @cpplike_flags \$(AM_OBJCXXFLAGS) \$(OBJCXXFLAGS)",
 		   'ccer' => 'OBJCXX',
 		   'compiler' => 'OBJCXXCOMPILE',
+		   'compile_flag' => '-c',
+		   'output_flag' => '-o',
 		   'lder' => 'OBJCXXLD',
 		   'ld' => '$(OBJCXX)',
 		   'pure' => 1,
@@ -681,6 +706,8 @@ register_language ('name' => 'upc',
 		   'compile' => "\$(UPC) @cpplike_flags \$(AM_UPCFLAGS) \$(UPCFLAGS)",
 		   'ccer' => 'UPC',
 		   'compiler' => 'UPCCOMPILE',
+		   'compile_flag' => '-c',
+		   'output_flag' => '-o',
 		   'lder' => 'UPCLD',
 		   'ld' => '$(UPC)',
 		   'pure' => 1,
@@ -696,7 +723,7 @@ register_language ('name' => 'header',
 		   # Nothing to do.
 		   '_finish' => sub { });
 
-# Vala.
+# Vala
 register_language ('name' => 'vala',
 		   'Name' => 'Vala',
 		   'config_vars' => ['VALAC'],
@@ -704,10 +731,9 @@ register_language ('name' => 'vala',
 		   'compile' => '$(VALAC) $(AM_VALAFLAGS) $(VALAFLAGS)',
 		   'ccer' => 'VALAC',
 		   'compiler' => 'VALACOMPILE',
-		   'extensions' => ['.vala', '.vapi'],
-                   # Vala compilation must be handled in a special way, so
-                   # nothing to do or return here.
-		   'output_extensions' => sub { },
+		   'extensions' => ['.vala'],
+		   'output_extensions' => sub { (my $ext = $_[0]) =~ s/vala$/c/;
+						return ($ext,) },
 		   'rule_file' => 'vala',
 		   '_finish' => \&lang_vala_finish,
 		   '_target_hook' => \&lang_vala_target_hook,
@@ -779,12 +805,14 @@ register_language ('name' => 'asm',
 		   'config_vars' => ['CCAS', 'CCASFLAGS'],
 
 		   'flags' => ['CCASFLAGS'],
-		   # Users can set AM_CCASFLAGS to include $(DEFS),
-                   # $(INCLUDES), or anything else required.  They can also
-                   # set CCAS.  Or simply use Preprocessed Assembler.
+		   # Users can set AM_CCASFLAGS to include DEFS, INCLUDES,
+		   # or anything else required.  They can also set CCAS.
+		   # Or simply use Preprocessed Assembler.
 		   'compile' => '$(CCAS) $(AM_CCASFLAGS) $(CCASFLAGS)',
 		   'ccer' => 'CCAS',
 		   'compiler' => 'CCASCOMPILE',
+		   'compile_flag' => '-c',
+		   'output_flag' => '-o',
 		   'extensions' => ['.s']);
 
 # Preprocessed Assembler.
@@ -797,6 +825,8 @@ register_language ('name' => 'cppasm',
 		   'compile' => "\$(CCAS) @cpplike_flags \$(AM_CCASFLAGS) \$(CCASFLAGS)",
 		   'ccer' => 'CPPAS',
 		   'compiler' => 'CPPASCOMPILE',
+		   'compile_flag' => '-c',
+		   'output_flag' => '-o',
 		   'extensions' => ['.S', '.sx']);
 
 # Fortran 77
@@ -809,6 +839,8 @@ register_language ('name' => 'f77',
 		   'compile' => '$(F77) $(AM_FFLAGS) $(FFLAGS)',
 		   'ccer' => 'F77',
 		   'compiler' => 'F77COMPILE',
+		   'compile_flag' => '-c',
+		   'output_flag' => '-o',
 		   'libtool_tag' => 'F77',
 		   'lder' => 'F77LD',
 		   'ld' => '$(F77)',
@@ -825,6 +857,8 @@ register_language ('name' => 'fc',
 		   'compile' => '$(FC) $(AM_FCFLAGS) $(FCFLAGS)',
 		   'ccer' => 'FC',
 		   'compiler' => 'FCCOMPILE',
+		   'compile_flag' => '-c',
+		   'output_flag' => '-o',
 		   'libtool_tag' => 'FC',
 		   'lder' => 'FCLD',
 		   'ld' => '$(FC)',
@@ -843,6 +877,8 @@ register_language ('name' => 'ppfc',
 		   'ccer' => 'PPFC',
 		   'compiler' => 'PPFCCOMPILE',
 		   'compile' => "\$(FC) @cpplike_flags \$(AM_FCFLAGS) \$(FCFLAGS)",
+		   'compile_flag' => '-c',
+		   'output_flag' => '-o',
 		   'libtool_tag' => 'FC',
 		   'pure' => 1,
 		   'extensions' => ['.F90','.F95', '.F03', '.F08']);
@@ -873,6 +909,8 @@ register_language ('name' => 'ppf77',
 		   'ccer' => 'PPF77',
 		   'compiler' => 'PPF77COMPILE',
 		   'compile' => "\$(F77) @cpplike_flags \$(AM_FFLAGS) \$(FFLAGS)",
+		   'compile_flag' => '-c',
+		   'output_flag' => '-o',
 		   'libtool_tag' => 'F77',
 		   'pure' => 1,
 		   'extensions' => ['.F']);
@@ -890,6 +928,8 @@ register_language ('name' => 'ratfor',
 		   'compile' => '$(F77) $(AM_FFLAGS) $(FFLAGS) $(AM_RFLAGS) $(RFLAGS)',
 		   'ccer' => 'F77',
 		   'compiler' => 'RCOMPILE',
+		   'compile_flag' => '-c',
+		   'output_flag' => '-o',
 		   'libtool_tag' => 'F77',
 		   'pure' => 1,
 		   'extensions' => ['.r']);
@@ -905,6 +945,8 @@ register_language ('name' => 'java',
 		   'compile' => '$(GCJ) $(AM_GCJFLAGS) $(GCJFLAGS)',
 		   'ccer' => 'GCJ',
 		   'compiler' => 'GCJCOMPILE',
+		   'compile_flag' => '-c',
+		   'output_flag' => '-o',
 		   'libtool_tag' => 'GCJ',
 		   'lder' => 'GCJLD',
 		   'ld' => '$(GCJ)',
@@ -1188,50 +1230,48 @@ sub check_user_variables
 sub handle_languages ()
 {
     if (! option 'no-dependencies')
-      {
-        # Include auto-dep code.  Don't include it if DEP_FILES would
-        # be empty.
-        if (keys %extension_seen && keys %dep_files)
-          {
-            my @dep_files = sort keys %dep_files;
-            # Set location of depcomp.
-            define_variable ('depcomp',
-                             "\$(SHELL) $am_config_aux_dir/depcomp",
-                             INTERNAL);
-            define_variable ('am__maybe_remake_depfiles', 'depfiles', INTERNAL);
-            define_variable ('am__depfiles_remade', "@dep_files", INTERNAL);
-            $output_rules .= "\n";
-            my @dist_rms;
-            foreach my $depfile (@dep_files)
-              {
-                push @dist_rms, "\t-rm -f $depfile";
-                # Generate each 'include' directive individually.  Several
-                # make implementations (IRIX 6, Solaris 10, FreeBSD 8) will
-                # fail to properly include several files resulting from a
-                # variable expansion. Just Generating many separate includes
-                # seems thus safest.
-                $output_rules .= subst ('AMDEP_TRUE') .
-                                 subst ('am__include') .
-                                 " " .
-                                 subst('am__quote') .
-                                 $depfile .
-                                 subst('am__quote') .
-                                 " " .
-                                 "# am--include-marker\n";
-              }
+    {
+	# Include auto-dep code.  Don't include it if DEP_FILES would
+	# be empty.
+	if (keys %extension_seen && keys %dep_files)
+	{
+	    # Set location of depcomp.
+	    define_variable ('depcomp',
+			     "\$(SHELL) $am_config_aux_dir/depcomp",
+			     INTERNAL);
+	    define_variable ('am__depfiles_maybe', 'depfiles', INTERNAL);
 
-            require_conf_file ("$am_file.am", FOREIGN, 'depcomp');
+	    require_conf_file ("$am_file.am", FOREIGN, 'depcomp');
 
-            $output_rules .= file_contents (
-                'depend', new Automake::Location,
-                'DISTRMS' => join ("\n", @dist_rms));
-          }
-      }
+	    my @deplist = sort keys %dep_files;
+	    # Generate each 'include' individually.  Irix 6 make will
+	    # not properly include several files resulting from a
+	    # variable expansion; generating many separate includes
+	    # seems safest.
+	    $output_rules .= "\n";
+	    foreach my $iter (@deplist)
+	    {
+		$output_rules .= (subst ('AMDEP_TRUE')
+				  . subst ('am__include')
+				  . ' '
+				  . subst ('am__quote')
+				  . $iter
+				  . subst ('am__quote')
+				  . "\n");
+	    }
+
+	    # Compute the set of directories to remove in distclean-depend.
+	    my @depdirs = uniq (map { dirname ($_) } @deplist);
+	    $output_rules .= file_contents ('depend',
+					    new Automake::Location,
+					    DEPDIRS => "@depdirs");
+	}
+    }
     else
-      {
-        define_variable ('depcomp', '', INTERNAL);
-        define_variable ('am__maybe_remake_depfiles', '', INTERNAL);
-      }
+    {
+	define_variable ('depcomp', '', INTERNAL);
+	define_variable ('am__depfiles_maybe', '', INTERNAL);
+    }
 
     my %done;
 
@@ -1263,8 +1303,10 @@ sub handle_languages ()
 			 'FPFX'    => $fpfx,
 			 'AMDEP'   => $AMDEP,
 			 'FASTDEP' => $FASTDEP,
+			 '-c'      => $lang->compile_flag || '',
 			 # These are not used, but they need to be defined
-			 # so transform() does not complain.
+			 # so transform() do not complain.
+			 SUBDIROBJ     => 0,
 			 'DERIVED-EXT' => 'BUG',
 			 DIST_SOURCE   => 1,
 			 VERBOSE   => $verbose,
@@ -1280,13 +1322,27 @@ sub handle_languages ()
 	    # This is not used by depend2.am.
 	    my $der_ext = ($lang->output_extensions->($ext))[0];
 
-            # Even when subdir sources are present, an inference rule
-            # like '.c.o:' can be used to build corresponding objects
-            # in the sane subdirectory too.  We should be careful to also
-            # place dependency files into the appropriate subdirectory,
-            # e.g., 'sub/$(DEPDIR)/'.  The value of this directory needs
-            # to be computed on-the-fly (that is done by our makefile
-            # recipes in 'depend2.am').
+	    # When we output an inference rule like '.c.o:' we
+	    # have two cases to consider: either subdir-objects
+	    # is used, or it is not.
+	    #
+	    # In the latter case the rule is used to build objects
+	    # in the current directory, and dependencies always
+	    # go into './$(DEPDIR)/'.  We can hard-code this value.
+	    #
+	    # In the former case the rule can be used to build
+	    # objects in sub-directories too.  Dependencies should
+	    # go into the appropriate sub-directories, e.g.,
+	    # 'sub/$(DEPDIR)/'.  The value of this directory
+	    # needs to be computed on-the-fly.
+	    #
+	    # DEPBASE holds the name of this directory, plus the
+	    # basename part of the object file (extensions Po, TPo,
+	    # Plo, TPlo will be added later as appropriate).  It is
+	    # either hardcoded, or a shell variable ('$depbase') that
+	    # will be computed by the rule.
+	    my $depbase =
+	      option ('subdir-objects') ? '$$depbase' : '$(DEPDIR)/$*';
 	    $output_rules .=
 	      file_contents ($rule_file,
 			     new Automake::Location,
@@ -1295,9 +1351,9 @@ sub handle_languages ()
 
 			     'DERIVED-EXT' => $der_ext,
 
+			     DEPBASE   => $depbase,
 			     BASE      => '$*',
 			     SOURCE    => '$<',
-			     XSOURCE   => '$<',
 			     SOURCEFLAG => $sourceflags{$ext} || '',
 			     OBJ       => '$@',
 			     OBJOBJ    => '$@',
@@ -1305,7 +1361,8 @@ sub handle_languages ()
 
 			     COMPILE   => '$(' . $lang->compiler . ')',
 			     LTCOMPILE => '$(LT' . $lang->compiler . ')',
-			    );
+			     -o        => $lang->output_flag,
+			     SUBDIROBJ => !! option 'subdir-objects');
 	}
 
 	# Now include code for each specially handled object with this
@@ -1349,8 +1406,15 @@ sub handle_languages ()
 	      "\$(LIBTOOL) $ltverbose $libtool_tag\$($ptltflags) \$(LIBTOOLFLAGS) "
 	      . "--mode=compile $obj_compile";
 
-            # For non-suffix rules, we must emulate a VPATH search.
-            my $xsource = "`test -f '$source' || echo '\$(srcdir)/'`$source";
+	    # We _need_ '-o' for per object rules.
+	    my $output_flag = $lang->output_flag || '-o';
+
+	    my $depbase = dirname ($obj);
+	    $depbase = ''
+		if $depbase eq '.';
+	    $depbase .= '/'
+		unless $depbase eq '';
+	    $depbase .= '$(DEPDIR)/' . basename ($obj);
 
 	    $output_rules .=
 	      file_contents ($rule_file,
@@ -1358,9 +1422,9 @@ sub handle_languages ()
 			     %transform,
 			     GENERIC   => 0,
 
+			     DEPBASE   => $depbase,
 			     BASE      => $obj,
 			     SOURCE    => $source,
-			     XSOURCE   => $xsource,
 			     SOURCEFLAG => $sourceflags{$srcext} || '',
 			     # Use $myext and not '.o' here, in case
 			     # we are actually building a new source
@@ -1374,6 +1438,7 @@ sub handle_languages ()
 			     SILENT    => $silent,
 			     COMPILE   => $obj_compile,
 			     LTCOMPILE => $obj_ltcompile,
+			     -o        => $output_flag,
 			     %file_transform);
 	}
 
@@ -1535,6 +1600,10 @@ sub handle_single_transform
 	  next;
 	}
 
+	# If the source file is in a subdirectory then the '.o' is put
+	# into the current directory, unless the subdir-objects option
+	# is in effect.
+
 	# Split file name into base and extension.
 	next if ! /^(?:(.*)\/)?([^\/]*)($KNOWN_EXTENSIONS_PATTERN)$/;
 	my $full = $_;
@@ -1546,9 +1615,9 @@ sub handle_single_transform
 	my $renamed = 0;
 	my ($linker, $object);
 
-        # This records whether we've seen a derived source file (e.g., yacc
-        # or lex output).
-        my $derived_source;
+	# This records whether we've seen a derived source file (e.g.
+	# yacc output).
+	my $derived_source = 0;
 
 	# This holds the 'aggregate context' of the file we are
 	# currently examining.  If the file is compiled with
@@ -1578,58 +1647,35 @@ sub handle_single_transform
 		  }
 	      }
 
-            # NOTE: computed subr calls here.
-
-            # The language ignore function can ask not to preprocess
-            # a source file further.
-            my $subr_ignore = \&{'lang_' . $lang->name . '_ignore'};
-            next if defined &$subr_ignore
-                    and &$subr_ignore ($directory, $base, $extension);
-            # The language rewrite function can return a new source
-            # extension which should be applied.  This means this
-            # particular language generates another source file which
-            # we must then process further.  This happens, for example,
-            # with yacc and lex.
-            my $subr_rewrite = \&{'lang_' . $lang->name . '_rewrite'};
-            $subr_rewrite = sub { } unless defined &$subr_rewrite;
-            my $source_extension = &$subr_rewrite ($directory, $base,
-                                                   $extension, $obj,
-                                                   $have_per_exec_flags,
-                                                   $var);
+	    # Note: computed subr call.  The language rewrite function
+	    # should return one of the LANG_* constants.  It could
+	    # also return a list whose first value is such a constant
+	    # and whose second value is a new source extension which
+	    # should be applied.  This means this particular language
+	    # generates another source file which we must then process
+	    # further.
+	    my $subr = \&{'lang_' . $lang->name . '_rewrite'};
+	    defined &$subr or $subr = \&lang_sub_obj;
+	    my ($r, $source_extension)
+		= &$subr ($directory, $base, $extension,
+			  $obj, $have_per_exec_flags, $var);
+	    # Skip this entry if we were asked not to process it.
+	    next if $r == LANG_IGNORE;
 
 	    # Now extract linker and other info.
 	    $linker = $lang->linker;
 
-            my $this_obj_ext;
-            if (defined $source_extension)
-              {
-                $this_obj_ext = $source_extension;
-                $derived_source = 1;
-              }
-            else
-              {
-                $this_obj_ext = $obj;
-                $derived_source = 0;
-                # Don't ever place built object files in $(srcdir),
-                # even when sources are specified explicitly as (say)
-                # '$(srcdir)/foo.c' or '$(top_srcdir)/foo.c'.
-                # See automake bug#13928.
-                my @d = split '/', $directory;
-                if (@d > 0 && option 'subdir-objects')
-                  {
-                    my $d = $d[0];
-                    if ($d eq '$(srcdir)' or $d eq '${srcdir}')
-                      {
-                        shift @d;
-                      }
-                    elsif ($d eq '$(top_srcdir)' or $d eq '${top_srcdir}')
-                      {
-                        $d[0] = '$(top_builddir)';
-                      }
-                    $directory = join '/', @d;
-                  }
-              }
-            $object = $base . $this_obj_ext;
+	    my $this_obj_ext;
+	    if (defined $source_extension)
+	    {
+		$this_obj_ext = $source_extension;
+		$derived_source = 1;
+	    }
+	    else
+	    {
+		$this_obj_ext = $obj;
+	    }
+	    $object = $base . $this_obj_ext;
 
 	    if ($have_per_exec_flags)
 	    {
@@ -1662,15 +1708,49 @@ sub handle_single_transform
 		$renamed = 1;
 	    }
 
-	    # If rewrite said it was ok, put the object into a subdir.
-	    $object = $directory . '/' . $object
-	      unless $directory eq '';
+	    # If rewrite said it was ok, put the object into a
+	    # subdir.
+	    if ($directory ne '')
+	    {
+              if ($r == LANG_SUBDIR)
+                {
+                  $object = $directory . '/' . $object;
+                }
+              else
+                {
+                  # Since the next major version of automake (2.0) will
+                  # make the behaviour so far only activated with the
+                  # 'subdir-object' option mandatory, it's better if we
+                  # start warning users not using that option.
+                  # As suggested by Peter Johansson, we strive to avoid
+                  # the warning when it would be irrelevant, i.e., if
+                  # all source files sit in "current" directory.
+                  msg_var 'unsupported', $var,
+                          "source file '$full' is in a subdirectory,"
+                          . "\nbut option 'subdir-objects' is disabled";
+                  msg 'unsupported', INTERNAL, <<'EOF', uniq_scope => US_GLOBAL;
+possible forward-incompatibility.
+At least a source file is in a subdirectory, but the 'subdir-objects'
+automake option hasn't been enabled.  For now, the corresponding output
+object file(s) will be placed in the top-level directory.  However,
+this behaviour will change in future Automake versions: they will
+unconditionally cause object files to be placed in the same subdirectory
+of the corresponding sources.
+You are advised to start using 'subdir-objects' option throughout your
+project, to avoid future incompatibilities.
+EOF
+                }
+	    }
 
 	    # If the object file has been renamed (because per-target
 	    # flags are used) we cannot compile the file with an
 	    # inference rule: we need an explicit rule.
 	    #
+	    # If the source is in a subdirectory and the object is in
+	    # the current directory, we also need an explicit rule.
+	    #
 	    # If both source and object files are in a subdirectory
+	    # (this happens when the subdir-objects option is used),
 	    # then the inference will work.
 	    #
 	    # The latter case deserves a historical note.  When the
@@ -1692,6 +1772,7 @@ sub handle_single_transform
 	    # with GNU make, Solaris make, Ultrix make, BSD make,
 	    # HP-UX make, and OSF1 make successfully.
 	    if ($renamed
+		|| ($directory ne '' && ! option 'subdir-objects')
 		# We must also use specific rules for a nodist_ source
 		# if its language requests it.
 		|| ($lang->nodist_specific && ! $transform{'DIST_SOURCE'}))
@@ -1758,8 +1839,6 @@ sub handle_single_transform
 	    next;
 	}
 
-        # FIXME: this is likely an internal error now that we use
-        # FIXME: subdir-objects unconditionally ...
 	err_am "object '$object' created by '$full' and '$object_map{$object}'"
 	  if (defined $object_map{$object}
 	      && $object_map{$object} ne $full);
@@ -2136,27 +2215,37 @@ sub handle_lib_objects
 sub handle_LIBOBJS_or_ALLOCA
 {
   my ($var) = @_;
+
   my $dir = '';
 
   # If LIBOBJS files must be built in another directory we have
   # to define LIBOBJDIR and ensure the files get cleaned.
   # Otherwise LIBOBJDIR can be left undefined, and the cleaning
   # is achieved by 'rm -f *.$(OBJEXT)' in compile.am.
-  if ($config_libobj_dir && $relative_dir ne $config_libobj_dir)
+  if ($config_libobj_dir
+      && $relative_dir ne $config_libobj_dir)
     {
-      # In the top-level Makefile we do not use $(top_builddir), because
-      # we are already there, and since the targets are built without
-      # a $(top_builddir), it helps BSD Make to match them with
-      # dependencies.
-      $dir = "$config_libobj_dir/"
-        if $config_libobj_dir ne '.';
-      $dir = backname ($relative_dir) . "/$dir"
-        if $relative_dir ne '.';
-      define_variable ('LIBOBJDIR', "$dir", INTERNAL);
-      $clean_files{"\$($var)"} = MOSTLY_CLEAN;
-      # If LTLIBOBJS is used, we must also clear LIBOBJS (which might
-      # be created by libtool as a side-effect of creating LTLIBOBJS).
-      $clean_files{"\$($var)"} = MOSTLY_CLEAN if $var =~ s/^LT//;
+      if (option 'subdir-objects')
+	{
+	  # In the top-level Makefile we do not use $(top_builddir), because
+	  # we are already there, and since the targets are built without
+	  # a $(top_builddir), it helps BSD Make to match them with
+	  # dependencies.
+	  $dir = "$config_libobj_dir/"
+	    if $config_libobj_dir ne '.';
+	  $dir = backname ($relative_dir) . "/$dir"
+	    if $relative_dir ne '.';
+	  define_variable ('LIBOBJDIR', "$dir", INTERNAL);
+	  $clean_files{"\$($var)"} = MOSTLY_CLEAN;
+	  # If LTLIBOBJS is used, we must also clear LIBOBJS (which might
+	  # be created by libtool as a side-effect of creating LTLIBOBJS).
+	  $clean_files{"\$($var)"} = MOSTLY_CLEAN if $var =~ s/^LT//;
+	}
+      else
+	{
+	  error ("'\$($var)' cannot be used outside '$config_libobj_dir' if"
+		 . " 'subdir-objects' is not set");
+	}
     }
 
   return $dir;
@@ -2311,7 +2400,7 @@ sub handle_libtool ()
     {
       my $dir = ($item eq '.') ? '' : "$item/";
       # .libs is for Unix, _libs for DOS.
-      push (@libtool_rms, "\t-rm -rf ${dir}.libs");
+      push (@libtool_rms, "\t-rm -rf ${dir}.libs ${dir}_libs");
     }
 
   check_user_variables 'LIBTOOLFLAGS';
@@ -2969,6 +3058,15 @@ sub handle_texinfo_helper
   my $done = 0;
   my (@mostly_cleans, @texi_cleans, @maint_cleans) = ('', '', '');
 
+  # Build a regex matching user-cleaned files.
+  my $d = var 'DISTCLEANFILES';
+  my $c = var 'CLEANFILES';
+  my @f = ();
+  push @f, $d->value_as_list_recursive (inner_expand => 1) if $d;
+  push @f, $c->value_as_list_recursive (inner_expand => 1) if $c;
+  @f = map { s|[^A-Za-z_0-9*\[\]\-]|\\$&|g; s|\*|[^/]*|g; $_; } @f;
+  my $user_cleaned_files = '^(?:' . join ('|', @f) . ')$';
+
   foreach my $texi
       ($info_texinfos->value_as_list_recursive (inner_expand => 1))
     {
@@ -3008,7 +3106,6 @@ sub handle_texinfo_helper
       # generic rules.
       my $outdir = dirname ($texi) . '/';
       $outdir = "" if $outdir eq './';
-      my $src_outdir = '$(srcdir)/'. $outdir;
       $out_file =  $outdir . $out_file;
 
       # Until Automake 1.6.3, .info files were built in the
@@ -3099,22 +3196,54 @@ sub handle_texinfo_helper
       # Consequently, starting with Automake 1.8, .info files are
       # built in the source tree again.  Because we still plan to
       # support non-distributed .info files at some point, we
-      # have a single variable ('$insrc') that controls whether
+      # have a single variable ($INSRC) that controls whether
       # the current .info file must be built in the source tree
       # or in the build tree.  Actually this variable is switched
-      # off when the automake option 'info-in-builddir' is given.
-      # This is done to allow the developers of GCC, GDB, GNU
-      # binutils and the GNU bfd library to force the '.info' files
-      # to be generated in the builddir rather than the srcdir, as
-      # was once done when the (now removed) 'cygnus' option was
-      # given.  See automake bug#11034 for more discussion.
-      my $insrc = ! option 'info-in-builddir';
-      $outdir = $src_outdir if $insrc;
+      # off in two cases:
+      #  (1) For '.info' files that appear to be cleaned; this is for
+      #      backward compatibility with package such as Texinfo,
+      #      which do things like
+      #        info_TEXINFOS = texinfo.txi info-stnd.texi info.texi
+      #        DISTCLEANFILES = texinfo texinfo-* info*.info*
+      #        # Do not create info files for distribution.
+      #        dist-info:
+      #      in order not to distribute .info files.
+      #  (2) When the undocumented option 'info-in-builddir' is given.
+      #      This is done to allow the developers of GCC, GDB, GNU
+      #      binutils and the GNU bfd library to force the '.info' files
+      #      to be generated in the builddir rather than the srcdir, as
+      #      was once done when the (now removed) 'cygnus' option was
+      #      given.  See automake bug#11034 for more discussion.
+      my $insrc = 1;
+      my $soutdir = '$(srcdir)/' . $outdir;
+
+      if (option 'info-in-builddir')
+        {
+          $insrc = 0;
+        }
+      elsif ($out_file =~ $user_cleaned_files)
+        {
+          $insrc = 0;
+          msg 'obsolete', "$am_file.am", <<EOF;
+Oops!
+    It appears this file (or files included by it) are triggering
+    an undocumented, soon-to-be-removed automake hack.
+    Future automake versions will no longer place in the builddir
+    (rather than in the srcdir) the generated '.info' files that
+    appear to be cleaned, by e.g. being listed in CLEANFILES or
+    DISTCLEANFILES.
+    If you want your '.info' files to be placed in the builddir
+    rather than in the srcdir, you have to use the shiny new
+    'info-in-builddir' automake option.
+EOF
+        }
+
+      $outdir = $soutdir if $insrc;
 
       # If user specified file_TEXINFOS, then use that as explicit
       # dependency list.
       @texi_deps = ();
-      push (@texi_deps, "${src_outdir}${vtexi}") if $vtexi;
+      push (@texi_deps, "${soutdir}${vtexi}") if $vtexi;
 
       my $canonical = canonicalize ($infobase);
       if (var ($canonical . "_TEXINFOS"))
@@ -3168,8 +3297,8 @@ sub handle_texinfo_helper
 					  new Automake::Location,
 					  TEXI     => $texi,
 					  VTI      => $vti,
-					  STAMPVTI => "${src_outdir}stamp-$vti",
-					  VTEXI    => "${src_outdir}$vtexi",
+					  STAMPVTI => "${soutdir}stamp-$vti",
+					  VTEXI    => "$soutdir$vtexi",
 					  MDDIR    => $conf_dir,
 					  DIRSTAMP => $dirstamp);
 	}
@@ -3532,7 +3661,7 @@ sub handle_dist ()
     {
       my $archive_defined = option 'no-dist-gzip' ? 0 : 1;
       $archive_defined ||=
-	grep { option "dist-$_" } qw(zip bzip2 lzip xz);
+	grep { option "dist-$_" } qw(shar zip tarZ bzip2 lzip xz);
       error (option 'no-dist-gzip',
 	     "no-dist-gzip specified but no dist-* specified,\n"
 	     . "at least one archive format must be enabled")
@@ -3716,13 +3845,21 @@ sub scan_aclocal_m4 ()
       $regen_aclocal = $line =~ 'generated automatically by aclocal';
     }
 
-  reject_var ('ACLOCAL_M4_SOURCES',
-	      "'ACLOCAL_M4_SOURCES' is obsolete; just remove it");
+  my @ac_deps = ();
+
+  if (set_seen ('ACLOCAL_M4_SOURCES'))
+    {
+      push (@ac_deps, '$(ACLOCAL_M4_SOURCES)');
+      msg_var ('obsolete', 'ACLOCAL_M4_SOURCES',
+	       "'ACLOCAL_M4_SOURCES' is obsolete.\n"
+	       . "It should be safe to simply remove it");
+    }
 
   # Note that it might be possible that aclocal.m4 doesn't exist but
   # should be auto-generated.  This case probably isn't very
   # important.
-  return $regen_aclocal;
+
+  return ($regen_aclocal, @ac_deps);
 }
 
 
@@ -3838,9 +3975,10 @@ sub handle_configure
   my $colon_infile = ':' . join (':', @inputs);
   $colon_infile = '' if $colon_infile eq ":$makefile.in";
   my @rewritten = rewrite_inputs_into_dependencies ($makefile, @inputs);
-  my $regen_aclocal_m4 = scan_aclocal_m4;
+  my ($regen_aclocal_m4, @aclocal_m4_deps) = scan_aclocal_m4;
   define_pretty_variable ('am__aclocal_m4_deps', TRUE, INTERNAL,
-			  @configure_deps, "\$(top_srcdir)/$configure_ac");
+			  @configure_deps, @aclocal_m4_deps,
+			  '$(top_srcdir)/' . $configure_ac);
   my @configuredeps = ('$(am__aclocal_m4_deps)', '$(CONFIGURE_DEPENDENCIES)');
   push @configuredeps, '$(ACLOCAL_M4)' if -f 'aclocal.m4';
   define_pretty_variable ('am__configure_deps', TRUE, INTERNAL,
@@ -4941,6 +5079,7 @@ sub scan_autoconf_traces
 		AC_REQUIRE_AUX_FILE => 1,
 		AC_SUBST_TRACE => 1,
 		AM_AUTOMAKE_VERSION => 1,
+                AM_PROG_MKDIR_P => 0,
 		AM_CONDITIONAL => 2,
 		AM_EXTRA_RECURSIVE_TARGETS => 1,
 		AM_GNU_GETTEXT => 0,
@@ -5052,7 +5191,9 @@ sub scan_autoconf_traces
       elsif ($macro eq 'AC_FC_SRCEXT')
 	{
 	  my $suffix = $args[1];
-	  $sourceflags{'.' . $suffix} = '$(FCFLAGS_' . $suffix . ')'
+	  # These flags are used as %SOURCEFLAG% in depend2.am,
+	  # where the trailing space is important.
+	  $sourceflags{'.' . $suffix} = '$(FCFLAGS_' . $suffix . ') '
 	    if ($suffix eq 'f90' || $suffix eq 'f95' || $suffix eq 'f03' || $suffix eq 'f08');
 	}
       elsif ($macro eq 'AC_INIT')
@@ -5092,6 +5233,14 @@ sub scan_autoconf_traces
 	    if $VERSION ne $args[1];
 
 	  $seen_automake_version = 1;
+	}
+      elsif ($macro eq 'AM_PROG_MKDIR_P')
+	{
+	  msg 'obsolete', $where, <<'EOF';
+The 'AM_PROG_MKDIR_P' macro is deprecated, and its use is discouraged.
+You should use the Autoconf-provided 'AC_PROG_MKDIR_P' macro instead,
+and use '$(MKDIR_P)' instead of '$(mkdir_p)'in your Makefile.am files.
+EOF
 	}
       elsif ($macro eq 'AM_CONDITIONAL')
 	{
@@ -5211,7 +5360,8 @@ EOF
 }
 
 
-# Scan 'configure.ac' (and possibly 'aclocal.m4') for interesting things.
+# Check whether we use 'configure.ac' or 'configure.in'.
+# Scan it (and possibly 'aclocal.m4') for interesting things.
 # We must scan aclocal.m4 because there might be AC_SUBSTs and such there.
 sub scan_autoconf_files ()
 {
@@ -5339,37 +5489,48 @@ sub check_gnits_standards ()
 #
 # Functions to handle files of each language.
 
+# Each 'lang_X_rewrite($DIRECTORY, $BASE, $EXT)' function follows a
+# simple formula: Return value is LANG_SUBDIR if the resulting object
+# file should be in a subdir if the source file is, LANG_PROCESS if
+# file is to be dealt with, LANG_IGNORE otherwise.
+
 # Much of the actual processing is handled in
 # handle_single_transform.  These functions exist so that
 # auxiliary information can be recorded for a later cleanup pass.
 # Note that the calls to these functions are computed, so don't bother
 # searching for their precise names in the source.
 
-# Header files are simply ignored.
-sub lang_header_ignore { 1; }
-
-# Vala '.vapi' are a kind of header files as well, and should
-# not be processed into compilation rules.
-sub lang_vala_ignore
+# This is just a convenience function that can be used to determine
+# when a subdir object should be used.
+sub lang_sub_obj ()
 {
-    my ($directory, $base, $ext) = @_;
-    return ($ext =~ m/\.vapi$/ ? 1 : 0);
+    return option 'subdir-objects' ? LANG_SUBDIR : LANG_PROCESS;
+}
+
+# Rewrite a single header file.
+sub lang_header_rewrite
+{
+    # Header files are simply ignored.
+    return LANG_IGNORE;
 }
 
 # Rewrite a single Vala source file.
 sub lang_vala_rewrite
 {
     my ($directory, $base, $ext) = @_;
-    $ext =~ s/vala$/c/;
-    return $ext;
+
+    (my $newext = $ext) =~ s/vala$/c/;
+    return (LANG_SUBDIR, $newext);
 }
 
 # Rewrite a single yacc/yacc++ file.
 sub lang_yacc_rewrite
 {
     my ($directory, $base, $ext) = @_;
-    $ext =~ tr/y/c/;
-    return $ext;
+
+    my $r = lang_sub_obj;
+    (my $newext = $ext) =~ tr/y/c/;
+    return ($r, $newext);
 }
 sub lang_yaccxx_rewrite { lang_yacc_rewrite (@_); };
 
@@ -5377,10 +5538,18 @@ sub lang_yaccxx_rewrite { lang_yacc_rewrite (@_); };
 sub lang_lex_rewrite
 {
     my ($directory, $base, $ext) = @_;
-    $ext =~ tr/l/c/;
-    return $ext;
+
+    my $r = lang_sub_obj;
+    (my $newext = $ext) =~ tr/l/c/;
+    return ($r, $newext);
 }
 sub lang_lexxx_rewrite { lang_lex_rewrite (@_); };
+
+# Rewrite a single Java file.
+sub lang_java_rewrite
+{
+    return LANG_SUBDIR;
+}
 
 # The lang_X_finish functions are called after all source file
 # processing is done.  Each should handle defining rules for the
@@ -6467,7 +6636,9 @@ sub preprocess_file
 		 'XZ'          => !! option 'dist-xz',
 		 'LZIP'        => !! option 'dist-lzip',
 		 'BZIP2'       => !! option 'dist-bzip2',
+		 'COMPRESS'    => !! option 'dist-tarZ',
 		 'GZIP'        =>  ! option 'no-dist-gzip',
+		 'SHAR'        => !! option 'dist-shar',
 		 'ZIP'         => !! option 'dist-zip',
 
 		 'INSTALL-INFO' =>  ! option 'no-installinfo',
@@ -7483,7 +7654,8 @@ sub require_build_directory
   $directory_map{$cdir} = $dirstamp;
 
   # Set a variable for the dirstamp basename.
-  define_pretty_variable ('am__dirstamp', TRUE, INTERNAL, '.dirstamp');
+  define_pretty_variable ('am__dirstamp', TRUE, INTERNAL,
+			  '$(am__leading_dot)dirstamp');
 
   # Directory must be removed by 'make distclean'.
   $clean_files{$dirstamp} = DIST_CLEAN;
@@ -7579,18 +7751,9 @@ sub generate_makefile
     }
 
   # Catch some obsolete variables.
-  if (my $ovar = var ('ACLOCAL_AMFLAGS'))
-    {
-      msg_var 'obsolete', $ovar,
-              "'ACLOCAL_AMFLAGS' is deprecated; use 'AC_CONFIG_MACRO_DIRS'"
-              . " in configure.ac instead";
-    }
-  if (my $ovar = var ('INCLUDES'))
-    {
-      msg_var 'obsolete', $ovar,
-              "'INCLUDES' is deprecated; you should use 'AM_CPPFLAGS'"
-              . " (or '*_CPPFLAGS') instead"
-    }
+  msg_var ('obsolete', 'INCLUDES',
+	   "'INCLUDES' is the old name for 'AM_CPPFLAGS' (or '*_CPPFLAGS')")
+    if var ('INCLUDES');
 
   # Must do this after reading .am file.
   define_variable ('subdir', $relative_dir, INTERNAL);
@@ -8035,7 +8198,7 @@ parse_WARNINGS;
 # Parse command line.
 parse_arguments;
 
-fatal "$configure_ac is required" unless -f $configure_ac;
+$configure_ac = require_configure_ac;
 
 # Do configure.ac scan only once.
 scan_autoconf_files;

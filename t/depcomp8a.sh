@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2010-2015 Free Software Foundation, Inc.
+# Copyright (C) 2010-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,11 +48,30 @@ int bar (void)
 END
 
 $ACLOCAL
-$AUTOMAKE -a
-grep '\.P' Makefile.in # For debugging.
-grep '\./\$(DEPDIR)/foo\.Po' Makefile.in
-grep '[^a-zA-Z0-9_/]sub/\$(DEPDIR)/bar\.Po' Makefile.in
-$EGREP '/(\.|sub)/\$\(DEPDIR\)' Makefile.in && exit 1
+# FIXME: stop disabling the warnings in the 'unsupported' category
+# FIXME: once the 'subdir-objects' option has been mandatory.
+$AUTOMAKE -a -Wno-unsupported
+grep include Makefile.in # For debugging.
+grep 'include.*\./\$(DEPDIR)/foo\.P' Makefile.in
+grep 'include.*\./\$(DEPDIR)/bar\.P' Makefile.in
+grep 'include.*/\./\$(DEPDIR)' Makefile.in && exit 1
+
+$AUTOCONF
+# Don't reject slower dependency extractors, for better coverage.
+./configure --enable-dependency-tracking
+$MAKE
+cross_compiling || ./zardoz
+DISTCHECK_CONFIGURE_FLAGS='--enable-dependency-tracking' $MAKE distcheck
+
+# Try again with subdir-objects option.
+
+echo AUTOMAKE_OPTIONS = subdir-objects >> Makefile.am
+
+$AUTOMAKE
+grep include Makefile.in # For debugging.
+grep 'include.*\./\$(DEPDIR)/foo\.P' Makefile.in
+grep 'include.*[^a-zA-Z0-9_/]sub/\$(DEPDIR)/bar\.P' Makefile.in
+$EGREP 'include.*/(\.|sub)/\$\(DEPDIR\)' Makefile.in && exit 1
 
 $AUTOCONF
 # Don't reject slower dependency extractors, for better coverage.

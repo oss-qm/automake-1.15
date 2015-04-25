@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2005-2015 Free Software Foundation, Inc.
+# Copyright (C) 2005-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -103,6 +103,16 @@ $AUTOMAKE
 ./configure
 test ! -e lib/lib
 $MAKE distcheck
+
+## -------------------------------------------- ##
+## Error message with usage in wrong directory. ##
+## -------------------------------------------- ##
+
+mv -f src/Makefile.am src/t
+sed 's/LDADD = .*/LDADD = @ALLOCA@/' src/t > src/Makefile.am
+AUTOMAKE_fails
+grep 'cannot be used outside.*lib' stderr
+mv -f src/t src/Makefile.am
 
 
 ## ------------------------------------------- ##

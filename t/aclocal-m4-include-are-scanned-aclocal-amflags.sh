@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2004-2015 Free Software Foundation, Inc.
+# Copyright (C) 2004-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -46,7 +46,6 @@ echo 'AC_DEFUN([ANOTHER_MACRO])' >defs/f.m4
 
 cat >>Makefile.am<<\EOF
 ACLOCAL_AMFLAGS = -I defs
-AUTOMAKE_OPTIONS = -Wno-obsolete
 testdist1: distdir
 	test -f $(distdir)/acinclude.m4
 	test -f $(distdir)/a.m4

@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2006-2015 Free Software Foundation, Inc.
+# Copyright (C) 2006-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,6 @@ END
 cat >bye.f90 <<'END'
 program goodbye
   call baz
-  call zar
   stop
 end
 END
@@ -47,7 +46,6 @@ END
 
 sed s,foo,bar, foo.f90 > sub/bar.f90
 sed s,foo,baz, foo.f90 > sub/baz.f
-sed s,foo,zar, foo.f90 > sub/zardoz.f90
 
 cat >>configure.ac <<'END'
 AC_PROG_F77
@@ -61,29 +59,9 @@ END
 cat >Makefile.am <<'END'
 bin_PROGRAMS = hello goodbye
 hello_SOURCES = hello.f foo.f90 sub/bar.f90
-goodbye_SOURCES = bye.f90 sub/baz.f sub/zardoz.f90
+goodbye_SOURCES = bye.f90 sub/baz.f
 goodbye_FCFLAGS =
 LDADD = $(FCLIBS)
-
-.PHONY: test-obj
-test-obj:
-	ls -l . sub # For debugging.
-	test -f hello.$(OBJEXT)
-	test -f foo.$(OBJEXT)
-	test -f sub/bar.$(OBJEXT)
-	test ! -f bar.$(OBJEXT)
-	test -f goodbye-bye.$(OBJEXT)
-	test ! -f bye.$(OBJEXT)
-	test -f sub/goodbye-zardoz.$(OBJEXT)
-	test ! -f sub/zardoz.$(OBJEXT)
-	test ! -f goodbye-zardoz.$(OBJEXT)
-	test ! -f zardoz.$(OBJEXT)
-## The setting of FCFLAGS should only cause objects deriving from
-## Fortran 90, not Fortran 77, to be renamed.
-	test -f sub/baz.$(OBJEXT)
-	test ! -f sub/goodbye-baz.$(OBJEXT)
-	test ! -f goodbye-baz.$(OBJEXT)
-	test ! -f baz.$(OBJEXT)
 END
 
 $ACLOCAL
@@ -95,9 +73,22 @@ $AUTOCONF
 # ./configure may exit with status 77 if no compiler is found,
 # or if the compiler cannot compile Fortran 90 files).
 ./configure
-
 $MAKE
-$MAKE test-obj
+subobjs=$(echo sub/*.o sub/*.obj)
+test "$subobjs" = 'sub/*.o sub/*.obj'
+$MAKE distcheck
+
+$MAKE distclean
+echo 'AUTOMAKE_OPTIONS = subdir-objects' >> Makefile.am
+$AUTOMAKE
+./configure
+$MAKE
+test ! -e bar.o
+test ! -e bar.obj
+test ! -e baz.o
+test ! -e baz.obj
+test ! -e goodbye-baz.o
+test ! -e goodbye-baz.obj
 $MAKE distcheck
 
 :

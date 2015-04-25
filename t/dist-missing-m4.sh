@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2015 Free Software Foundation, Inc.
+# Copyright (C) 2011-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@
 . test-init.sh
 
 cat >> configure.ac <<'END'
-AC_CONFIG_MACRO_DIR([m4])
 m4_pattern_forbid([^MY_])
 MY_FOOBAR || exit 1
 MY_ZARDOZ || exit 1
@@ -34,9 +33,9 @@ mkdir m4
 echo 'AC_DEFUN([MY_FOOBAR], [:])' > m4/foobar.m4
 echo 'AC_DEFUN([MY_ZARDOZ], [:])' > m4/zardoz.m4
 
-: > Makefile.am
+echo 'ACLOCAL_AMFLAGS = -I m4' > Makefile.am
 
-$ACLOCAL
+$ACLOCAL -I m4
 $AUTOCONF
 $AUTOMAKE
 

@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2002-2015 Free Software Foundation, Inc.
+# Copyright (C) 2002-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,17 +20,13 @@
 required='cc yacc'
 . test-init.sh
 
-cat > configure.ac <<'END'
-AC_INIT([suya], [0.5a], [automake-bug@gnu.org])
-AM_INIT_AUTOMAKE([foreign -Wall])
+cat >>configure.ac <<'END'
 AC_PROG_CC
-AC_CONFIG_FILES([Makefile])
 AC_CONFIG_SUBDIRS([lib])
 AC_OUTPUT
 END
 
 cat >Makefile.am <<'EOF'
-AUTOMAKE_OPTIONS = -Wno-override
 SUBDIRS = lib
 bin_PROGRAMS = MU
 MU_LDADD = lib/liblib.a
@@ -110,18 +106,14 @@ EOF
 
 $ACLOCAL
 $AUTOCONF
-$AUTOMAKE
+$AUTOMAKE -Wno-override
 
-test ! -e ylwrap
-test ! -e ar-lib
 cd lib
 $ACLOCAL
 $AUTOCONF
 $AUTOHEADER
-$AUTOMAKE --add-missing
+$AUTOMAKE -Wno-override --add-missing
 cd ..
-test -f ylwrap
-test -f ar-lib
 
 ./configure
 

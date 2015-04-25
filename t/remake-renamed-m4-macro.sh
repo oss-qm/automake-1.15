@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2015 Free Software Foundation, Inc.
+# Copyright (C) 2011-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,12 +20,12 @@
 . test-init.sh
 
 cat >> configure.ac <<'END'
-AC_CONFIG_MACRO_DIR([m4])
 MY_MACRO
 AC_OUTPUT
 END
 
 cat > Makefile.am <<'END'
+ACLOCAL_AMFLAGS = -I m4
 .PHONY: test
 test:
 	test '$(the_answer)' -eq 42
@@ -42,7 +42,7 @@ AC_DEFUN([FOO_1], [the_answer=42
                    AC_SUBST([the_answer])])
 END
 
-$ACLOCAL
+$ACLOCAL -I m4
 $AUTOCONF
 $AUTOMAKE
 

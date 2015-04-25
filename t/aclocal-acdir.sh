@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright (C) 2011-2015 Free Software Foundation, Inc.
+# Copyright (C) 2011-2014 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,8 +15,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Test aclocal's '--automake-acdir' and '--system-acdir' options.  Also
-# check that stuff in the system acdir takes precedence over stuff in
-# the automake acdir.
+# check that stuff in the automake acdir takes precedence over stuff in
+# the system acdir.
 
 . test-init.sh
 
@@ -65,14 +65,14 @@ $FGREP 'my--macro' configure
 
 rm -rf autom4te*.cache
 
-# Stuff in system acdir takes precedence over stuff in automake acdir.
+# Stuff in automake acdir takes precedence over stuff in system acdir.
 cat > am/bar.m4 <<'END'
 AC_DEFUN([MY_MACRO], [am--macro])
 END
 $ACLOCAL --automake-acdir am --system-acdir sys
 $AUTOCONF --force
 $FGREP 'fake--init--automake' configure
-$FGREP 'my--macro' configure
-$FGREP 'am--macro' configure && exit 1
+$FGREP 'am--macro' configure
+$FGREP 'my--macro' configure && exit 1 # Just to be sure.
 
 :
