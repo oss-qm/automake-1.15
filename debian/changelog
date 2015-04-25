@@ -1,5 +1,6 @@
-automake-1.14 (1:1.14.1-5) unstable; urgency=medium
+automake-1.15 (1:1.15-1) unstable; urgency=medium
 
+  * New upstream release.
   * debian/control: Add Suggests on autoconf-doc and gnu-standards that
     automake info doc references. (Closes: #401936)
 
