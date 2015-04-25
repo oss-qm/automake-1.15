@@ -2,8 +2,8 @@
 
 set -e
 
-ver=1.14
-prio=32
+ver=1.15
+prio=33
 
 update-alternatives --install /usr/bin/automake automake \
 	/usr/bin/automake-$ver $prio \
