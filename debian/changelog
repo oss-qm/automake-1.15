@@ -8,8 +8,9 @@ automake-1.15 (1:1.15-1) unstable; urgency=medium
   * debian/patches/01-texi-rename.diff: Refresh patch for 1.15.
   * debian/control: Add Suggests on autoconf-doc and gnu-standards that
     automake info doc references. (Closes: #401936)
+  * debian/README.Debian: Update the README for 1.15.
 
- --
+ -- Eric Dorland <eric@debian.org>  Sat, 25 Apr 2015 22:41:43 -0400
 
 automake-1.14 (1:1.14.1-4) unstable; urgency=medium
 
