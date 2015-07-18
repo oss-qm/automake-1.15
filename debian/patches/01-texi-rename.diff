@@ -1,11 +1,15 @@
 From: Eric Dorland <eric@debian.org>
+Date: Sat, 18 Jul 2015 14:06:52 -0400
 Subject: texi file rename for multiple automake versions
-Last-Update: 2015-04-25
 
-Index: automake-1.15/doc/automake.texi
-===================================================================
---- automake-1.15.orig/doc/automake.texi	2015-04-25 21:25:56.921432900 -0400
-+++ automake-1.15/doc/automake.texi	2015-04-25 21:27:55.176195592 -0400
+---
+ doc/automake.texi | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/doc/automake.texi b/doc/automake.texi
+index 383a811..19cb28d 100644
+--- a/doc/automake.texi
++++ b/doc/automake.texi
 @@ -1,7 +1,7 @@
  \input texinfo   @c -*-texinfo-*-
  @c %**start of header
@@ -16,7 +20,7 @@ Index: automake-1.15/doc/automake.texi
  @documentencoding UTF-8
  @documentlanguage en
  @setchapternewpage off
-@@ -40,13 +40,13 @@
+@@ -40,13 +40,13 @@ section entitled ``GNU Free Documentation License.''
  
  @dircategory Software development
  @direntry
