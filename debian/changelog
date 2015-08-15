@@ -5,6 +5,7 @@ automake-1.15 (1:1.15-3) unstable; urgency=medium
   * debian/patches/0003-install-sh-avoid-low-risk-race-in-tmp.patch: Fix
     low risk insecure use of /tmp. Patch from Pavel Raiskup. (Closes:
     #760455)
+  * debian/rules: Use dh --parallel.
 
  -- Eric Dorland <eric@debian.org>  Sat, 15 Aug 2015 04:50:13 -0400
 

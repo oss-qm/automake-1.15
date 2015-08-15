@@ -5,7 +5,7 @@ version=1.15
 infodir=doc
 
 %:
-	dh $@
+	dh $@ --parallel
 
 ifeq ($(DEB_BUILD_PROFILE),stage1)
 MAKEINFO=true
