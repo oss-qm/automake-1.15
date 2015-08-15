@@ -2,6 +2,8 @@ automake-1.15 (1:1.15-4) unstable; urgency=medium
 
   * debian/control: Add gettext and libtool-bin build deps. Needed by some
     tests.
+  * debian/automake.dirs, debian/automake.docs, debian/automake.links: Run
+    wrap-and-sort.
 
  --
 
