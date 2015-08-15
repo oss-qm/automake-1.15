@@ -2,8 +2,11 @@ automake-1.15 (1:1.15-3) unstable; urgency=medium
 
   * debian/rules: Remove unnecessary touching that was needed by dropped
     02-init-m4-newline.diff.
+  * debian/patches/0003-install-sh-avoid-low-risk-race-in-tmp.patch: Fix
+    low risk insecure use of /tmp. Patch from Pavel Raiskup. (Closes:
+    #760455)
 
- --
+ -- Eric Dorland <eric@debian.org>  Sat, 15 Aug 2015 04:50:13 -0400
 
 automake-1.15 (1:1.15-2) unstable; urgency=medium
 
