@@ -9,8 +9,9 @@ automake-1.15 (1:1.15-4) unstable; urgency=medium
   *
     debian/patches/0004-Fix-testsuite-failure-caused-by-perl-warnings.patch:
     Fix perl warnings. Thanks Matthias Klose. (Closes: #814181)
+  * debian/control: Convert Homepage and Vcs-* fields to https.
 
- --
+ -- Eric Dorland <eric@debian.org>  Sat, 13 Feb 2016 14:21:03 -0500
 
 automake-1.15 (1:1.15-3) unstable; urgency=medium
 
