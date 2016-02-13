@@ -6,6 +6,9 @@ automake-1.15 (1:1.15-4) unstable; urgency=medium
     wrap-and-sort.
   * debian/control: Build depend on default-jdk rather than openjdk-7-jdk
     explicitly. (Closes: #814158)
+  *
+    debian/patches/0004-Fix-testsuite-failure-caused-by-perl-warnings.patch:
+    Fix perl warnings. Thanks Matthias Klose. (Closes: #814181)
 
  --
 
