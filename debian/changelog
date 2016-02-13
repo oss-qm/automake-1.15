@@ -4,6 +4,8 @@ automake-1.15 (1:1.15-4) unstable; urgency=medium
     tests.
   * debian/automake.dirs, debian/automake.docs, debian/automake.links: Run
     wrap-and-sort.
+  * debian/control: Build depend on default-jdk rather than openjdk-7-jdk
+    explicitly. (Closes: #814158)
 
  --
 
