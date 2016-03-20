@@ -6,7 +6,7 @@ Standards-Version: 3.9.6
 Build-Depends: debhelper (>= 9)
 Build-Depends-Indep: autoconf (>= 2.65),
                      autopoint,
-                     autotools-dev (>= 20020320.1),
+                     dh-autoreconf,
                      bison,
                      cscope,
                      dejagnu,

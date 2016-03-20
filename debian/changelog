@@ -2,6 +2,7 @@ automake-1.15 (1:1.15-5) unstable; urgency=medium
 
   * debian/patches/0005-Use-system-help2man-if-it-is-available.patch: Add
     patch to use system help2man for reproducibility.
+  * debian/control, debian/rules: Use dh-autoreconf.
 
  -- Eric Dorland <eric@debian.org>  Sun, 20 Mar 2016 16:26:20 -0400
 
