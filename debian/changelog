@@ -3,8 +3,10 @@ automake-1.15 (1:1.15-5) unstable; urgency=medium
   * debian/patches/0005-Use-system-help2man-if-it-is-available.patch: Add
     patch to use system help2man for reproducibility.
   * debian/control, debian/rules: Use dh-autoreconf.
+  * debian/patches/0006-Disable-t-check12.sh-and-t-check12-w.sh.patch:
+    Disable t/check12.sh and t/check12-w.sh. (Closes: #827541)
 
- -- Eric Dorland <eric@debian.org>  Sun, 20 Mar 2016 16:26:20 -0400
+ -- Eric Dorland <eric@debian.org>  Tue, 01 Nov 2016 19:33:03 -0400
 
 automake-1.15 (1:1.15-4) unstable; urgency=medium
 
