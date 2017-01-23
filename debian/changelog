@@ -1,3 +1,9 @@
+automake-1.15 (1:1.15-6) unstable; urgency=medium
+
+  * debian/compat, debian/control, debian/rules: Upgrade to debhelper 10.
+
+ --
+
 automake-1.15 (1:1.15-5) unstable; urgency=medium
 
   * debian/patches/0005-Use-system-help2man-if-it-is-available.patch: Add
