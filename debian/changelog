@@ -1,6 +1,9 @@
 automake-1.15 (1:1.15.1-1) unstable; urgency=medium
 
   * New upstream release.
+  *
+    debian/patches/0004-Fix-testsuite-failure-caused-by-perl-warnings.patch:
+    Drop upstreamed patch.
 
  --
 

@@ -1,6 +1,5 @@
 01-texi-rename.diff
 0002-Make-output-of-mdate-sh-deterministic.patch
 0003-install-sh-avoid-low-risk-race-in-tmp.patch
-0004-Fix-testsuite-failure-caused-by-perl-warnings.patch
-0005-Use-system-help2man-if-it-is-available.patch
-0006-Disable-t-check12.sh-and-t-check12-w.sh.patch
+0004-Use-system-help2man-if-it-is-available.patch
+0005-Disable-t-check12.sh-and-t-check12-w.sh.patch

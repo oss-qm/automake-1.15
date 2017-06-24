@@ -8,7 +8,7 @@ They no longer pass and it's not clear how to fix them.
  1 file changed, 2 insertions(+)
 
 diff --git a/t/list-of-tests.mk b/t/list-of-tests.mk
-index 9363ee3..36d9f55 100644
+index 83e6965..002dc52 100644
 --- a/t/list-of-tests.mk
 +++ b/t/list-of-tests.mk
 @@ -31,6 +31,8 @@ t/pm/Version3.pl
