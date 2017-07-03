@@ -4,6 +4,7 @@ automake-1.15 (1:1.15.1-2) unstable; urgency=medium
     for makeinfo.
   * debian/patches/0006-Drop-SHELL.patch: Patch to drop @SHELL@ expansion
     which hurts build reproducibility.
+  * debian/control: Standards-Version to 4.0.0.
 
  -- Eric Dorland <eric@debian.org>  Mon, 03 Jul 2017 17:23:25 -0400
 
