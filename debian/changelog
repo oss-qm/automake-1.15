@@ -2,8 +2,10 @@ automake-1.15 (1:1.15.1-2) unstable; urgency=medium
 
   * debian/rules: Use /usr/share/dpkg/default.mk to get SOURCE_DATE_EPOCH
     for makeinfo.
+  * debian/patches/0006-Drop-SHELL.patch: Patch to drop @SHELL@ expansion
+    which hurts build reproducibility.
 
- --
+ -- Eric Dorland <eric@debian.org>  Mon, 03 Jul 2017 17:23:25 -0400
 
 automake-1.15 (1:1.15.1-1) unstable; urgency=medium
 
