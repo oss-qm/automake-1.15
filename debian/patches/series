@@ -4,3 +4,4 @@
 0004-Use-system-help2man-if-it-is-available.patch
 0005-Disable-t-check12.sh-and-t-check12-w.sh.patch
 0006-Drop-SHELL.patch
+0007-fix-for-newerpython.patch
