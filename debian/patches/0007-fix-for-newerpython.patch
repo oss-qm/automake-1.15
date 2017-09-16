@@ -1,15 +1,19 @@
-subject: Fix automake for newer python
-author: Bastien Roucariès <rouca@debian.org>
+From: Bastien Roucariès <rouca@debian.org>
+Date: Sat, 16 Sep 2017 18:05:15 -0400
+Subject: Fix automake for newer python
 
 Fix automake for newer python version
 
 forwarded: yes, bug-automake@gnu.org
 bug-debian: https://bugs.debian.org/872052
+---
+ m4/python.m4 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Index: automake-1.15-1.15.1/m4/python.m4
-===================================================================
---- automake-1.15-1.15.1.orig/m4/python.m4
-+++ automake-1.15-1.15.1/m4/python.m4
+diff --git a/m4/python.m4 b/m4/python.m4
+index 6d9e934..7334ec9 100644
+--- a/m4/python.m4
++++ b/m4/python.m4
 @@ -38,7 +38,7 @@ AC_DEFUN([AM_PATH_PYTHON],
    dnl supported. (2.0 was released on October 16, 2000).
    dnl FIXME: Remove the need to hard-code Python versions here.
