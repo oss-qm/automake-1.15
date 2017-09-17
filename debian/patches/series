@@ -5,3 +5,4 @@
 0005-Disable-t-check12.sh-and-t-check12-w.sh.patch
 0006-Drop-SHELL.patch
 0007-fix-for-newerpython.patch
+0008-SOURCE_DATE_EPOCH-support-for-mdate-sh.patch
