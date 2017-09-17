@@ -2,7 +2,7 @@ Source: automake-1.15
 Section: devel
 Priority: optional
 Maintainer: Eric Dorland <eric@debian.org>
-Standards-Version: 4.0.0
+Standards-Version: 4.1.0
 Build-Depends: debhelper (>= 10)
 Build-Depends-Indep: autoconf (>= 2.65),
                      autopoint,
