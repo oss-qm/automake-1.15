@@ -3,7 +3,7 @@ Section: devel
 Priority: optional
 Maintainer: Eric Dorland <eric@debian.org>
 Standards-Version: 4.1.0
-Build-Depends: debhelper (>= 10)
+Build-Depends: debhelper (>= 9)
 Build-Depends-Indep: autoconf (>= 2.65),
                      autopoint,
                      bison,
