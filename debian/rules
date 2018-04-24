@@ -14,6 +14,10 @@ MAKEINFO=true
 export MAKEINFO
 endif
 
+override_dh_auto_configure:
+	./bootstrap
+	dh_auto_configure
+
 override_dh_auto_test:
 # Don't run the test suite, too many tests are flaky at the moment
 
